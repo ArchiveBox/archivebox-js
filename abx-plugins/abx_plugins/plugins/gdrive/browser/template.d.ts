@@ -1,0 +1,1 @@
+export function initializeCloudFiles(document:Document,manifest:unknown,options:{url:(file:any)=>Promise<string>;download:(file:any)=>Promise<void>;browseZip:(file:any,document:Document)=>Promise<void>}):()=>void;

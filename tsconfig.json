@@ -3,6 +3,13 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "strict": true,
-    "noUncheckedIndexedAccess": true
-  }
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "exclude": [
+    ".output",
+    "node_modules",
+    "vendor/browsertrix-behaviors/src"
+  ]
 }

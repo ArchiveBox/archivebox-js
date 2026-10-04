@@ -1,0 +1,4045 @@
+{
+  "date": "2026-10-04",
+  "runs": {
+    "blog-extension": {
+      "metrics": {
+        "started_at": 1791154700.748255,
+        "wall_seconds": 125.25375583296409,
+        "exit_code": 0,
+        "mach_timebase": {
+          "numer": 125,
+          "denom": 3
+        },
+        "network_interface": "external",
+        "cpu_seconds_sampled": 98.83757520833332,
+        "peak_rss_bytes_sampled": 5147148288,
+        "peak_footprint_bytes_sampled": 3699050864,
+        "process_count": 12,
+        "disk_read_bytes_sampled": 311889920,
+        "disk_write_bytes_sampled": 434257920,
+        "network_in_bytes_sampled": 53690380,
+        "network_out_bytes_sampled": 164020,
+        "iops": null
+      },
+      "network": {
+        "browser": {
+          "name": "Google Chrome for Testing",
+          "version": "148.0.7778.96",
+          "os_type": "Mac OS X: 27.0.0 (arm64)"
+        },
+        "browser_http_requests_sent": 157,
+        "by_protocol_event": {
+          "HTTP_TRANSACTION_SEND_REQUEST_HEADERS": 1,
+          "HTTP_TRANSACTION_HTTP2_SEND_REQUEST_HEADERS": 104,
+          "HTTP_TRANSACTION_QUIC_SEND_REQUEST_HEADERS": 52
+        }
+      },
+      "url": "https://docs.sweeting.me/s/blog",
+      "storage": {
+        "logical_bytes": 57231833,
+        "allocated_bytes": 57233408,
+        "files": 1,
+        "symlinks": 0
+      },
+      "sha256": "4d33074cb0cb7d44559c91d0d9d1610d3af0ad1868644cd6f2cb97d7a901f2bb",
+      "capture_state": "complete",
+      "enabled_plugins": [
+        "chrome",
+        "accessibility",
+        "archivewebpage",
+        "browsertrix_behaviors",
+        "consolelog",
+        "dom",
+        "defuddle",
+        "dns",
+        "dropbox",
+        "favicon",
+        "forumdl",
+        "gallerydl",
+        "gdrive",
+        "git",
+        "googledocs",
+        "hashes",
+        "headers",
+        "htmltotext",
+        "infiniscroll",
+        "istilldontcareaboutcookies",
+        "liteparse",
+        "manifest",
+        "media",
+        "mercury",
+        "modalcloser",
+        "networktiming",
+        "papersdl",
+        "parse_dom_outlinks",
+        "parse_html_urls",
+        "parse_jsonl_urls",
+        "parse_netscape_urls",
+        "rss",
+        "parse_rss_urls",
+        "parse_txt_urls",
+        "pdf",
+        "readability",
+        "redirects",
+        "responses",
+        "robots",
+        "screenshot",
+        "search_contents",
+        "seo",
+        "singlefile",
+        "sslcerts",
+        "ssl",
+        "staticfile",
+        "title",
+        "ytdlp"
+      ],
+      "timing": {
+        "url": "https://docs.sweeting.me/s/blog",
+        "startup_through_export_seconds": 124.91815704100001,
+        "click_through_export_seconds": 123.96536437500001,
+        "browser": "148.0.7778.96",
+        "plugins": [
+          "accessibility",
+          "archivewebpage",
+          "browsertrix_behaviors",
+          "chrome",
+          "consolelog",
+          "defuddle",
+          "dns",
+          "dom",
+          "dropbox",
+          "favicon",
+          "forumdl",
+          "gallerydl",
+          "gdrive",
+          "git",
+          "googledocs",
+          "hashes",
+          "headers",
+          "htmltotext",
+          "infiniscroll",
+          "istilldontcareaboutcookies",
+          "liteparse",
+          "manifest",
+          "media",
+          "mercury",
+          "modalcloser",
+          "networktiming",
+          "papersdl",
+          "parse_dom_outlinks",
+          "parse_html_urls",
+          "parse_jsonl_urls",
+          "parse_netscape_urls",
+          "parse_rss_urls",
+          "parse_txt_urls",
+          "pdf",
+          "readability",
+          "redirects",
+          "responses",
+          "robots",
+          "rss",
+          "screenshot",
+          "search_contents",
+          "seo",
+          "singlefile",
+          "ssl",
+          "sslcerts",
+          "staticfile",
+          "title",
+          "ytdlp"
+        ]
+      },
+      "outcomes": [
+        {
+          "plugin": "istilldontcareaboutcookies",
+          "hook": "on_Snapshot__13_istilldontcareaboutcookies.daemon.bg.ts",
+          "status": "noresults",
+          "summary": "0 cookie rejection controls clicked",
+          "elapsed_seconds": 50.383
+        },
+        {
+          "plugin": "modalcloser",
+          "hook": "on_Snapshot__15_modalcloser.daemon.bg.ts",
+          "status": "noresults",
+          "summary": "0 browser dialogs, 0 CSS modals closed",
+          "elapsed_seconds": 50.373
+        },
+        {
+          "plugin": "consolelog",
+          "hook": "on_Snapshot__21_consolelog.daemon.bg.ts",
+          "status": "succeeded",
+          "summary": "4 console events",
+          "elapsed_seconds": 50.369
+        },
+        {
+          "plugin": "dns",
+          "hook": "on_Snapshot__22_dns.daemon.bg.ts",
+          "status": "succeeded",
+          "summary": "0 DNS failures; successful connections are retained on original responses",
+          "elapsed_seconds": 50.362
+        },
+        {
+          "plugin": "sslcerts",
+          "hook": "on_Snapshot__23_sslcerts.daemon.bg.ts",
+          "status": "succeeded",
+          "summary": "8 TLS connections; certificate chains for 6 origins",
+          "elapsed_seconds": 50.363
+        },
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__30_navigate.ts",
+          "status": "succeeded",
+          "summary": "Page loaded with network recording enabled",
+          "elapsed_seconds": 2.533
+        },
+        {
+          "plugin": "git",
+          "hook": "on_Snapshot__34_git.ts",
+          "status": "noresults",
+          "summary": "Not a Git repository URL",
+          "elapsed_seconds": 0.025
+        },
+        {
+          "plugin": "favicon",
+          "hook": "on_Snapshot__37_favicon.ts",
+          "status": "succeeded",
+          "summary": "5 icon URLs archived",
+          "elapsed_seconds": 0.377
+        },
+        {
+          "plugin": "seo",
+          "hook": "on_Snapshot__39_social_images.ts",
+          "status": "succeeded",
+          "summary": "1 social image responses archived",
+          "elapsed_seconds": 0.03
+        },
+        {
+          "plugin": "robots",
+          "hook": "on_Snapshot__40_robots.ts",
+          "status": "succeeded",
+          "summary": "Robots.txt HTTP response archived",
+          "elapsed_seconds": 0.235
+        },
+        {
+          "plugin": "manifest",
+          "hook": "on_Snapshot__41_manifest.ts",
+          "status": "succeeded",
+          "summary": "1 manifest responses archived",
+          "elapsed_seconds": 0.006
+        },
+        {
+          "plugin": "rss",
+          "hook": "on_Snapshot__42_feeds.ts",
+          "status": "noresults",
+          "summary": "0 feed responses archived",
+          "elapsed_seconds": 0.005
+        },
+        {
+          "plugin": "infiniscroll",
+          "hook": "on_Snapshot__45_infiniscroll.ts",
+          "status": "succeeded",
+          "summary": "10 scroll steps; 13 details expanded",
+          "elapsed_seconds": 5.008
+        },
+        {
+          "plugin": "browsertrix_behaviors",
+          "hook": "on_Snapshot__47_browsertrix_behaviors.ts",
+          "status": "succeeded",
+          "summary": "Webrecorder Autofetcher, Autoplay, Autoclick, Autoscroll: 1 steps (time budget reached)",
+          "elapsed_seconds": 30.121
+        },
+        {
+          "plugin": "media",
+          "hook": "on_Snapshot__48_media.ts",
+          "status": "noresults",
+          "summary": "0 original responses; 0 playlists, 0 selected segments; 0 bytes inspected; 0 pending; 0 incomplete/unsupported conditions",
+          "elapsed_seconds": 0.044
+        },
+        {
+          "plugin": "forumdl",
+          "hook": "on_Snapshot__49_forumdl.ts",
+          "status": "noresults",
+          "summary": "forum-dl 0.3.0 unsupported: 0 boards, 0 threads, 0 posts, 0 files; 3 original responses; Unsupported platform: no upstream detector matched",
+          "elapsed_seconds": 2.376
+        },
+        {
+          "plugin": "gallerydl",
+          "hook": "on_Snapshot__49_gallerydl.ts",
+          "status": "skipped",
+          "summary": "No upstream gallery-dl extractor matches this URL (1034 bundled classes).",
+          "elapsed_seconds": 1.434
+        },
+        {
+          "plugin": "papersdl",
+          "hook": "on_Snapshot__49_papersdl.ts",
+          "status": "noresults",
+          "summary": "papers-dl found no PDF for https://docs.sweeting.me/s/blog. Original provider responses retained.",
+          "elapsed_seconds": 1.484
+        },
+        {
+          "plugin": "archivewebpage",
+          "hook": "on_Snapshot__49_requisites.ts",
+          "status": "succeeded",
+          "summary": "87/87 discovered requisites preserved or reused; 0 beyond limit; 0 unavailable",
+          "elapsed_seconds": 0.061
+        },
+        {
+          "plugin": "ytdlp",
+          "hook": "on_Snapshot__49_ytdlp.ts",
+          "status": "noresults",
+          "summary": "No supported media",
+          "elapsed_seconds": 4.586
+        },
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__50_settle.ts",
+          "status": "succeeded",
+          "summary": "Page readiness reached with 0 active browser requests (allowance 1); archive writes are finalized at recorder shutdown",
+          "elapsed_seconds": 1.022
+        },
+        {
+          "plugin": "screenshot",
+          "hook": "on_Snapshot__51_screenshot.ts",
+          "status": "succeeded",
+          "summary": "1280 \u00d7 7200 CSS pixels; JPEG preview and 10 full-resolution PNG pages (limit 10); 3867158 bytes",
+          "elapsed_seconds": 0.98
+        },
+        {
+          "plugin": "dropbox",
+          "hook": "on_Snapshot__53_dropbox.ts",
+          "status": "noresults",
+          "summary": "Not a Dropbox share URL",
+          "elapsed_seconds": 0.008
+        },
+        {
+          "plugin": "gdrive",
+          "hook": "on_Snapshot__53_gdrive.ts",
+          "status": "noresults",
+          "summary": "Not a Google Drive folder URL",
+          "elapsed_seconds": 0.007
+        },
+        {
+          "plugin": "googledocs",
+          "hook": "on_Snapshot__53_googledocs.ts",
+          "status": "noresults",
+          "summary": "Not a supported Google document URL",
+          "elapsed_seconds": 0.005
+        },
+        {
+          "plugin": "liteparse",
+          "hook": "on_Snapshot__68_liteparse.ts",
+          "status": "succeeded",
+          "summary": "77 of 77 documents parsed; 0 beyond source limit.",
+          "elapsed_seconds": 69.862
+        },
+        {
+          "plugin": "search_contents",
+          "hook": "on_Snapshot__90_index.ts",
+          "status": "succeeded",
+          "summary": "55 indexed documents",
+          "elapsed_seconds": 0.075
+        }
+      ],
+      "media": [],
+      "package_compressed_bytes": {
+        "infiniscroll": 2249,
+        "browsertrix_behaviors": 8395,
+        "screenshot": 3867158,
+        "consolelog": 6548,
+        "modalcloser": 27,
+        "sslcerts": 17654,
+        "istilldontcareaboutcookies": 14,
+        "liteparse": 122061,
+        "search_contents": 194643,
+        "pages": 246,
+        "archive": 52730962,
+        "indexes": 58092,
+        "datapackage.json": 211149,
+        "datapackage-digest.json": 117
+      },
+      "indexed_responses": 139,
+      "indexed_mime_counts": {
+        "text/javascript": 1,
+        "image/png": 65,
+        "text/css": 8,
+        "font/woff": 2,
+        "warc/revisit": 3,
+        "font/woff2": 1,
+        "application/javascript": 30,
+        "text/html": 8,
+        "image/x-icon": 1,
+        "application/manifest+json": 1,
+        "image/svg+xml": 2,
+        "text/plain": 2,
+        "image/jpeg": 14,
+        "image/gif": 1
+      },
+      "media_ids_and_formats_match_native": true
+    },
+    "blog-extension-2": {
+      "metrics": {
+        "started_at": 1791155066.460327,
+        "wall_seconds": 129.96970941702602,
+        "exit_code": 0,
+        "mach_timebase": {
+          "numer": 125,
+          "denom": 3
+        },
+        "network_interface": "external",
+        "cpu_seconds_sampled": 102.83816737499998,
+        "peak_rss_bytes_sampled": 4885741568,
+        "peak_footprint_bytes_sampled": 3843802928,
+        "process_count": 12,
+        "disk_read_bytes_sampled": 441331712,
+        "disk_write_bytes_sampled": 414232576,
+        "network_in_bytes_sampled": 53439243,
+        "network_out_bytes_sampled": 106440,
+        "iops": null
+      },
+      "network": {
+        "browser": {
+          "name": "Google Chrome for Testing",
+          "version": "148.0.7778.96",
+          "os_type": "Mac OS X: 27.0.0 (arm64)"
+        },
+        "browser_http_requests_sent": 155,
+        "by_protocol_event": {
+          "HTTP_TRANSACTION_SEND_REQUEST_HEADERS": 1,
+          "HTTP_TRANSACTION_HTTP2_SEND_REQUEST_HEADERS": 114,
+          "HTTP_TRANSACTION_QUIC_SEND_REQUEST_HEADERS": 40
+        }
+      },
+      "url": "https://docs.sweeting.me/s/blog",
+      "storage": {
+        "logical_bytes": 57235255,
+        "allocated_bytes": 57237504,
+        "files": 1,
+        "symlinks": 0
+      },
+      "sha256": "f4544a1e3f51f046812cc0942cdf68230c093ba066a0d44bec2bed908f66ce1a",
+      "capture_state": "complete",
+      "enabled_plugins": [
+        "chrome",
+        "accessibility",
+        "archivewebpage",
+        "browsertrix_behaviors",
+        "consolelog",
+        "dom",
+        "defuddle",
+        "dns",
+        "dropbox",
+        "favicon",
+        "forumdl",
+        "gallerydl",
+        "gdrive",
+        "git",
+        "googledocs",
+        "hashes",
+        "headers",
+        "htmltotext",
+        "infiniscroll",
+        "istilldontcareaboutcookies",
+        "liteparse",
+        "manifest",
+        "media",
+        "mercury",
+        "modalcloser",
+        "networktiming",
+        "papersdl",
+        "parse_dom_outlinks",
+        "parse_html_urls",
+        "parse_jsonl_urls",
+        "parse_netscape_urls",
+        "rss",
+        "parse_rss_urls",
+        "parse_txt_urls",
+        "pdf",
+        "readability",
+        "redirects",
+        "responses",
+        "robots",
+        "screenshot",
+        "search_contents",
+        "seo",
+        "singlefile",
+        "sslcerts",
+        "ssl",
+        "staticfile",
+        "title",
+        "ytdlp"
+      ],
+      "timing": {
+        "url": "https://docs.sweeting.me/s/blog",
+        "startup_through_export_seconds": 129.473322042,
+        "click_through_export_seconds": 128.509820208,
+        "browser": "148.0.7778.96",
+        "plugins": [
+          "accessibility",
+          "archivewebpage",
+          "browsertrix_behaviors",
+          "chrome",
+          "consolelog",
+          "defuddle",
+          "dns",
+          "dom",
+          "dropbox",
+          "favicon",
+          "forumdl",
+          "gallerydl",
+          "gdrive",
+          "git",
+          "googledocs",
+          "hashes",
+          "headers",
+          "htmltotext",
+          "infiniscroll",
+          "istilldontcareaboutcookies",
+          "liteparse",
+          "manifest",
+          "media",
+          "mercury",
+          "modalcloser",
+          "networktiming",
+          "papersdl",
+          "parse_dom_outlinks",
+          "parse_html_urls",
+          "parse_jsonl_urls",
+          "parse_netscape_urls",
+          "parse_rss_urls",
+          "parse_txt_urls",
+          "pdf",
+          "readability",
+          "redirects",
+          "responses",
+          "robots",
+          "rss",
+          "screenshot",
+          "search_contents",
+          "seo",
+          "singlefile",
+          "ssl",
+          "sslcerts",
+          "staticfile",
+          "title",
+          "ytdlp"
+        ]
+      },
+      "outcomes": [
+        {
+          "plugin": "istilldontcareaboutcookies",
+          "hook": "on_Snapshot__13_istilldontcareaboutcookies.daemon.bg.ts",
+          "status": "noresults",
+          "summary": "0 cookie rejection controls clicked",
+          "elapsed_seconds": 51.349
+        },
+        {
+          "plugin": "modalcloser",
+          "hook": "on_Snapshot__15_modalcloser.daemon.bg.ts",
+          "status": "noresults",
+          "summary": "0 browser dialogs, 0 CSS modals closed",
+          "elapsed_seconds": 51.34
+        },
+        {
+          "plugin": "consolelog",
+          "hook": "on_Snapshot__21_consolelog.daemon.bg.ts",
+          "status": "succeeded",
+          "summary": "4 console events",
+          "elapsed_seconds": 51.337
+        },
+        {
+          "plugin": "dns",
+          "hook": "on_Snapshot__22_dns.daemon.bg.ts",
+          "status": "succeeded",
+          "summary": "0 DNS failures; successful connections are retained on original responses",
+          "elapsed_seconds": 51.33
+        },
+        {
+          "plugin": "sslcerts",
+          "hook": "on_Snapshot__23_sslcerts.daemon.bg.ts",
+          "status": "succeeded",
+          "summary": "7 TLS connections; certificate chains for 6 origins",
+          "elapsed_seconds": 51.332
+        },
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__30_navigate.ts",
+          "status": "succeeded",
+          "summary": "Page loaded with network recording enabled",
+          "elapsed_seconds": 3.282
+        },
+        {
+          "plugin": "git",
+          "hook": "on_Snapshot__34_git.ts",
+          "status": "noresults",
+          "summary": "Not a Git repository URL",
+          "elapsed_seconds": 0.029
+        },
+        {
+          "plugin": "favicon",
+          "hook": "on_Snapshot__37_favicon.ts",
+          "status": "succeeded",
+          "summary": "5 icon URLs archived",
+          "elapsed_seconds": 0.328
+        },
+        {
+          "plugin": "seo",
+          "hook": "on_Snapshot__39_social_images.ts",
+          "status": "succeeded",
+          "summary": "1 social image responses archived",
+          "elapsed_seconds": 0.022
+        },
+        {
+          "plugin": "robots",
+          "hook": "on_Snapshot__40_robots.ts",
+          "status": "succeeded",
+          "summary": "Robots.txt HTTP response archived",
+          "elapsed_seconds": 0.238
+        },
+        {
+          "plugin": "manifest",
+          "hook": "on_Snapshot__41_manifest.ts",
+          "status": "succeeded",
+          "summary": "1 manifest responses archived",
+          "elapsed_seconds": 0.006
+        },
+        {
+          "plugin": "rss",
+          "hook": "on_Snapshot__42_feeds.ts",
+          "status": "noresults",
+          "summary": "0 feed responses archived",
+          "elapsed_seconds": 0.006
+        },
+        {
+          "plugin": "infiniscroll",
+          "hook": "on_Snapshot__45_infiniscroll.ts",
+          "status": "succeeded",
+          "summary": "10 scroll steps; 13 details expanded",
+          "elapsed_seconds": 5.012
+        },
+        {
+          "plugin": "browsertrix_behaviors",
+          "hook": "on_Snapshot__47_browsertrix_behaviors.ts",
+          "status": "succeeded",
+          "summary": "Webrecorder Autofetcher, Autoplay, Autoclick, Autoscroll: 1 steps (time budget reached)",
+          "elapsed_seconds": 30.126
+        },
+        {
+          "plugin": "media",
+          "hook": "on_Snapshot__48_media.ts",
+          "status": "noresults",
+          "summary": "0 original responses; 0 playlists, 0 selected segments; 0 bytes inspected; 0 pending; 0 incomplete/unsupported conditions",
+          "elapsed_seconds": 0.042
+        },
+        {
+          "plugin": "forumdl",
+          "hook": "on_Snapshot__49_forumdl.ts",
+          "status": "noresults",
+          "summary": "forum-dl 0.3.0 unsupported: 0 boards, 0 threads, 0 posts, 0 files; 3 original responses; Unsupported platform: no upstream detector matched",
+          "elapsed_seconds": 2.518
+        },
+        {
+          "plugin": "gallerydl",
+          "hook": "on_Snapshot__49_gallerydl.ts",
+          "status": "skipped",
+          "summary": "No upstream gallery-dl extractor matches this URL (1034 bundled classes).",
+          "elapsed_seconds": 1.451
+        },
+        {
+          "plugin": "papersdl",
+          "hook": "on_Snapshot__49_papersdl.ts",
+          "status": "noresults",
+          "summary": "papers-dl found no PDF for https://docs.sweeting.me/s/blog. Original provider responses retained.",
+          "elapsed_seconds": 1.509
+        },
+        {
+          "plugin": "archivewebpage",
+          "hook": "on_Snapshot__49_requisites.ts",
+          "status": "succeeded",
+          "summary": "87/87 discovered requisites preserved or reused; 0 beyond limit; 0 unavailable",
+          "elapsed_seconds": 0.062
+        },
+        {
+          "plugin": "ytdlp",
+          "hook": "on_Snapshot__49_ytdlp.ts",
+          "status": "noresults",
+          "summary": "No supported media",
+          "elapsed_seconds": 4.669
+        },
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__50_settle.ts",
+          "status": "succeeded",
+          "summary": "Page readiness reached with 0 active browser requests (allowance 1); archive writes are finalized at recorder shutdown",
+          "elapsed_seconds": 1.019
+        },
+        {
+          "plugin": "screenshot",
+          "hook": "on_Snapshot__51_screenshot.ts",
+          "status": "succeeded",
+          "summary": "1280 \u00d7 7200 CSS pixels; JPEG preview and 10 full-resolution PNG pages (limit 10); 3871259 bytes",
+          "elapsed_seconds": 0.98
+        },
+        {
+          "plugin": "dropbox",
+          "hook": "on_Snapshot__53_dropbox.ts",
+          "status": "noresults",
+          "summary": "Not a Dropbox share URL",
+          "elapsed_seconds": 0.009
+        },
+        {
+          "plugin": "gdrive",
+          "hook": "on_Snapshot__53_gdrive.ts",
+          "status": "noresults",
+          "summary": "Not a Google Drive folder URL",
+          "elapsed_seconds": 0.007
+        },
+        {
+          "plugin": "googledocs",
+          "hook": "on_Snapshot__53_googledocs.ts",
+          "status": "noresults",
+          "summary": "Not a supported Google document URL",
+          "elapsed_seconds": 0.005
+        },
+        {
+          "plugin": "liteparse",
+          "hook": "on_Snapshot__68_liteparse.ts",
+          "status": "succeeded",
+          "summary": "77 of 77 documents parsed; 0 beyond source limit.",
+          "elapsed_seconds": 73.373
+        },
+        {
+          "plugin": "search_contents",
+          "hook": "on_Snapshot__90_index.ts",
+          "status": "succeeded",
+          "summary": "55 indexed documents",
+          "elapsed_seconds": 0.083
+        }
+      ],
+      "media": [],
+      "package_compressed_bytes": {
+        "infiniscroll": 2249,
+        "browsertrix_behaviors": 8300,
+        "screenshot": 3871259,
+        "consolelog": 6548,
+        "modalcloser": 27,
+        "sslcerts": 17109,
+        "istilldontcareaboutcookies": 14,
+        "liteparse": 122061,
+        "search_contents": 194648,
+        "pages": 247,
+        "archive": 52730917,
+        "indexes": 58092,
+        "datapackage.json": 211149,
+        "datapackage-digest.json": 117
+      },
+      "indexed_responses": 139,
+      "indexed_mime_counts": {
+        "text/javascript": 1,
+        "image/png": 65,
+        "text/css": 8,
+        "font/woff": 2,
+        "warc/revisit": 3,
+        "font/woff2": 1,
+        "application/javascript": 30,
+        "text/html": 8,
+        "image/x-icon": 1,
+        "application/manifest+json": 1,
+        "image/svg+xml": 2,
+        "text/plain": 2,
+        "image/jpeg": 14,
+        "image/gif": 1
+      },
+      "media_ids_and_formats_match_native": true
+    },
+    "blog-native": {
+      "metrics": {
+        "started_at": 1791154613.324357,
+        "wall_seconds": 70.00137516699033,
+        "exit_code": 0,
+        "mach_timebase": {
+          "numer": 125,
+          "denom": 3
+        },
+        "network_interface": "external",
+        "cpu_seconds_sampled": 78.89380449999999,
+        "peak_rss_bytes_sampled": 11199004672,
+        "peak_footprint_bytes_sampled": 8252185776,
+        "process_count": 103,
+        "disk_read_bytes_sampled": 458240000,
+        "disk_write_bytes_sampled": 1998151680,
+        "network_in_bytes_sampled": 130579023,
+        "network_out_bytes_sampled": 745302,
+        "iops": null
+      },
+      "network": {
+        "browser": {
+          "name": "Google Chrome",
+          "version": "156.0.8078.4",
+          "os_type": "Mac OS X: 27.0.0 (arm64)"
+        },
+        "browser_http_requests_sent": 415,
+        "by_protocol_event": {
+          "HTTP_TRANSACTION_SEND_REQUEST_HEADERS": 2,
+          "HTTP_TRANSACTION_HTTP2_SEND_REQUEST_HEADERS": 127,
+          "HTTP_TRANSACTION_QUIC_SEND_REQUEST_HEADERS": 286
+        }
+      },
+      "snapshot_id": "01a10922731c719fbd4d2fca3b272fec",
+      "url": "https://docs.sweeting.me/s/blog",
+      "storage": {
+        "logical_bytes": 319596796,
+        "allocated_bytes": 320258048,
+        "files": 254,
+        "symlinks": 413
+      },
+      "plugin_storage": {
+        "accessibility": {
+          "logical_bytes": 304997,
+          "allocated_bytes": 311296,
+          "files": 2,
+          "symlinks": 0
+        },
+        "archivedotorg": {
+          "logical_bytes": 346,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "archivewebpage": {
+          "logical_bytes": 53331144,
+          "allocated_bytes": 53346304,
+          "files": 4,
+          "symlinks": 0
+        },
+        "chrome": {
+          "logical_bytes": 9248,
+          "allocated_bytes": 28672,
+          "files": 6,
+          "symlinks": 0
+        },
+        "chrome_mhtml": {
+          "logical_bytes": 71854727,
+          "allocated_bytes": 71860224,
+          "files": 2,
+          "symlinks": 0
+        },
+        "chrome_screencast": {
+          "logical_bytes": 280,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "consolelog": {
+          "logical_bytes": 67218,
+          "allocated_bytes": 73728,
+          "files": 2,
+          "symlinks": 0
+        },
+        "defuddle": {
+          "logical_bytes": 230902,
+          "allocated_bytes": 241664,
+          "files": 4,
+          "symlinks": 0
+        },
+        "dns": {
+          "logical_bytes": 2015,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "dom": {
+          "logical_bytes": 163237,
+          "allocated_bytes": 167936,
+          "files": 2,
+          "symlinks": 0
+        },
+        "favicon": {
+          "logical_bytes": 15666,
+          "allocated_bytes": 20480,
+          "files": 2,
+          "symlinks": 0
+        },
+        "forumdl": {
+          "logical_bytes": 260,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "gallerydl": {
+          "logical_bytes": 264,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "git": {
+          "logical_bytes": 252,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "googledocs": {
+          "logical_bytes": 256,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "hashes": {
+          "logical_bytes": 133876,
+          "allocated_bytes": 143360,
+          "files": 3,
+          "symlinks": 0
+        },
+        "headers": {
+          "logical_bytes": 3498,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "htmltotext": {
+          "logical_bytes": 43276,
+          "allocated_bytes": 49152,
+          "files": 2,
+          "symlinks": 0
+        },
+        "infiniscroll": {
+          "logical_bytes": 260,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "istilldontcareaboutcookies": {
+          "logical_bytes": 298,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "liteparse": {
+          "logical_bytes": 17569,
+          "allocated_bytes": 90112,
+          "files": 22,
+          "symlinks": 0
+        },
+        "mercury": {
+          "logical_bytes": 97327,
+          "allocated_bytes": 106496,
+          "files": 4,
+          "symlinks": 0
+        },
+        "modalcloser": {
+          "logical_bytes": 268,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "papersdl": {
+          "logical_bytes": 262,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "parse_dom_outlinks": {
+          "logical_bytes": 57977,
+          "allocated_bytes": 65536,
+          "files": 2,
+          "symlinks": 0
+        },
+        "parse_html_urls": {
+          "logical_bytes": 74149,
+          "allocated_bytes": 81920,
+          "files": 2,
+          "symlinks": 0
+        },
+        "parse_jsonl_urls": {
+          "logical_bytes": 268,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "parse_netscape_urls": {
+          "logical_bytes": 274,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "parse_rss_urls": {
+          "logical_bytes": 264,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "parse_txt_urls": {
+          "logical_bytes": 53261,
+          "allocated_bytes": 57344,
+          "files": 2,
+          "symlinks": 0
+        },
+        "pdf": {
+          "logical_bytes": 58405192,
+          "allocated_bytes": 58413056,
+          "files": 3,
+          "symlinks": 0
+        },
+        "readability": {
+          "logical_bytes": 154604,
+          "allocated_bytes": 167936,
+          "files": 4,
+          "symlinks": 74
+        },
+        "redirects": {
+          "logical_bytes": 626,
+          "allocated_bytes": 12288,
+          "files": 3,
+          "symlinks": 0
+        },
+        "responses": {
+          "logical_bytes": 56465580,
+          "allocated_bytes": 56705024,
+          "files": 116,
+          "symlinks": 339
+        },
+        "screenshot": {
+          "logical_bytes": 889715,
+          "allocated_bytes": 901120,
+          "files": 3,
+          "symlinks": 0
+        },
+        "search_backend_sonic": {
+          "logical_bytes": 267,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "seo": {
+          "logical_bytes": 34996,
+          "allocated_bytes": 45056,
+          "files": 3,
+          "symlinks": 0
+        },
+        "singlefile": {
+          "logical_bytes": 72043771,
+          "allocated_bytes": 72048640,
+          "files": 2,
+          "symlinks": 0
+        },
+        "sslcerts": {
+          "logical_bytes": 11480,
+          "allocated_bytes": 24576,
+          "files": 5,
+          "symlinks": 0
+        },
+        "staticfile": {
+          "logical_bytes": 266,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "title": {
+          "logical_bytes": 287,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "trafilatura": {
+          "logical_bytes": 48989,
+          "allocated_bytes": 57344,
+          "files": 4,
+          "symlinks": 0
+        },
+        "twocaptcha": {
+          "logical_bytes": 266,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "ublock": {
+          "logical_bytes": 513,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "wget": {
+          "logical_bytes": 7542066,
+          "allocated_bytes": 7659520,
+          "files": 55,
+          "symlinks": 0
+        },
+        "ytdlp": {
+          "logical_bytes": 256,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        }
+      },
+      "snapshot_version": "0.9.72rc82",
+      "outcomes": [
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__00_chrome_launch.daemon.bg",
+          "status": "skipped"
+        },
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__01_chrome_tab.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "ublock",
+          "hook": "on_Snapshot__11_ublock_config",
+          "status": "skipped"
+        },
+        {
+          "plugin": "twocaptcha",
+          "hook": "on_Snapshot__14_twocaptcha.daemon.bg",
+          "status": "skipped"
+        },
+        {
+          "plugin": "archivewebpage",
+          "hook": "on_Snapshot__16_archivewebpage_start",
+          "status": "noresults"
+        },
+        {
+          "plugin": "staticfile",
+          "hook": "on_Snapshot__26_staticfile.daemon.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__30_chrome_navigate",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "headers",
+          "hook": "on_Snapshot__27_headers.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "git",
+          "hook": "on_Snapshot__34_git.finite.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "favicon",
+          "hook": "on_Snapshot__37_favicon.finite.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "gallerydl",
+          "hook": "on_Snapshot__32_gallerydl.finite.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "seo",
+          "hook": "on_Snapshot__38_seo",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "forumdl",
+          "hook": "on_Snapshot__33_forumdl.finite.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "accessibility",
+          "hook": "on_Snapshot__39_accessibility",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "wget",
+          "hook": "on_Snapshot__35_wget.finite.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "ytdlp",
+          "hook": "on_Snapshot__31_ytdlp.finite.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "redirects",
+          "hook": "on_Snapshot__25_redirects.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "archivedotorg",
+          "hook": "on_Snapshot__00_archivedotorg.finite.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "infiniscroll",
+          "hook": "on_Snapshot__45_infiniscroll",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "singlefile",
+          "hook": "on_Snapshot__50_singlefile",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "screenshot",
+          "hook": "on_Snapshot__51_screenshot",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "pdf",
+          "hook": "on_Snapshot__52_pdf",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "dom",
+          "hook": "on_Snapshot__53_dom",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "googledocs",
+          "hook": "on_Snapshot__53_googledocs",
+          "status": "noresults"
+        },
+        {
+          "plugin": "chrome_mhtml",
+          "hook": "on_Snapshot__54_chrome_mhtml",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "title",
+          "hook": "on_Snapshot__54_title",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "readability",
+          "hook": "on_Snapshot__56_readability",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "defuddle",
+          "hook": "on_Snapshot__57_defuddle",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "mercury",
+          "hook": "on_Snapshot__57_mercury",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "htmltotext",
+          "hook": "on_Snapshot__58_htmltotext",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "trafilatura",
+          "hook": "on_Snapshot__59_trafilatura",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "archivewebpage",
+          "hook": "on_Snapshot__65_archivewebpage_stop",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "papersdl",
+          "hook": "on_Snapshot__66_papersdl.finite.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "liteparse",
+          "hook": "on_Snapshot__68_liteparse",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "parse_html_urls",
+          "hook": "on_Snapshot__70_parse_html_urls",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "parse_txt_urls",
+          "hook": "on_Snapshot__71_parse_txt_urls",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "parse_rss_urls",
+          "hook": "on_Snapshot__72_parse_rss_urls",
+          "status": "noresults"
+        },
+        {
+          "plugin": "parse_netscape_urls",
+          "hook": "on_Snapshot__73_parse_netscape_urls",
+          "status": "noresults"
+        },
+        {
+          "plugin": "parse_jsonl_urls",
+          "hook": "on_Snapshot__74_parse_jsonl_urls",
+          "status": "noresults"
+        },
+        {
+          "plugin": "parse_dom_outlinks",
+          "hook": "on_Snapshot__75_parse_dom_outlinks",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "search_backend_sonic",
+          "hook": "on_Snapshot__91_index_sonic",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "chrome_screencast",
+          "hook": "on_Snapshot__02_chrome_screencast.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "ublock",
+          "hook": "on_Snapshot__12_ublock.daemon.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "sslcerts",
+          "hook": "on_Snapshot__23_sslcerts.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "istilldontcareaboutcookies",
+          "hook": "on_Snapshot__13_istilldontcareaboutcookies.daemon.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "modalcloser",
+          "hook": "on_Snapshot__15_modalcloser.daemon.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "dns",
+          "hook": "on_Snapshot__22_dns.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "consolelog",
+          "hook": "on_Snapshot__21_consolelog.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "responses",
+          "hook": "on_Snapshot__24_responses.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "hashes",
+          "hook": "on_Snapshot__93_hashes",
+          "status": "succeeded"
+        }
+      ],
+      "media": []
+    },
+    "blog-native-2": {
+      "metrics": {
+        "started_at": 1791154996.270655,
+        "wall_seconds": 70.1285333330161,
+        "exit_code": 0,
+        "mach_timebase": {
+          "numer": 125,
+          "denom": 3
+        },
+        "network_interface": "external",
+        "cpu_seconds_sampled": 80.6103675,
+        "peak_rss_bytes_sampled": 9696296960,
+        "peak_footprint_bytes_sampled": 8547245520,
+        "process_count": 97,
+        "disk_read_bytes_sampled": 476291072,
+        "disk_write_bytes_sampled": 2005102592,
+        "network_in_bytes_sampled": 134216096,
+        "network_out_bytes_sampled": 773377,
+        "iops": null
+      },
+      "network": {
+        "browser": {
+          "name": "Google Chrome",
+          "version": "156.0.8078.4",
+          "os_type": "Mac OS X: 27.0.0 (arm64)"
+        },
+        "browser_http_requests_sent": 415,
+        "by_protocol_event": {
+          "HTTP_TRANSACTION_SEND_REQUEST_HEADERS": 2,
+          "HTTP_TRANSACTION_HTTP2_SEND_REQUEST_HEADERS": 119,
+          "HTTP_TRANSACTION_QUIC_SEND_REQUEST_HEADERS": 294
+        }
+      },
+      "snapshot_id": "01a109284b17712d88e3210e289afbe1",
+      "url": "https://docs.sweeting.me/s/blog",
+      "storage": {
+        "logical_bytes": 319594891,
+        "allocated_bytes": 320253952,
+        "files": 254,
+        "symlinks": 413
+      },
+      "plugin_storage": {
+        "accessibility": {
+          "logical_bytes": 304997,
+          "allocated_bytes": 311296,
+          "files": 2,
+          "symlinks": 0
+        },
+        "archivedotorg": {
+          "logical_bytes": 346,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "archivewebpage": {
+          "logical_bytes": 53331653,
+          "allocated_bytes": 53346304,
+          "files": 4,
+          "symlinks": 0
+        },
+        "chrome": {
+          "logical_bytes": 9270,
+          "allocated_bytes": 28672,
+          "files": 6,
+          "symlinks": 0
+        },
+        "chrome_mhtml": {
+          "logical_bytes": 71854751,
+          "allocated_bytes": 71860224,
+          "files": 2,
+          "symlinks": 0
+        },
+        "chrome_screencast": {
+          "logical_bytes": 280,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "consolelog": {
+          "logical_bytes": 67218,
+          "allocated_bytes": 73728,
+          "files": 2,
+          "symlinks": 0
+        },
+        "defuddle": {
+          "logical_bytes": 230902,
+          "allocated_bytes": 241664,
+          "files": 4,
+          "symlinks": 0
+        },
+        "dns": {
+          "logical_bytes": 2001,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "dom": {
+          "logical_bytes": 163257,
+          "allocated_bytes": 167936,
+          "files": 2,
+          "symlinks": 0
+        },
+        "favicon": {
+          "logical_bytes": 15666,
+          "allocated_bytes": 20480,
+          "files": 2,
+          "symlinks": 0
+        },
+        "forumdl": {
+          "logical_bytes": 260,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "gallerydl": {
+          "logical_bytes": 264,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "git": {
+          "logical_bytes": 252,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "googledocs": {
+          "logical_bytes": 256,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "hashes": {
+          "logical_bytes": 133875,
+          "allocated_bytes": 143360,
+          "files": 3,
+          "symlinks": 0
+        },
+        "headers": {
+          "logical_bytes": 3484,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "htmltotext": {
+          "logical_bytes": 43276,
+          "allocated_bytes": 49152,
+          "files": 2,
+          "symlinks": 0
+        },
+        "infiniscroll": {
+          "logical_bytes": 260,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "istilldontcareaboutcookies": {
+          "logical_bytes": 298,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "liteparse": {
+          "logical_bytes": 17569,
+          "allocated_bytes": 90112,
+          "files": 22,
+          "symlinks": 0
+        },
+        "mercury": {
+          "logical_bytes": 97327,
+          "allocated_bytes": 106496,
+          "files": 4,
+          "symlinks": 0
+        },
+        "modalcloser": {
+          "logical_bytes": 268,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "papersdl": {
+          "logical_bytes": 262,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "parse_dom_outlinks": {
+          "logical_bytes": 57977,
+          "allocated_bytes": 65536,
+          "files": 2,
+          "symlinks": 0
+        },
+        "parse_html_urls": {
+          "logical_bytes": 74149,
+          "allocated_bytes": 81920,
+          "files": 2,
+          "symlinks": 0
+        },
+        "parse_jsonl_urls": {
+          "logical_bytes": 268,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "parse_netscape_urls": {
+          "logical_bytes": 274,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "parse_rss_urls": {
+          "logical_bytes": 264,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "parse_txt_urls": {
+          "logical_bytes": 53261,
+          "allocated_bytes": 57344,
+          "files": 2,
+          "symlinks": 0
+        },
+        "pdf": {
+          "logical_bytes": 58405193,
+          "allocated_bytes": 58413056,
+          "files": 3,
+          "symlinks": 0
+        },
+        "readability": {
+          "logical_bytes": 154604,
+          "allocated_bytes": 167936,
+          "files": 4,
+          "symlinks": 74
+        },
+        "redirects": {
+          "logical_bytes": 627,
+          "allocated_bytes": 12288,
+          "files": 3,
+          "symlinks": 0
+        },
+        "responses": {
+          "logical_bytes": 56467339,
+          "allocated_bytes": 56709120,
+          "files": 116,
+          "symlinks": 339
+        },
+        "screenshot": {
+          "logical_bytes": 885112,
+          "allocated_bytes": 892928,
+          "files": 3,
+          "symlinks": 0
+        },
+        "search_backend_sonic": {
+          "logical_bytes": 267,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "seo": {
+          "logical_bytes": 34996,
+          "allocated_bytes": 45056,
+          "files": 3,
+          "symlinks": 0
+        },
+        "singlefile": {
+          "logical_bytes": 72043773,
+          "allocated_bytes": 72048640,
+          "files": 2,
+          "symlinks": 0
+        },
+        "sslcerts": {
+          "logical_bytes": 11480,
+          "allocated_bytes": 24576,
+          "files": 5,
+          "symlinks": 0
+        },
+        "staticfile": {
+          "logical_bytes": 266,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "title": {
+          "logical_bytes": 287,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "trafilatura": {
+          "logical_bytes": 48989,
+          "allocated_bytes": 57344,
+          "files": 4,
+          "symlinks": 0
+        },
+        "twocaptcha": {
+          "logical_bytes": 266,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "ublock": {
+          "logical_bytes": 513,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "wget": {
+          "logical_bytes": 7542100,
+          "allocated_bytes": 7659520,
+          "files": 55,
+          "symlinks": 0
+        },
+        "ytdlp": {
+          "logical_bytes": 256,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        }
+      },
+      "snapshot_version": "0.9.72rc82",
+      "outcomes": [
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__00_chrome_launch.daemon.bg",
+          "status": "skipped"
+        },
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__01_chrome_tab.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "ublock",
+          "hook": "on_Snapshot__11_ublock_config",
+          "status": "skipped"
+        },
+        {
+          "plugin": "twocaptcha",
+          "hook": "on_Snapshot__14_twocaptcha.daemon.bg",
+          "status": "skipped"
+        },
+        {
+          "plugin": "archivewebpage",
+          "hook": "on_Snapshot__16_archivewebpage_start",
+          "status": "noresults"
+        },
+        {
+          "plugin": "staticfile",
+          "hook": "on_Snapshot__26_staticfile.daemon.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__30_chrome_navigate",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "headers",
+          "hook": "on_Snapshot__27_headers.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "git",
+          "hook": "on_Snapshot__34_git.finite.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "gallerydl",
+          "hook": "on_Snapshot__32_gallerydl.finite.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "favicon",
+          "hook": "on_Snapshot__37_favicon.finite.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "seo",
+          "hook": "on_Snapshot__38_seo",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "accessibility",
+          "hook": "on_Snapshot__39_accessibility",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "forumdl",
+          "hook": "on_Snapshot__33_forumdl.finite.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "ytdlp",
+          "hook": "on_Snapshot__31_ytdlp.finite.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "wget",
+          "hook": "on_Snapshot__35_wget.finite.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "archivedotorg",
+          "hook": "on_Snapshot__00_archivedotorg.finite.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "redirects",
+          "hook": "on_Snapshot__25_redirects.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "infiniscroll",
+          "hook": "on_Snapshot__45_infiniscroll",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "singlefile",
+          "hook": "on_Snapshot__50_singlefile",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "screenshot",
+          "hook": "on_Snapshot__51_screenshot",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "pdf",
+          "hook": "on_Snapshot__52_pdf",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "dom",
+          "hook": "on_Snapshot__53_dom",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "googledocs",
+          "hook": "on_Snapshot__53_googledocs",
+          "status": "noresults"
+        },
+        {
+          "plugin": "chrome_mhtml",
+          "hook": "on_Snapshot__54_chrome_mhtml",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "title",
+          "hook": "on_Snapshot__54_title",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "readability",
+          "hook": "on_Snapshot__56_readability",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "defuddle",
+          "hook": "on_Snapshot__57_defuddle",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "mercury",
+          "hook": "on_Snapshot__57_mercury",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "htmltotext",
+          "hook": "on_Snapshot__58_htmltotext",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "trafilatura",
+          "hook": "on_Snapshot__59_trafilatura",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "archivewebpage",
+          "hook": "on_Snapshot__65_archivewebpage_stop",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "papersdl",
+          "hook": "on_Snapshot__66_papersdl.finite.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "liteparse",
+          "hook": "on_Snapshot__68_liteparse",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "parse_html_urls",
+          "hook": "on_Snapshot__70_parse_html_urls",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "parse_txt_urls",
+          "hook": "on_Snapshot__71_parse_txt_urls",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "parse_rss_urls",
+          "hook": "on_Snapshot__72_parse_rss_urls",
+          "status": "noresults"
+        },
+        {
+          "plugin": "parse_netscape_urls",
+          "hook": "on_Snapshot__73_parse_netscape_urls",
+          "status": "noresults"
+        },
+        {
+          "plugin": "parse_jsonl_urls",
+          "hook": "on_Snapshot__74_parse_jsonl_urls",
+          "status": "noresults"
+        },
+        {
+          "plugin": "parse_dom_outlinks",
+          "hook": "on_Snapshot__75_parse_dom_outlinks",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "search_backend_sonic",
+          "hook": "on_Snapshot__91_index_sonic",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "chrome_screencast",
+          "hook": "on_Snapshot__02_chrome_screencast.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "istilldontcareaboutcookies",
+          "hook": "on_Snapshot__13_istilldontcareaboutcookies.daemon.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "dns",
+          "hook": "on_Snapshot__22_dns.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "consolelog",
+          "hook": "on_Snapshot__21_consolelog.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "sslcerts",
+          "hook": "on_Snapshot__23_sslcerts.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "modalcloser",
+          "hook": "on_Snapshot__15_modalcloser.daemon.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "ublock",
+          "hook": "on_Snapshot__12_ublock.daemon.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "responses",
+          "hook": "on_Snapshot__24_responses.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "hashes",
+          "hook": "on_Snapshot__93_hashes",
+          "status": "succeeded"
+        }
+      ],
+      "media": []
+    },
+    "extension": {
+      "metrics": {
+        "started_at": 1791154549.2222831,
+        "wall_seconds": 34.833110750012565,
+        "exit_code": 0,
+        "mach_timebase": {
+          "numer": 125,
+          "denom": 3
+        },
+        "network_interface": "external",
+        "cpu_seconds_sampled": 32.3376695,
+        "peak_rss_bytes_sampled": 3696918528,
+        "peak_footprint_bytes_sampled": 2421261360,
+        "process_count": 12,
+        "disk_read_bytes_sampled": 322760704,
+        "disk_write_bytes_sampled": 292757504,
+        "network_in_bytes_sampled": 36581108,
+        "network_out_bytes_sampled": 171475,
+        "iops": null
+      },
+      "network": {
+        "browser": {
+          "name": "Google Chrome for Testing",
+          "version": "148.0.7778.96",
+          "os_type": "Mac OS X: 27.0.0 (arm64)"
+        },
+        "browser_http_requests_sent": 207,
+        "by_protocol_event": {
+          "HTTP_TRANSACTION_SEND_REQUEST_HEADERS": 48,
+          "HTTP_TRANSACTION_HTTP2_SEND_REQUEST_HEADERS": 147,
+          "HTTP_TRANSACTION_QUIC_SEND_REQUEST_HEADERS": 12
+        }
+      },
+      "url": "https://sweeting.me/",
+      "storage": {
+        "logical_bytes": 36925284,
+        "allocated_bytes": 36925440,
+        "files": 1,
+        "symlinks": 0
+      },
+      "sha256": "362a8f27dfb6849963d98f2ddc328c74be2280a0e679013f0b8d67dd8cab85df",
+      "capture_state": "complete",
+      "enabled_plugins": [
+        "chrome",
+        "accessibility",
+        "archivewebpage",
+        "browsertrix_behaviors",
+        "consolelog",
+        "dom",
+        "defuddle",
+        "dns",
+        "dropbox",
+        "favicon",
+        "forumdl",
+        "gallerydl",
+        "gdrive",
+        "git",
+        "googledocs",
+        "hashes",
+        "headers",
+        "htmltotext",
+        "infiniscroll",
+        "istilldontcareaboutcookies",
+        "liteparse",
+        "manifest",
+        "media",
+        "mercury",
+        "modalcloser",
+        "networktiming",
+        "papersdl",
+        "parse_dom_outlinks",
+        "parse_html_urls",
+        "parse_jsonl_urls",
+        "parse_netscape_urls",
+        "rss",
+        "parse_rss_urls",
+        "parse_txt_urls",
+        "pdf",
+        "readability",
+        "redirects",
+        "responses",
+        "robots",
+        "screenshot",
+        "search_contents",
+        "seo",
+        "singlefile",
+        "sslcerts",
+        "ssl",
+        "staticfile",
+        "title",
+        "ytdlp"
+      ],
+      "timing": {
+        "url": "https://sweeting.me",
+        "startup_through_export_seconds": 33.679279416,
+        "click_through_export_seconds": 32.63389375,
+        "browser": "148.0.7778.96",
+        "plugins": [
+          "accessibility",
+          "archivewebpage",
+          "browsertrix_behaviors",
+          "chrome",
+          "consolelog",
+          "defuddle",
+          "dns",
+          "dom",
+          "dropbox",
+          "favicon",
+          "forumdl",
+          "gallerydl",
+          "gdrive",
+          "git",
+          "googledocs",
+          "hashes",
+          "headers",
+          "htmltotext",
+          "infiniscroll",
+          "istilldontcareaboutcookies",
+          "liteparse",
+          "manifest",
+          "media",
+          "mercury",
+          "modalcloser",
+          "networktiming",
+          "papersdl",
+          "parse_dom_outlinks",
+          "parse_html_urls",
+          "parse_jsonl_urls",
+          "parse_netscape_urls",
+          "parse_rss_urls",
+          "parse_txt_urls",
+          "pdf",
+          "readability",
+          "redirects",
+          "responses",
+          "robots",
+          "rss",
+          "screenshot",
+          "search_contents",
+          "seo",
+          "singlefile",
+          "ssl",
+          "sslcerts",
+          "staticfile",
+          "title",
+          "ytdlp"
+        ]
+      },
+      "outcomes": [
+        {
+          "plugin": "istilldontcareaboutcookies",
+          "hook": "on_Snapshot__13_istilldontcareaboutcookies.daemon.bg.ts",
+          "status": "noresults",
+          "summary": "0 cookie rejection controls clicked",
+          "elapsed_seconds": 26.446
+        },
+        {
+          "plugin": "modalcloser",
+          "hook": "on_Snapshot__15_modalcloser.daemon.bg.ts",
+          "status": "noresults",
+          "summary": "0 browser dialogs, 0 CSS modals closed",
+          "elapsed_seconds": 26.435
+        },
+        {
+          "plugin": "consolelog",
+          "hook": "on_Snapshot__21_consolelog.daemon.bg.ts",
+          "status": "succeeded",
+          "summary": "6 console events",
+          "elapsed_seconds": 26.431
+        },
+        {
+          "plugin": "dns",
+          "hook": "on_Snapshot__22_dns.daemon.bg.ts",
+          "status": "succeeded",
+          "summary": "0 DNS failures; successful connections are retained on original responses",
+          "elapsed_seconds": 26.422
+        },
+        {
+          "plugin": "sslcerts",
+          "hook": "on_Snapshot__23_sslcerts.daemon.bg.ts",
+          "status": "succeeded",
+          "summary": "6 TLS connections; certificate chains for 5 origins",
+          "elapsed_seconds": 26.424
+        },
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__30_navigate.ts",
+          "status": "succeeded",
+          "summary": "Page loaded with network recording enabled",
+          "elapsed_seconds": 1.422
+        },
+        {
+          "plugin": "git",
+          "hook": "on_Snapshot__34_git.ts",
+          "status": "noresults",
+          "summary": "Not a Git repository URL",
+          "elapsed_seconds": 0.026
+        },
+        {
+          "plugin": "favicon",
+          "hook": "on_Snapshot__37_favicon.ts",
+          "status": "succeeded",
+          "summary": "1 icon URLs archived",
+          "elapsed_seconds": 0.007
+        },
+        {
+          "plugin": "seo",
+          "hook": "on_Snapshot__39_social_images.ts",
+          "status": "noresults",
+          "summary": "0 social image responses archived",
+          "elapsed_seconds": 0.006
+        },
+        {
+          "plugin": "robots",
+          "hook": "on_Snapshot__40_robots.ts",
+          "status": "succeeded",
+          "summary": "Robots.txt HTTP response archived",
+          "elapsed_seconds": 0.04
+        },
+        {
+          "plugin": "manifest",
+          "hook": "on_Snapshot__41_manifest.ts",
+          "status": "noresults",
+          "summary": "0 manifest responses archived",
+          "elapsed_seconds": 0.005
+        },
+        {
+          "plugin": "rss",
+          "hook": "on_Snapshot__42_feeds.ts",
+          "status": "noresults",
+          "summary": "0 feed responses archived",
+          "elapsed_seconds": 0.005
+        },
+        {
+          "plugin": "infiniscroll",
+          "hook": "on_Snapshot__45_infiniscroll.ts",
+          "status": "succeeded",
+          "summary": "2 scroll steps; 0 details expanded",
+          "elapsed_seconds": 0.513
+        },
+        {
+          "plugin": "browsertrix_behaviors",
+          "hook": "on_Snapshot__47_browsertrix_behaviors.ts",
+          "status": "succeeded",
+          "summary": "Webrecorder Autofetcher, Autoplay, Autoclick, Autoscroll: 1 steps",
+          "elapsed_seconds": 0.609
+        },
+        {
+          "plugin": "media",
+          "hook": "on_Snapshot__48_media.ts",
+          "status": "noresults",
+          "summary": "0 original responses; 0 playlists, 0 selected segments; 0 bytes inspected; 0 pending; 0 incomplete/unsupported conditions",
+          "elapsed_seconds": 0.04
+        },
+        {
+          "plugin": "forumdl",
+          "hook": "on_Snapshot__49_forumdl.ts",
+          "status": "noresults",
+          "summary": "forum-dl 0.3.0 unsupported: 0 boards, 0 threads, 0 posts, 0 files; 3 original responses; Unsupported platform: no upstream detector matched",
+          "elapsed_seconds": 2.154
+        },
+        {
+          "plugin": "gallerydl",
+          "hook": "on_Snapshot__49_gallerydl.ts",
+          "status": "skipped",
+          "summary": "No upstream gallery-dl extractor matches this URL (1034 bundled classes).",
+          "elapsed_seconds": 1.664
+        },
+        {
+          "plugin": "papersdl",
+          "hook": "on_Snapshot__49_papersdl.ts",
+          "status": "noresults",
+          "summary": "papers-dl found no PDF for https://sweeting.me/. Original provider responses retained.",
+          "elapsed_seconds": 1.716
+        },
+        {
+          "plugin": "archivewebpage",
+          "hook": "on_Snapshot__49_requisites.ts",
+          "status": "succeeded",
+          "summary": "6/6 discovered requisites preserved or reused; 0 beyond limit; 0 unavailable",
+          "elapsed_seconds": 0.009
+        },
+        {
+          "plugin": "ytdlp",
+          "hook": "on_Snapshot__49_ytdlp.ts",
+          "status": "succeeded",
+          "summary": "yt-dlp 2026.08.19: 10 videos, 0/0 subtitles, 177 original responses; 0 incomplete conditions",
+          "elapsed_seconds": 17.113
+        },
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__50_settle.ts",
+          "status": "succeeded",
+          "summary": "Page readiness reached with 0 active browser requests (allowance 1); archive writes are finalized at recorder shutdown",
+          "elapsed_seconds": 1.013
+        },
+        {
+          "plugin": "screenshot",
+          "hook": "on_Snapshot__51_screenshot.ts",
+          "status": "succeeded",
+          "summary": "1280 \u00d7 720 CSS pixels; JPEG preview and 1 full-resolution PNG pages (limit 10); 122440 bytes",
+          "elapsed_seconds": 0.044
+        },
+        {
+          "plugin": "dropbox",
+          "hook": "on_Snapshot__53_dropbox.ts",
+          "status": "noresults",
+          "summary": "Not a Dropbox share URL",
+          "elapsed_seconds": 0.009
+        },
+        {
+          "plugin": "gdrive",
+          "hook": "on_Snapshot__53_gdrive.ts",
+          "status": "noresults",
+          "summary": "Not a Google Drive folder URL",
+          "elapsed_seconds": 0.008
+        },
+        {
+          "plugin": "googledocs",
+          "hook": "on_Snapshot__53_googledocs.ts",
+          "status": "noresults",
+          "summary": "Not a supported Google document URL",
+          "elapsed_seconds": 0.005
+        },
+        {
+          "plugin": "liteparse",
+          "hook": "on_Snapshot__68_liteparse.ts",
+          "status": "succeeded",
+          "summary": "14 of 14 documents parsed; 0 beyond source limit.",
+          "elapsed_seconds": 3.704
+        },
+        {
+          "plugin": "search_contents",
+          "hook": "on_Snapshot__90_index.ts",
+          "status": "succeeded",
+          "summary": "45 indexed documents",
+          "elapsed_seconds": 0.039
+        }
+      ],
+      "media": [
+        {
+          "extractor": "Soundcloud",
+          "format": "http_mp3_0_0",
+          "id": "156867232"
+        },
+        {
+          "extractor": "Soundcloud",
+          "format": "http_mp3_0_0",
+          "id": "156884371"
+        },
+        {
+          "extractor": "Soundcloud",
+          "format": "hls_aac_96k",
+          "id": "192256698"
+        },
+        {
+          "extractor": "Soundcloud",
+          "format": "http_mp3_0_0",
+          "id": "209016372"
+        },
+        {
+          "extractor": "Soundcloud",
+          "format": "http_mp3_0_0",
+          "id": "38884614"
+        },
+        {
+          "extractor": "Soundcloud",
+          "format": "http_mp3_0_0",
+          "id": "38884615"
+        },
+        {
+          "extractor": "Soundcloud",
+          "format": "hls_aac_160k",
+          "id": "73848900"
+        },
+        {
+          "extractor": "Soundcloud",
+          "format": "hls_aac_160k",
+          "id": "73947742"
+        },
+        {
+          "extractor": "Soundcloud",
+          "format": "http_mp3_0_0",
+          "id": "74888869"
+        },
+        {
+          "extractor": "Soundcloud",
+          "format": "http_mp3_0_0",
+          "id": "97116399"
+        }
+      ],
+      "package_compressed_bytes": {
+        "infiniscroll": 749,
+        "browsertrix_behaviors": 605,
+        "screenshot": 122440,
+        "consolelog": 4483,
+        "modalcloser": 27,
+        "sslcerts": 22242,
+        "istilldontcareaboutcookies": 14,
+        "liteparse": 3392,
+        "search_contents": 92717,
+        "pages": 206,
+        "archive": 36232686,
+        "indexes": 237628,
+        "datapackage.json": 204658,
+        "datapackage-digest.json": 117
+      },
+      "indexed_responses": 196,
+      "indexed_mime_counts": {
+        "audio/mp4": 90,
+        "application/vnd.apple.mpegurl": 3,
+        "text/javascript": 3,
+        "application/javascript": 8,
+        "audio/mpeg": 7,
+        "warc/revisit": 23,
+        "text/plain": 2,
+        "image/jpeg": 10,
+        "text/html": 4,
+        "application/json": 38,
+        "": 1,
+        "image/vnd.microsoft.icon": 1,
+        "image/gif": 2,
+        "image/png": 4
+      },
+      "media_ids_and_formats_match_native": true
+    },
+    "extension-2": {
+      "metrics": {
+        "started_at": 1791154961.018396,
+        "wall_seconds": 33.31022895895876,
+        "exit_code": 0,
+        "mach_timebase": {
+          "numer": 125,
+          "denom": 3
+        },
+        "network_interface": "external",
+        "cpu_seconds_sampled": 30.250758624999996,
+        "peak_rss_bytes_sampled": 3547348992,
+        "peak_footprint_bytes_sampled": 2441609472,
+        "process_count": 12,
+        "disk_read_bytes_sampled": 338235392,
+        "disk_write_bytes_sampled": 298188800,
+        "network_in_bytes_sampled": 36589652,
+        "network_out_bytes_sampled": 175330,
+        "iops": null
+      },
+      "network": {
+        "browser": {
+          "name": "Google Chrome for Testing",
+          "version": "148.0.7778.96",
+          "os_type": "Mac OS X: 27.0.0 (arm64)"
+        },
+        "browser_http_requests_sent": 207,
+        "by_protocol_event": {
+          "HTTP_TRANSACTION_SEND_REQUEST_HEADERS": 48,
+          "HTTP_TRANSACTION_HTTP2_SEND_REQUEST_HEADERS": 147,
+          "HTTP_TRANSACTION_QUIC_SEND_REQUEST_HEADERS": 12
+        }
+      },
+      "url": "https://sweeting.me/",
+      "storage": {
+        "logical_bytes": 36924474,
+        "allocated_bytes": 36925440,
+        "files": 1,
+        "symlinks": 0
+      },
+      "sha256": "f9b92d6e9d32162da80cbe35cdec5ddf2634ed4f0dfe474102fb1c0bfd80e734",
+      "capture_state": "complete",
+      "enabled_plugins": [
+        "chrome",
+        "accessibility",
+        "archivewebpage",
+        "browsertrix_behaviors",
+        "consolelog",
+        "dom",
+        "defuddle",
+        "dns",
+        "dropbox",
+        "favicon",
+        "forumdl",
+        "gallerydl",
+        "gdrive",
+        "git",
+        "googledocs",
+        "hashes",
+        "headers",
+        "htmltotext",
+        "infiniscroll",
+        "istilldontcareaboutcookies",
+        "liteparse",
+        "manifest",
+        "media",
+        "mercury",
+        "modalcloser",
+        "networktiming",
+        "papersdl",
+        "parse_dom_outlinks",
+        "parse_html_urls",
+        "parse_jsonl_urls",
+        "parse_netscape_urls",
+        "rss",
+        "parse_rss_urls",
+        "parse_txt_urls",
+        "pdf",
+        "readability",
+        "redirects",
+        "responses",
+        "robots",
+        "screenshot",
+        "search_contents",
+        "seo",
+        "singlefile",
+        "sslcerts",
+        "ssl",
+        "staticfile",
+        "title",
+        "ytdlp"
+      ],
+      "timing": {
+        "url": "https://sweeting.me",
+        "startup_through_export_seconds": 32.996551708,
+        "click_through_export_seconds": 32.059046375,
+        "browser": "148.0.7778.96",
+        "plugins": [
+          "accessibility",
+          "archivewebpage",
+          "browsertrix_behaviors",
+          "chrome",
+          "consolelog",
+          "defuddle",
+          "dns",
+          "dom",
+          "dropbox",
+          "favicon",
+          "forumdl",
+          "gallerydl",
+          "gdrive",
+          "git",
+          "googledocs",
+          "hashes",
+          "headers",
+          "htmltotext",
+          "infiniscroll",
+          "istilldontcareaboutcookies",
+          "liteparse",
+          "manifest",
+          "media",
+          "mercury",
+          "modalcloser",
+          "networktiming",
+          "papersdl",
+          "parse_dom_outlinks",
+          "parse_html_urls",
+          "parse_jsonl_urls",
+          "parse_netscape_urls",
+          "parse_rss_urls",
+          "parse_txt_urls",
+          "pdf",
+          "readability",
+          "redirects",
+          "responses",
+          "robots",
+          "rss",
+          "screenshot",
+          "search_contents",
+          "seo",
+          "singlefile",
+          "ssl",
+          "sslcerts",
+          "staticfile",
+          "title",
+          "ytdlp"
+        ]
+      },
+      "outcomes": [
+        {
+          "plugin": "istilldontcareaboutcookies",
+          "hook": "on_Snapshot__13_istilldontcareaboutcookies.daemon.bg.ts",
+          "status": "noresults",
+          "summary": "0 cookie rejection controls clicked",
+          "elapsed_seconds": 25.195
+        },
+        {
+          "plugin": "modalcloser",
+          "hook": "on_Snapshot__15_modalcloser.daemon.bg.ts",
+          "status": "noresults",
+          "summary": "0 browser dialogs, 0 CSS modals closed",
+          "elapsed_seconds": 25.182
+        },
+        {
+          "plugin": "consolelog",
+          "hook": "on_Snapshot__21_consolelog.daemon.bg.ts",
+          "status": "succeeded",
+          "summary": "6 console events",
+          "elapsed_seconds": 25.179
+        },
+        {
+          "plugin": "dns",
+          "hook": "on_Snapshot__22_dns.daemon.bg.ts",
+          "status": "succeeded",
+          "summary": "0 DNS failures; successful connections are retained on original responses",
+          "elapsed_seconds": 25.167
+        },
+        {
+          "plugin": "sslcerts",
+          "hook": "on_Snapshot__23_sslcerts.daemon.bg.ts",
+          "status": "succeeded",
+          "summary": "6 TLS connections; certificate chains for 5 origins",
+          "elapsed_seconds": 25.173
+        },
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__30_navigate.ts",
+          "status": "succeeded",
+          "summary": "Page loaded with network recording enabled",
+          "elapsed_seconds": 1.401
+        },
+        {
+          "plugin": "git",
+          "hook": "on_Snapshot__34_git.ts",
+          "status": "noresults",
+          "summary": "Not a Git repository URL",
+          "elapsed_seconds": 0.024
+        },
+        {
+          "plugin": "favicon",
+          "hook": "on_Snapshot__37_favicon.ts",
+          "status": "succeeded",
+          "summary": "1 icon URLs archived",
+          "elapsed_seconds": 0.006
+        },
+        {
+          "plugin": "seo",
+          "hook": "on_Snapshot__39_social_images.ts",
+          "status": "noresults",
+          "summary": "0 social image responses archived",
+          "elapsed_seconds": 0.004
+        },
+        {
+          "plugin": "robots",
+          "hook": "on_Snapshot__40_robots.ts",
+          "status": "succeeded",
+          "summary": "Robots.txt HTTP response archived",
+          "elapsed_seconds": 0.135
+        },
+        {
+          "plugin": "manifest",
+          "hook": "on_Snapshot__41_manifest.ts",
+          "status": "noresults",
+          "summary": "0 manifest responses archived",
+          "elapsed_seconds": 0.006
+        },
+        {
+          "plugin": "rss",
+          "hook": "on_Snapshot__42_feeds.ts",
+          "status": "noresults",
+          "summary": "0 feed responses archived",
+          "elapsed_seconds": 0.004
+        },
+        {
+          "plugin": "infiniscroll",
+          "hook": "on_Snapshot__45_infiniscroll.ts",
+          "status": "succeeded",
+          "summary": "2 scroll steps; 0 details expanded",
+          "elapsed_seconds": 0.511
+        },
+        {
+          "plugin": "browsertrix_behaviors",
+          "hook": "on_Snapshot__47_browsertrix_behaviors.ts",
+          "status": "succeeded",
+          "summary": "Webrecorder Autofetcher, Autoplay, Autoclick, Autoscroll: 1 steps",
+          "elapsed_seconds": 0.586
+        },
+        {
+          "plugin": "media",
+          "hook": "on_Snapshot__48_media.ts",
+          "status": "noresults",
+          "summary": "0 original responses; 0 playlists, 0 selected segments; 0 bytes inspected; 0 pending; 0 incomplete/unsupported conditions",
+          "elapsed_seconds": 0.037
+        },
+        {
+          "plugin": "forumdl",
+          "hook": "on_Snapshot__49_forumdl.ts",
+          "status": "noresults",
+          "summary": "forum-dl 0.3.0 unsupported: 0 boards, 0 threads, 0 posts, 0 files; 3 original responses; Unsupported platform: no upstream detector matched",
+          "elapsed_seconds": 1.754
+        },
+        {
+          "plugin": "gallerydl",
+          "hook": "on_Snapshot__49_gallerydl.ts",
+          "status": "skipped",
+          "summary": "No upstream gallery-dl extractor matches this URL (1034 bundled classes).",
+          "elapsed_seconds": 1.426
+        },
+        {
+          "plugin": "papersdl",
+          "hook": "on_Snapshot__49_papersdl.ts",
+          "status": "noresults",
+          "summary": "papers-dl found no PDF for https://sweeting.me/. Original provider responses retained.",
+          "elapsed_seconds": 1.521
+        },
+        {
+          "plugin": "archivewebpage",
+          "hook": "on_Snapshot__49_requisites.ts",
+          "status": "succeeded",
+          "summary": "6/6 discovered requisites preserved or reused; 0 beyond limit; 0 unavailable",
+          "elapsed_seconds": 0.008
+        },
+        {
+          "plugin": "ytdlp",
+          "hook": "on_Snapshot__49_ytdlp.ts",
+          "status": "succeeded",
+          "summary": "yt-dlp 2026.08.19: 10 videos, 0/0 subtitles, 177 original responses; 0 incomplete conditions",
+          "elapsed_seconds": 16.642
+        },
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__50_settle.ts",
+          "status": "succeeded",
+          "summary": "Page readiness reached with 0 active browser requests (allowance 1); archive writes are finalized at recorder shutdown",
+          "elapsed_seconds": 1.022
+        },
+        {
+          "plugin": "screenshot",
+          "hook": "on_Snapshot__51_screenshot.ts",
+          "status": "succeeded",
+          "summary": "1280 \u00d7 720 CSS pixels; JPEG preview and 1 full-resolution PNG pages (limit 10); 122028 bytes",
+          "elapsed_seconds": 0.045
+        },
+        {
+          "plugin": "dropbox",
+          "hook": "on_Snapshot__53_dropbox.ts",
+          "status": "noresults",
+          "summary": "Not a Dropbox share URL",
+          "elapsed_seconds": 0.008
+        },
+        {
+          "plugin": "gdrive",
+          "hook": "on_Snapshot__53_gdrive.ts",
+          "status": "noresults",
+          "summary": "Not a Google Drive folder URL",
+          "elapsed_seconds": 0.008
+        },
+        {
+          "plugin": "googledocs",
+          "hook": "on_Snapshot__53_googledocs.ts",
+          "status": "noresults",
+          "summary": "Not a supported Google document URL",
+          "elapsed_seconds": 0.006
+        },
+        {
+          "plugin": "liteparse",
+          "hook": "on_Snapshot__68_liteparse.ts",
+          "status": "succeeded",
+          "summary": "14 of 14 documents parsed; 0 beyond source limit.",
+          "elapsed_seconds": 3.747
+        },
+        {
+          "plugin": "search_contents",
+          "hook": "on_Snapshot__90_index.ts",
+          "status": "succeeded",
+          "summary": "45 indexed documents",
+          "elapsed_seconds": 0.038
+        }
+      ],
+      "media": [
+        {
+          "extractor": "Soundcloud",
+          "format": "http_mp3_0_0",
+          "id": "156867232"
+        },
+        {
+          "extractor": "Soundcloud",
+          "format": "http_mp3_0_0",
+          "id": "156884371"
+        },
+        {
+          "extractor": "Soundcloud",
+          "format": "hls_aac_96k",
+          "id": "192256698"
+        },
+        {
+          "extractor": "Soundcloud",
+          "format": "http_mp3_0_0",
+          "id": "209016372"
+        },
+        {
+          "extractor": "Soundcloud",
+          "format": "http_mp3_0_0",
+          "id": "38884614"
+        },
+        {
+          "extractor": "Soundcloud",
+          "format": "http_mp3_0_0",
+          "id": "38884615"
+        },
+        {
+          "extractor": "Soundcloud",
+          "format": "hls_aac_160k",
+          "id": "73848900"
+        },
+        {
+          "extractor": "Soundcloud",
+          "format": "hls_aac_160k",
+          "id": "73947742"
+        },
+        {
+          "extractor": "Soundcloud",
+          "format": "http_mp3_0_0",
+          "id": "74888869"
+        },
+        {
+          "extractor": "Soundcloud",
+          "format": "http_mp3_0_0",
+          "id": "97116399"
+        }
+      ],
+      "package_compressed_bytes": {
+        "infiniscroll": 749,
+        "browsertrix_behaviors": 605,
+        "screenshot": 122028,
+        "consolelog": 4478,
+        "modalcloser": 27,
+        "sslcerts": 22242,
+        "istilldontcareaboutcookies": 14,
+        "liteparse": 3392,
+        "search_contents": 93269,
+        "pages": 204,
+        "archive": 36231743,
+        "indexes": 237628,
+        "datapackage.json": 204658,
+        "datapackage-digest.json": 117
+      },
+      "indexed_responses": 196,
+      "indexed_mime_counts": {
+        "audio/mp4": 90,
+        "application/vnd.apple.mpegurl": 3,
+        "text/javascript": 3,
+        "application/javascript": 8,
+        "audio/mpeg": 7,
+        "warc/revisit": 23,
+        "text/plain": 2,
+        "image/jpeg": 10,
+        "text/html": 4,
+        "application/json": 38,
+        "": 1,
+        "image/vnd.microsoft.icon": 1,
+        "image/gif": 2,
+        "image/png": 4
+      },
+      "media_ids_and_formats_match_native": true
+    },
+    "native": {
+      "metrics": {
+        "started_at": 1791154434.495737,
+        "wall_seconds": 63.17249674996128,
+        "exit_code": 0,
+        "mach_timebase": {
+          "numer": 125,
+          "denom": 3
+        },
+        "network_interface": "external",
+        "cpu_seconds_sampled": 57.49978341666666,
+        "peak_rss_bytes_sampled": 4518789120,
+        "peak_footprint_bytes_sampled": 2638333120,
+        "process_count": 107,
+        "disk_read_bytes_sampled": 165892096,
+        "disk_write_bytes_sampled": 1110843392,
+        "network_in_bytes_sampled": 74084906,
+        "network_out_bytes_sampled": 304811,
+        "iops": null
+      },
+      "network": {
+        "browser": {
+          "name": "Google Chrome",
+          "version": "156.0.8078.4",
+          "os_type": "Mac OS X: 27.0.0 (arm64)"
+        },
+        "browser_http_requests_sent": 50,
+        "by_protocol_event": {
+          "HTTP_TRANSACTION_SEND_REQUEST_HEADERS": 2,
+          "HTTP_TRANSACTION_HTTP2_SEND_REQUEST_HEADERS": 18,
+          "HTTP_TRANSACTION_QUIC_SEND_REQUEST_HEADERS": 30
+        }
+      },
+      "snapshot_id": "01a1091fbae772e9bbb500cfd2c92e1d",
+      "url": "https://sweeting.me",
+      "storage": {
+        "logical_bytes": 41034317,
+        "allocated_bytes": 41508864,
+        "files": 161,
+        "symlinks": 70
+      },
+      "plugin_storage": {
+        "accessibility": {
+          "logical_bytes": 48126,
+          "allocated_bytes": 53248,
+          "files": 2,
+          "symlinks": 0
+        },
+        "archivedotorg": {
+          "logical_bytes": 308,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "archivewebpage": {
+          "logical_bytes": 174071,
+          "allocated_bytes": 188416,
+          "files": 4,
+          "symlinks": 0
+        },
+        "chrome": {
+          "logical_bytes": 9079,
+          "allocated_bytes": 28672,
+          "files": 6,
+          "symlinks": 0
+        },
+        "chrome_mhtml": {
+          "logical_bytes": 105429,
+          "allocated_bytes": 110592,
+          "files": 2,
+          "symlinks": 0
+        },
+        "chrome_screencast": {
+          "logical_bytes": 268,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "consolelog": {
+          "logical_bytes": 5237,
+          "allocated_bytes": 12288,
+          "files": 2,
+          "symlinks": 0
+        },
+        "defuddle": {
+          "logical_bytes": 3156,
+          "allocated_bytes": 16384,
+          "files": 4,
+          "symlinks": 0
+        },
+        "dns": {
+          "logical_bytes": 1212,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "dom": {
+          "logical_bytes": 39133,
+          "allocated_bytes": 45056,
+          "files": 2,
+          "symlinks": 0
+        },
+        "favicon": {
+          "logical_bytes": 1398,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "forumdl": {
+          "logical_bytes": 248,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "gallerydl": {
+          "logical_bytes": 252,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "git": {
+          "logical_bytes": 240,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "googledocs": {
+          "logical_bytes": 244,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "hashes": {
+          "logical_bytes": 44150,
+          "allocated_bytes": 53248,
+          "files": 3,
+          "symlinks": 0
+        },
+        "headers": {
+          "logical_bytes": 4359,
+          "allocated_bytes": 12288,
+          "files": 2,
+          "symlinks": 0
+        },
+        "htmltotext": {
+          "logical_bytes": 1445,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "infiniscroll": {
+          "logical_bytes": 248,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "istilldontcareaboutcookies": {
+          "logical_bytes": 286,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "liteparse": {
+          "logical_bytes": 242,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "mercury": {
+          "logical_bytes": 2144,
+          "allocated_bytes": 16384,
+          "files": 4,
+          "symlinks": 1
+        },
+        "modalcloser": {
+          "logical_bytes": 256,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "papersdl": {
+          "logical_bytes": 250,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "parse_dom_outlinks": {
+          "logical_bytes": 7813,
+          "allocated_bytes": 12288,
+          "files": 2,
+          "symlinks": 0
+        },
+        "parse_html_urls": {
+          "logical_bytes": 9364,
+          "allocated_bytes": 16384,
+          "files": 2,
+          "symlinks": 0
+        },
+        "parse_jsonl_urls": {
+          "logical_bytes": 256,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "parse_netscape_urls": {
+          "logical_bytes": 262,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "parse_rss_urls": {
+          "logical_bytes": 252,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "parse_txt_urls": {
+          "logical_bytes": 8569,
+          "allocated_bytes": 16384,
+          "files": 2,
+          "symlinks": 0
+        },
+        "pdf": {
+          "logical_bytes": 220925,
+          "allocated_bytes": 229376,
+          "files": 3,
+          "symlinks": 0
+        },
+        "readability": {
+          "logical_bytes": 4052,
+          "allocated_bytes": 16384,
+          "files": 4,
+          "symlinks": 0
+        },
+        "redirects": {
+          "logical_bytes": 592,
+          "allocated_bytes": 12288,
+          "files": 3,
+          "symlinks": 0
+        },
+        "responses": {
+          "logical_bytes": 322341,
+          "allocated_bytes": 368640,
+          "files": 20,
+          "symlinks": 69
+        },
+        "screenshot": {
+          "logical_bytes": 140306,
+          "allocated_bytes": 151552,
+          "files": 3,
+          "symlinks": 0
+        },
+        "search_backend_sonic": {
+          "logical_bytes": 255,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "seo": {
+          "logical_bytes": 809,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "singlefile": {
+          "logical_bytes": 163388,
+          "allocated_bytes": 167936,
+          "files": 2,
+          "symlinks": 0
+        },
+        "sslcerts": {
+          "logical_bytes": 11590,
+          "allocated_bytes": 24576,
+          "files": 5,
+          "symlinks": 0
+        },
+        "staticfile": {
+          "logical_bytes": 254,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "title": {
+          "logical_bytes": 247,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "trafilatura": {
+          "logical_bytes": 3233,
+          "allocated_bytes": 12288,
+          "files": 3,
+          "symlinks": 0
+        },
+        "twocaptcha": {
+          "logical_bytes": 254,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "ublock": {
+          "logical_bytes": 489,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "wget": {
+          "logical_bytes": 4429122,
+          "allocated_bytes": 4485120,
+          "files": 25,
+          "symlinks": 0
+        },
+        "ytdlp": {
+          "logical_bytes": 35248115,
+          "allocated_bytes": 35344384,
+          "files": 40,
+          "symlinks": 0
+        }
+      },
+      "snapshot_version": "0.9.72rc82",
+      "outcomes": [
+        {
+          "plugin": "archivedotorg",
+          "hook": "on_Snapshot__00_archivedotorg.finite.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__00_chrome_launch.daemon.bg",
+          "status": "skipped"
+        },
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__01_chrome_tab.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "ublock",
+          "hook": "on_Snapshot__11_ublock_config",
+          "status": "skipped"
+        },
+        {
+          "plugin": "twocaptcha",
+          "hook": "on_Snapshot__14_twocaptcha.daemon.bg",
+          "status": "skipped"
+        },
+        {
+          "plugin": "archivewebpage",
+          "hook": "on_Snapshot__16_archivewebpage_start",
+          "status": "noresults"
+        },
+        {
+          "plugin": "staticfile",
+          "hook": "on_Snapshot__26_staticfile.daemon.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__30_chrome_navigate",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "headers",
+          "hook": "on_Snapshot__27_headers.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "gallerydl",
+          "hook": "on_Snapshot__32_gallerydl.finite.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "forumdl",
+          "hook": "on_Snapshot__33_forumdl.finite.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "git",
+          "hook": "on_Snapshot__34_git.finite.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "favicon",
+          "hook": "on_Snapshot__37_favicon.finite.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "wget",
+          "hook": "on_Snapshot__35_wget.finite.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "seo",
+          "hook": "on_Snapshot__38_seo",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "accessibility",
+          "hook": "on_Snapshot__39_accessibility",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "redirects",
+          "hook": "on_Snapshot__25_redirects.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "infiniscroll",
+          "hook": "on_Snapshot__45_infiniscroll",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "ytdlp",
+          "hook": "on_Snapshot__31_ytdlp.finite.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "singlefile",
+          "hook": "on_Snapshot__50_singlefile",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "screenshot",
+          "hook": "on_Snapshot__51_screenshot",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "pdf",
+          "hook": "on_Snapshot__52_pdf",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "dom",
+          "hook": "on_Snapshot__53_dom",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "googledocs",
+          "hook": "on_Snapshot__53_googledocs",
+          "status": "noresults"
+        },
+        {
+          "plugin": "chrome_mhtml",
+          "hook": "on_Snapshot__54_chrome_mhtml",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "title",
+          "hook": "on_Snapshot__54_title",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "readability",
+          "hook": "on_Snapshot__56_readability",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "defuddle",
+          "hook": "on_Snapshot__57_defuddle",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "mercury",
+          "hook": "on_Snapshot__57_mercury",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "htmltotext",
+          "hook": "on_Snapshot__58_htmltotext",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "trafilatura",
+          "hook": "on_Snapshot__59_trafilatura",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "archivewebpage",
+          "hook": "on_Snapshot__65_archivewebpage_stop",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "papersdl",
+          "hook": "on_Snapshot__66_papersdl.finite.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "liteparse",
+          "hook": "on_Snapshot__68_liteparse",
+          "status": "noresults"
+        },
+        {
+          "plugin": "parse_html_urls",
+          "hook": "on_Snapshot__70_parse_html_urls",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "parse_txt_urls",
+          "hook": "on_Snapshot__71_parse_txt_urls",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "parse_rss_urls",
+          "hook": "on_Snapshot__72_parse_rss_urls",
+          "status": "noresults"
+        },
+        {
+          "plugin": "parse_netscape_urls",
+          "hook": "on_Snapshot__73_parse_netscape_urls",
+          "status": "noresults"
+        },
+        {
+          "plugin": "parse_jsonl_urls",
+          "hook": "on_Snapshot__74_parse_jsonl_urls",
+          "status": "noresults"
+        },
+        {
+          "plugin": "parse_dom_outlinks",
+          "hook": "on_Snapshot__75_parse_dom_outlinks",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "search_backend_sonic",
+          "hook": "on_Snapshot__91_index_sonic",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "ublock",
+          "hook": "on_Snapshot__12_ublock.daemon.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "dns",
+          "hook": "on_Snapshot__22_dns.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "modalcloser",
+          "hook": "on_Snapshot__15_modalcloser.daemon.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "sslcerts",
+          "hook": "on_Snapshot__23_sslcerts.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "consolelog",
+          "hook": "on_Snapshot__21_consolelog.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "chrome_screencast",
+          "hook": "on_Snapshot__02_chrome_screencast.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "istilldontcareaboutcookies",
+          "hook": "on_Snapshot__13_istilldontcareaboutcookies.daemon.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "responses",
+          "hook": "on_Snapshot__24_responses.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "hashes",
+          "hook": "on_Snapshot__93_hashes",
+          "status": "succeeded"
+        }
+      ],
+      "media": [
+        {
+          "id": "156867232",
+          "title": "Organized Zounds (Steve Sweeting Piano Improv)",
+          "format_id": "http_mp3_0_0",
+          "duration": 227.86,
+          "acodec": "mp3"
+        },
+        {
+          "id": "156884371",
+          "title": "Digital Lion (Steve Sweeting Piano Improv)",
+          "format_id": "http_mp3_0_0",
+          "duration": 192.749,
+          "acodec": "mp3"
+        },
+        {
+          "id": "192256698",
+          "title": "The Soundboard Finger Waltz",
+          "format_id": "hls_aac_96k",
+          "duration": 647.277,
+          "acodec": "mp4a.40.2"
+        },
+        {
+          "id": "209016372",
+          "title": "Mandragora Tango Orchestra - Oelle Como Espiritu Adolescente (Smells Like Teen Spirit As A Tango)",
+          "format_id": "http_mp3_0_0",
+          "duration": 264.148,
+          "acodec": "mp3"
+        },
+        {
+          "id": "38884614",
+          "title": "Thriller",
+          "format_id": "http_mp3_0_0",
+          "duration": 112.656,
+          "acodec": "mp3"
+        },
+        {
+          "id": "38884615",
+          "title": "Dazzler",
+          "format_id": "http_mp3_0_0",
+          "duration": 96.113,
+          "acodec": "mp3"
+        },
+        {
+          "id": "73848900",
+          "title": "Gangnam & Down",
+          "format_id": "hls_aac_160k",
+          "duration": 41.562,
+          "acodec": "mp4a.40.2"
+        },
+        {
+          "id": "73947742",
+          "title": "Diplo",
+          "format_id": "hls_aac_160k",
+          "duration": 162.4,
+          "acodec": "mp4a.40.2"
+        },
+        {
+          "id": "74888869",
+          "title": "Nero, Zedd, Michael Canitrot, MAKJ (Squashed)",
+          "format_id": "http_mp3_0_0",
+          "duration": 249.57,
+          "acodec": "mp3"
+        },
+        {
+          "id": "97116399",
+          "title": "Maximum Maroon",
+          "format_id": "http_mp3_0_0",
+          "duration": 171.509,
+          "acodec": "mp3"
+        }
+      ]
+    },
+    "native-2": {
+      "metrics": {
+        "started_at": 1791154863.63313,
+        "wall_seconds": 36.77080749999732,
+        "exit_code": 0,
+        "mach_timebase": {
+          "numer": 125,
+          "denom": 3
+        },
+        "network_interface": "external",
+        "cpu_seconds_sampled": 30.950912416666664,
+        "peak_rss_bytes_sampled": 4467458048,
+        "peak_footprint_bytes_sampled": 2585446408,
+        "process_count": 91,
+        "disk_read_bytes_sampled": 170909696,
+        "disk_write_bytes_sampled": 300793856,
+        "network_in_bytes_sampled": 74497843,
+        "network_out_bytes_sampled": 315769,
+        "iops": null
+      },
+      "network": {
+        "browser": {
+          "name": "Google Chrome",
+          "version": "156.0.8078.4",
+          "os_type": "Mac OS X: 27.0.0 (arm64)"
+        },
+        "browser_http_requests_sent": 50,
+        "by_protocol_event": {
+          "HTTP_TRANSACTION_SEND_REQUEST_HEADERS": 2,
+          "HTTP_TRANSACTION_HTTP2_SEND_REQUEST_HEADERS": 18,
+          "HTTP_TRANSACTION_QUIC_SEND_REQUEST_HEADERS": 30
+        }
+      },
+      "snapshot_id": "01a1092644bd705e90edd96673eb46ed",
+      "url": "https://sweeting.me",
+      "storage": {
+        "logical_bytes": 41043942,
+        "allocated_bytes": 41521152,
+        "files": 161,
+        "symlinks": 70
+      },
+      "plugin_storage": {
+        "accessibility": {
+          "logical_bytes": 48126,
+          "allocated_bytes": 53248,
+          "files": 2,
+          "symlinks": 0
+        },
+        "archivedotorg": {
+          "logical_bytes": 308,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "archivewebpage": {
+          "logical_bytes": 174122,
+          "allocated_bytes": 188416,
+          "files": 4,
+          "symlinks": 0
+        },
+        "chrome": {
+          "logical_bytes": 9101,
+          "allocated_bytes": 28672,
+          "files": 6,
+          "symlinks": 0
+        },
+        "chrome_mhtml": {
+          "logical_bytes": 105431,
+          "allocated_bytes": 110592,
+          "files": 2,
+          "symlinks": 0
+        },
+        "chrome_screencast": {
+          "logical_bytes": 268,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "consolelog": {
+          "logical_bytes": 5237,
+          "allocated_bytes": 12288,
+          "files": 2,
+          "symlinks": 0
+        },
+        "defuddle": {
+          "logical_bytes": 3156,
+          "allocated_bytes": 16384,
+          "files": 4,
+          "symlinks": 0
+        },
+        "dns": {
+          "logical_bytes": 1212,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "dom": {
+          "logical_bytes": 39135,
+          "allocated_bytes": 45056,
+          "files": 2,
+          "symlinks": 0
+        },
+        "favicon": {
+          "logical_bytes": 1398,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "forumdl": {
+          "logical_bytes": 248,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "gallerydl": {
+          "logical_bytes": 252,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "git": {
+          "logical_bytes": 240,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "googledocs": {
+          "logical_bytes": 244,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "hashes": {
+          "logical_bytes": 44150,
+          "allocated_bytes": 53248,
+          "files": 3,
+          "symlinks": 0
+        },
+        "headers": {
+          "logical_bytes": 4367,
+          "allocated_bytes": 12288,
+          "files": 2,
+          "symlinks": 0
+        },
+        "htmltotext": {
+          "logical_bytes": 1445,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "infiniscroll": {
+          "logical_bytes": 248,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "istilldontcareaboutcookies": {
+          "logical_bytes": 286,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "liteparse": {
+          "logical_bytes": 242,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "mercury": {
+          "logical_bytes": 2144,
+          "allocated_bytes": 16384,
+          "files": 4,
+          "symlinks": 1
+        },
+        "modalcloser": {
+          "logical_bytes": 256,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "papersdl": {
+          "logical_bytes": 250,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "parse_dom_outlinks": {
+          "logical_bytes": 7813,
+          "allocated_bytes": 12288,
+          "files": 2,
+          "symlinks": 0
+        },
+        "parse_html_urls": {
+          "logical_bytes": 9364,
+          "allocated_bytes": 16384,
+          "files": 2,
+          "symlinks": 0
+        },
+        "parse_jsonl_urls": {
+          "logical_bytes": 256,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "parse_netscape_urls": {
+          "logical_bytes": 262,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "parse_rss_urls": {
+          "logical_bytes": 252,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "parse_txt_urls": {
+          "logical_bytes": 8569,
+          "allocated_bytes": 16384,
+          "files": 2,
+          "symlinks": 0
+        },
+        "pdf": {
+          "logical_bytes": 235741,
+          "allocated_bytes": 245760,
+          "files": 3,
+          "symlinks": 0
+        },
+        "readability": {
+          "logical_bytes": 4052,
+          "allocated_bytes": 16384,
+          "files": 4,
+          "symlinks": 0
+        },
+        "redirects": {
+          "logical_bytes": 592,
+          "allocated_bytes": 12288,
+          "files": 3,
+          "symlinks": 0
+        },
+        "responses": {
+          "logical_bytes": 322341,
+          "allocated_bytes": 368640,
+          "files": 20,
+          "symlinks": 69
+        },
+        "screenshot": {
+          "logical_bytes": 121744,
+          "allocated_bytes": 131072,
+          "files": 3,
+          "symlinks": 0
+        },
+        "search_backend_sonic": {
+          "logical_bytes": 255,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "seo": {
+          "logical_bytes": 809,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "singlefile": {
+          "logical_bytes": 176450,
+          "allocated_bytes": 184320,
+          "files": 2,
+          "symlinks": 0
+        },
+        "sslcerts": {
+          "logical_bytes": 11590,
+          "allocated_bytes": 24576,
+          "files": 5,
+          "symlinks": 0
+        },
+        "staticfile": {
+          "logical_bytes": 254,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "title": {
+          "logical_bytes": 247,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "trafilatura": {
+          "logical_bytes": 3233,
+          "allocated_bytes": 12288,
+          "files": 3,
+          "symlinks": 0
+        },
+        "twocaptcha": {
+          "logical_bytes": 254,
+          "allocated_bytes": 4096,
+          "files": 1,
+          "symlinks": 0
+        },
+        "ublock": {
+          "logical_bytes": 489,
+          "allocated_bytes": 8192,
+          "files": 2,
+          "symlinks": 0
+        },
+        "wget": {
+          "logical_bytes": 4429084,
+          "allocated_bytes": 4485120,
+          "files": 25,
+          "symlinks": 0
+        },
+        "ytdlp": {
+          "logical_bytes": 35248115,
+          "allocated_bytes": 35344384,
+          "files": 40,
+          "symlinks": 0
+        }
+      },
+      "snapshot_version": "0.9.72rc82",
+      "outcomes": [
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__00_chrome_launch.daemon.bg",
+          "status": "skipped"
+        },
+        {
+          "plugin": "archivedotorg",
+          "hook": "on_Snapshot__00_archivedotorg.finite.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__01_chrome_tab.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "ublock",
+          "hook": "on_Snapshot__11_ublock_config",
+          "status": "skipped"
+        },
+        {
+          "plugin": "twocaptcha",
+          "hook": "on_Snapshot__14_twocaptcha.daemon.bg",
+          "status": "skipped"
+        },
+        {
+          "plugin": "archivewebpage",
+          "hook": "on_Snapshot__16_archivewebpage_start",
+          "status": "noresults"
+        },
+        {
+          "plugin": "staticfile",
+          "hook": "on_Snapshot__26_staticfile.daemon.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "chrome",
+          "hook": "on_Snapshot__30_chrome_navigate",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "headers",
+          "hook": "on_Snapshot__27_headers.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "git",
+          "hook": "on_Snapshot__34_git.finite.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "gallerydl",
+          "hook": "on_Snapshot__32_gallerydl.finite.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "forumdl",
+          "hook": "on_Snapshot__33_forumdl.finite.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "favicon",
+          "hook": "on_Snapshot__37_favicon.finite.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "seo",
+          "hook": "on_Snapshot__38_seo",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "accessibility",
+          "hook": "on_Snapshot__39_accessibility",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "wget",
+          "hook": "on_Snapshot__35_wget.finite.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "infiniscroll",
+          "hook": "on_Snapshot__45_infiniscroll",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "redirects",
+          "hook": "on_Snapshot__25_redirects.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "singlefile",
+          "hook": "on_Snapshot__50_singlefile",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "screenshot",
+          "hook": "on_Snapshot__51_screenshot",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "pdf",
+          "hook": "on_Snapshot__52_pdf",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "ytdlp",
+          "hook": "on_Snapshot__31_ytdlp.finite.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "dom",
+          "hook": "on_Snapshot__53_dom",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "googledocs",
+          "hook": "on_Snapshot__53_googledocs",
+          "status": "noresults"
+        },
+        {
+          "plugin": "chrome_mhtml",
+          "hook": "on_Snapshot__54_chrome_mhtml",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "title",
+          "hook": "on_Snapshot__54_title",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "readability",
+          "hook": "on_Snapshot__56_readability",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "defuddle",
+          "hook": "on_Snapshot__57_defuddle",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "mercury",
+          "hook": "on_Snapshot__57_mercury",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "htmltotext",
+          "hook": "on_Snapshot__58_htmltotext",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "trafilatura",
+          "hook": "on_Snapshot__59_trafilatura",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "archivewebpage",
+          "hook": "on_Snapshot__65_archivewebpage_stop",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "papersdl",
+          "hook": "on_Snapshot__66_papersdl.finite.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "liteparse",
+          "hook": "on_Snapshot__68_liteparse",
+          "status": "noresults"
+        },
+        {
+          "plugin": "parse_html_urls",
+          "hook": "on_Snapshot__70_parse_html_urls",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "parse_txt_urls",
+          "hook": "on_Snapshot__71_parse_txt_urls",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "parse_rss_urls",
+          "hook": "on_Snapshot__72_parse_rss_urls",
+          "status": "noresults"
+        },
+        {
+          "plugin": "parse_netscape_urls",
+          "hook": "on_Snapshot__73_parse_netscape_urls",
+          "status": "noresults"
+        },
+        {
+          "plugin": "parse_jsonl_urls",
+          "hook": "on_Snapshot__74_parse_jsonl_urls",
+          "status": "noresults"
+        },
+        {
+          "plugin": "parse_dom_outlinks",
+          "hook": "on_Snapshot__75_parse_dom_outlinks",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "search_backend_sonic",
+          "hook": "on_Snapshot__91_index_sonic",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "istilldontcareaboutcookies",
+          "hook": "on_Snapshot__13_istilldontcareaboutcookies.daemon.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "ublock",
+          "hook": "on_Snapshot__12_ublock.daemon.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "sslcerts",
+          "hook": "on_Snapshot__23_sslcerts.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "consolelog",
+          "hook": "on_Snapshot__21_consolelog.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "modalcloser",
+          "hook": "on_Snapshot__15_modalcloser.daemon.bg",
+          "status": "noresults"
+        },
+        {
+          "plugin": "dns",
+          "hook": "on_Snapshot__22_dns.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "chrome_screencast",
+          "hook": "on_Snapshot__02_chrome_screencast.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "responses",
+          "hook": "on_Snapshot__24_responses.daemon.bg",
+          "status": "succeeded"
+        },
+        {
+          "plugin": "hashes",
+          "hook": "on_Snapshot__93_hashes",
+          "status": "succeeded"
+        }
+      ],
+      "media": [
+        {
+          "id": "156867232",
+          "title": "Organized Zounds (Steve Sweeting Piano Improv)",
+          "format_id": "http_mp3_0_0",
+          "duration": 227.86,
+          "acodec": "mp3"
+        },
+        {
+          "id": "156884371",
+          "title": "Digital Lion (Steve Sweeting Piano Improv)",
+          "format_id": "http_mp3_0_0",
+          "duration": 192.749,
+          "acodec": "mp3"
+        },
+        {
+          "id": "192256698",
+          "title": "The Soundboard Finger Waltz",
+          "format_id": "hls_aac_96k",
+          "duration": 647.277,
+          "acodec": "mp4a.40.2"
+        },
+        {
+          "id": "209016372",
+          "title": "Mandragora Tango Orchestra - Oelle Como Espiritu Adolescente (Smells Like Teen Spirit As A Tango)",
+          "format_id": "http_mp3_0_0",
+          "duration": 264.148,
+          "acodec": "mp3"
+        },
+        {
+          "id": "38884614",
+          "title": "Thriller",
+          "format_id": "http_mp3_0_0",
+          "duration": 112.656,
+          "acodec": "mp3"
+        },
+        {
+          "id": "38884615",
+          "title": "Dazzler",
+          "format_id": "http_mp3_0_0",
+          "duration": 96.113,
+          "acodec": "mp3"
+        },
+        {
+          "id": "73848900",
+          "title": "Gangnam & Down",
+          "format_id": "hls_aac_160k",
+          "duration": 41.562,
+          "acodec": "mp4a.40.2"
+        },
+        {
+          "id": "73947742",
+          "title": "Diplo",
+          "format_id": "hls_aac_160k",
+          "duration": 162.4,
+          "acodec": "mp4a.40.2"
+        },
+        {
+          "id": "74888869",
+          "title": "Nero, Zedd, Michael Canitrot, MAKJ (Squashed)",
+          "format_id": "http_mp3_0_0",
+          "duration": 249.57,
+          "acodec": "mp3"
+        },
+        {
+          "id": "97116399",
+          "title": "Maximum Maroon",
+          "format_id": "http_mp3_0_0",
+          "duration": 171.509,
+          "acodec": "mp3"
+        }
+      ]
+    }
+  }
+}

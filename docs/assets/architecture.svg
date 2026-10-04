@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1360" height="480" viewBox="0 0 1360 480" role="img" aria-labelledby="title description">
+  <title id="title">ArchiveBox JS capture, archive, and replay architecture</title>
+  <desc id="description">A browser extension runs numbered plugin hooks through one shared recorder. It writes a portable WACZ containing WARC responses, CDXJ indexes, page metadata, and generated plugin files. ReplayWeb.page and wabac use a service worker and byte-range reads to power offline plugin views.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M1 1L6 4L1 7" fill="none" stroke="#aa245b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <rect width="1360" height="480" rx="22" fill="#f7f4f6"/>
+  <g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif">
+    <text x="40" y="43" fill="#6d5762" font-size="13" font-weight="700" letter-spacing="2">A SHARED ARCHIVE FROM CAPTURE TO REPLAY</text>
+    <g fill="#fff" stroke="#e5dbe0" stroke-width="1.5">
+      <rect x="36" y="70" width="400" height="310" rx="14"/>
+      <rect x="480" y="70" width="400" height="310" rx="14"/>
+      <rect x="924" y="70" width="400" height="310" rx="14"/>
+    </g>
+    <g fill="#aa245b" font-size="12" font-weight="700" letter-spacing="1.5">
+      <text x="60" y="101">01 / CAPTURE</text><text x="504" y="101">02 / PACKAGE</text><text x="948" y="101">03 / REPLAY</text>
+    </g>
+    <g fill="#29222c" font-size="26" font-weight="700">
+      <text x="60" y="140">Browser extension</text><text x="504" y="140">One capture.wacz</text><text x="948" y="140">Replay &amp; plugin views</text>
+    </g>
+    <g fill="#776d77" font-size="15">
+      <text x="60" y="167">Your tab and existing browser session</text><text x="504" y="167">Portable storage built on open standards</text><text x="948" y="167">The same resources, many useful views</text>
+    </g>
+    <g fill="#f9f6f8" stroke="#eee6eb"><rect x="60" y="192" width="352" height="160" rx="8"/><rect x="504" y="192" width="352" height="160" rx="8"/><rect x="948" y="192" width="352" height="160" rx="8"/></g>
+    <g fill="#423846" font-size="16">
+      <text x="80" y="221">Numbered plugin hooks</text><text x="80" y="257">Isolated workers · JavaScript / WASM</text><text x="80" y="293">Browsertrix page behaviors</text><text x="80" y="329">Shared recorder &amp; resource API</text>
+      <text x="524" y="221">WARC request / response records</text><text x="524" y="257">CDXJ indexes + page entry points</text><text x="524" y="293">Generated plugin files</text><text x="524" y="329">Manifest + integrity hashes</text>
+      <text x="968" y="221">ReplayWeb.page + wabac.js</text><text x="968" y="257">Service-worker resource routing</text><text x="968" y="293">Cards · documents · media</text><text x="968" y="329">Saved OCR + full-text search</text>
+    </g>
+    <g stroke="#aa245b" stroke-width="2" fill="none" marker-end="url(#arrow)"><path d="M442 230H471"/><path d="M886 230H915"/></g>
+    <g fill="#786773" font-size="14" text-anchor="middle">
+      <text x="236" y="419">Acquire and reuse through one transport</text><text x="680" y="419">Local files · static hosting · object storage</text><text x="1124" y="419">Indexed byte-range access to captured data</text>
+    </g>
+    <path d="M62 446H1298" stroke="#e5dbe0"/>
+  </g>
+</svg>

@@ -1,8 +1,0 @@
-{
-  "name": "Browser Extensions",
-  "url": "https://extension.archivebox.io/",
-  "pages": [
-    "index.html",
-    "screenshots/index.html"
-  ]
-}
