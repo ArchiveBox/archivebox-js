@@ -55,13 +55,13 @@ for(const fixture of fixtures)test(`all-plugin original ${fixture.plugin} folder
   for(const download of data.downloads){expect(download.ref.url).toMatch(/^https?:/);expect(evidence.requests.filter(request=>request.url===download.ref.url&&request.method==='GET'),'Provider body is requested once').toHaveLength(1)}
   expect(providerDownloads,'Capture must not create a second native browser download').toEqual([]);
   await openSnapshotOutput(page,fixture.plugin);const frame=page.frameLocator(`#main-frame-wrapper iframe[title=${JSON.stringify(data.title)}]`);
-  await expect(frame.locator('#title')).toHaveText(data.title);await expect(frame.locator('#entries .entry').first()).toBeVisible();
+  await expect(frame.locator('#title')).toHaveText(data.title);await expect(frame.locator('#entries .directory-link').first()).toBeVisible();
   const file=data.files.find((file:any)=>fixture.plugin==='gdrive'?file.filename.endsWith('fractal.jpg'):file.filename.endsWith('.png'));expect(file).toBeTruthy();
-  for(const part of file.filename.split('/'))await frame.locator('#entries .entry').filter({hasText:new RegExp(part.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'$')}).click();
+  for(const part of file.filename.split('/'))await frame.locator('#entries .directory-link').filter({hasText:new RegExp(part.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'/?$')}).click();
   await expect.poll(()=>frame.locator('#content img').evaluate((image:HTMLImageElement)=>image.complete&&image.naturalWidth>0)).toBe(true);
   const downloading=page.waitForEvent('download');await frame.locator('#download').click();const bytes=await readFile((await(await downloading).path())!);expect(bytes.length).toBe(file.size);expect(createHash('sha256').update(bytes).digest('hex')).toBe(file.sha256);
   await page.screenshot({path:info.outputPath('cloud-explorer.png'),fullPage:true});
-  await frame.getByRole('button',{name:'Files',exact:true}).click();await frame.getByRole('textbox',{name:'Filter files'}).fill('no-such-file-archivebox');await expect(frame.locator('#entries')).toContainText('No files');
+  while(await frame.getByRole('button',{name:'↩ Up One Level',exact:true}).isVisible())await frame.getByRole('button',{name:'↩ Up One Level',exact:true}).click();await frame.getByRole('searchbox',{name:'Filter files'}).fill('no-such-file-archivebox');await expect(frame.locator('#entries .empty-state')).toHaveText('No matching files.');
   await openSnapshotOutput(page,'search_contents');const search=page.frameLocator('#main-frame-wrapper iframe[title="Search"]');await search.getByRole('searchbox',{name:'Search archived text'}).fill(fixture.plugin==='gdrive'?'Lorem ipsum':'healing');
   await expect(search.locator('.row')).not.toHaveCount(0);await expect(search.locator('mark').first()).toBeVisible();
   await page.screenshot({path:info.outputPath('cloud-search.png'),fullPage:true});

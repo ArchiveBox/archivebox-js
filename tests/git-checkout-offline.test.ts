@@ -18,7 +18,7 @@ test('requested Git WACZ reconstructs a native checkout ZIP offline',async({},in
   const worker=context.serviceWorkers()[0]||await context.waitForEvent('serviceworker'),page=await context.newPage();await page.goto(`chrome-extension://${new URL(worker.url()).host}/studio.html`);await context.setOffline(true);
   const live:string[]=[],errors:string[]=[];context.on('request',request=>{if(/^https?:/.test(request.url()))live.push(request.url())});page.on('pageerror',error=>errors.push(String(error)));
   const chooser=page.waitForEvent('filechooser');await page.getByRole('button',{name:'Import WACZ',exact:true}).click();await(await chooser).setFiles(archivePath);await openSnapshotOutput(page,'git');
-  const frame=page.frameLocator('#main-frame-wrapper iframe[title="Archived repository"]');await expect(frame.locator('#name')).toHaveText('pirate / zfsify');await expect(frame.locator('#entries .row')).not.toHaveCount(0);await expect(frame.locator('#readme')).toBeVisible();
+  const frame=page.frameLocator('#main-frame-wrapper iframe[title="Archived repository"]');await expect(frame.locator('#name')).toHaveText('pirate / zfsify');await expect(frame.locator('#entries .directory-entry')).not.toHaveCount(0);await expect(frame.locator('#readme')).toBeVisible();
   const download=page.waitForEvent('download',{timeout:30000});await frame.getByRole('button',{name:'Download checkout',exact:true}).click();const zip=info.outputPath('zfsify-checkout.zip');await(await download).saveAs(zip);
   const extracted=info.outputPath('extracted');await execute('unzip',['-q',zip,'-d',extracted]);const dir=path.join(extracted,'git');
   const head=(await execute('git',['-C',dir,'rev-parse','HEAD'])).stdout.trim();expect(head).toBe(expectedHead);

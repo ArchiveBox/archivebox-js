@@ -32,7 +32,7 @@ async function ready(panel:Locator,plugin:string){
    await expect.poll(()=>inside.locator('#gallery img').evaluateAll(images=>images.every(image=>(image as HTMLImageElement).complete&&(image as HTMLImageElement).naturalWidth>0)),{timeout:30000}).toBe(true);
   }
   if(plugin==='ytdlp')await expect(inside.locator('#queue .item').first()).toBeVisible();
-  if(plugin==='git')await expect(inside.locator('#entries .row').first()).toBeVisible();
+  if(plugin==='git')await expect(inside.locator('#entries .directory-entry').first()).toBeVisible();
   if(plugin==='liteparse'){
    const text=inside.locator('.tile .text-preview').first();await text.scrollIntoViewIfNeeded();
    await expect(text).not.toHaveText('Loading parsed text…',{timeout:60000});await expect(text).not.toContainText('Error:');

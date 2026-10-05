@@ -13,6 +13,7 @@ export function cloudView(context:ViewContext,plugin:string,template:string):Vie
       const read=async(file:CloudFile)=>{const entry=archive.find(file.ref.url,file.ref.ts);if(!entry)throw Error(`Missing original download: ${file.filename}`);const original=await archive.read(entry);return file.ref.member?.length?(await readZipMember(original.body,file.ref.member,context.signal)).body:original.body};
       const blobURL=async(file:CloudFile)=>{let url=urls.get(key(file));if(!url){const body=await read(file);url=URL.createObjectURL(new Blob([body as BlobPart],{type:file.mime}));urls.set(key(file),url)}return url};
       const options={
+        read:async(file:CloudFile)=>new Blob([await read(file) as BlobPart],{type:file.mime}),
         url:async(file:CloudFile)=>{const entry=archive.find(file.ref.url,file.ref.ts);if(!entry)throw Error(`Missing original download: ${file.filename}`);return file.ref.member?.length||file.mime==='application/pdf'?blobURL(file):recordURL(archive,entry)},
         download:async(file:CloudFile)=>{const link=globalThis.document.createElement('a');link.href=await blobURL(file);link.download=file.filename.split('/').pop()!;link.click()},
         browseZip:async(file:CloudFile,doc:Document)=>{

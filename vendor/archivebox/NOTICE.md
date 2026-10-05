@@ -27,3 +27,15 @@ the canonical models. Certificate PEM actions use transient URLs for the
 original DER-derived PEM strings, released on unmount; no additional PEM files
 are captured. The separate React metadata layouts and copied stylesheets were
 removed.
+
+The shared directory browser uses ArchiveBox's `templates/static/directory_index.html`
+(vendored 2026-10-05) for its literal styles, header, and table markup.
+`src/ui/directory-browser.ts` ports the same navigation, filtering, sorting,
+and lazy previews, with archived-resource callbacks and client-side ZIP downloads.
+It serves plugin file lists, Git checkouts, Drive/Dropbox folders, and nested ZIPs;
+the former plugin directory renderers and their inline template scripts/styles
+have been removed. Preview eligibility follows `archivebox/misc/serve_static.py`.
+The directory template retains the upstream CSS and static markup; Django row
+rendering and the original inline script are removed because the shared UI now
+handles those duties. The upstream template SHA-256 before adapting it is
+`350362c8138a39254d5bf8ee5ae0fcc8468224e17987d10f68db073fb4da9601`.

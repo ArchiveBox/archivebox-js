@@ -1,3 +1,5 @@
+import {mountDirectoryBrowser} from '@/src/ui/directory-browser';
+
 // Compiled original gdrive/dropbox full.html script; only archived file access is injected.
 
 export function initializeCloudFiles(document, manifest, options) {
@@ -9,24 +11,13 @@ export function initializeCloudFiles(document, manifest, options) {
             return n;
           };
 
-        const bytes = (n) =>
-          n < 1024
-            ? n + " B"
-            : n < 1048576
-            ? (n / 1024).toFixed(1) + " KB"
-            : n < 1073741824
-            ? (n / 1048576).toFixed(1) + " MB"
-            : (n / 1073741824).toFixed(2) + " GB";
         const valid = (path) =>
           typeof path === "string" &&
           path.startsWith("files/") &&
           !path.split("/").some((p) => !p || p === "." || p === "..") &&
           !path.includes("\\");
         const fileURL = file => options.url(file);
-        let files = [],
-          prefix = "",
-          selected = null,
-          controller = null;
+        let controller = null;
         const clearPreview = () => {
           controller?.abort();
           byId("content").replaceChildren();
@@ -35,75 +26,8 @@ export function initializeCloudFiles(document, manifest, options) {
           if (error.name !== "AbortError")
             byId("error").textContent = error.message;
         };
-        function browse(next) {
-          prefix = next;
-          const filter = byId("search").value.toLowerCase(),
-            crumbs = byId("breadcrumbs");
-          crumbs.replaceChildren();
-          const crumb = (label, path) => {
-            const b = el("button", label);
-            b.onclick = () => {
-              byId("search").value = "";
-              browse(path);
-            };
-            crumbs.append(b);
-          };
-          crumb("Files", "");
-          let part = "";
-          for (const segment of prefix.split("/").filter(Boolean)) {
-            part += segment + "/";
-            crumbs.append(el("span", "/"));
-            crumb(segment, part);
-          }
-          const items = new Map();
-          for (const f of files) {
-            if (!f.filename.startsWith(prefix)) continue;
-            const tail = f.filename.slice(prefix.length),
-              name = tail.split("/")[0];
-            if (!name || !name.toLowerCase().includes(filter)) continue;
-            const directory = tail.includes("/");
-            if (!items.has(name) || directory)
-              items.set(
-                name,
-                directory ? { filename: prefix + name, directory: true } : f
-              );
-          }
-          const table = byId("entries");
-          table.replaceChildren();
-          for (const file of [...items.values()].sort(
-            (a, b) =>
-              Number(b.directory) - Number(a.directory) ||
-              a.filename.localeCompare(b.filename)
-          )) {
-            const row = el("tr");
-            if (file === selected) row.className = "selected";
-            const name = el("td", null, "name"),
-              button = el("button", null, "entry");
-            button.append(
-              el("span", file.directory ? "📁" : "📄"),
-              el("span", file.filename.slice(prefix.length))
-            );
-            button.onclick = () =>
-              file.directory ? browse(file.filename + "/") : openFile(file).catch(report);
-            name.append(button);
-            row.append(
-              name,
-              el("td", file.directory ? "—" : bytes(file.size), "size")
-            );
-            table.append(row);
-          }
-          byId("count").textContent = items.size + " items";
-          if (!items.size) {
-            const row = el("tr"),
-              cell = el("td", "No files", "empty");
-            cell.colSpan = 2;
-            row.append(cell);
-            table.append(row);
-          }
-        }
         async function openFile(file) {
           clearPreview();
-          selected = file;
           controller = new AbortController();
           const signal = controller.signal;
           byId("error").textContent = "";
@@ -112,7 +36,6 @@ export function initializeCloudFiles(document, manifest, options) {
           const url = await fileURL(file);
           if(signal.aborted)return;
           byId("download").onclick = () => options.download(file).catch(report);
-          browse(prefix);
           const content = byId("content"),
             ext = file.filename.split(".").pop().toLowerCase();
           if (ext === "zip") {
@@ -168,16 +91,16 @@ export function initializeCloudFiles(document, manifest, options) {
               )
             );
         }
-        byId("search").oninput = () => browse(prefix);
         byId("close").onclick = () => {
           clearPreview();
-          selected = null;
           byId("preview").hidden = true;
-          browse(prefix);
         };
         byId("title").textContent = manifest.title || "Saved files";
         document.title = byId("title").textContent;
-        files = (manifest.files || []).filter(f => valid(f.path)).map(f => ({...f, filename:f.path.slice(6)}));
-        browse("");
-return clearPreview;
+        const files = (manifest.files || []).filter(f => valid(f.path)).map(f => ({...f, filename:f.path.slice(6)}));
+        const disposeFiles=mountDirectoryBrowser(byId('entries'),{
+          title:'Files', files:files.map(file=>({path:file.filename,mime:file.mime,size:file.size,
+            url:()=>options.url(file),read:()=>options.read(file),open:()=>openFile(file)})),
+        });
+return ()=>{clearPreview();disposeFiles()};
 }

@@ -15,4 +15,4 @@
 .snapshot-detail.outputs-collapsed #main-frame-wrapper>.plugin-view>.document-frame{height:100%;min-height:0}
 .snapshot-detail .replaywebpage-view{height:100%}
 .snapshot-detail .replaywebpage-view>[aria-label="ReplayWeb.page archive viewer"]{height:100%!important;min-height:0!important}
-.plugin-files>header{display:flex;align-items:center;justify-content:space-between;gap:16px}.plugin-files td:first-child{max-width:60vw;overflow-wrap:anywhere}.plugin-files td{vertical-align:top}
+.plugin-files{width:100%;min-width:0}.plugin-files>p{padding:12px}
