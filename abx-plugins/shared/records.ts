@@ -1,18 +1,7 @@
 /** Portable ArchiveBox records. No browser, filesystem, or Django dependencies. */
 export type ResourceRef = {url:string; ts:number; captureId:string; member?:string[]};
-export type ArtifactStorage =
-  | {type:'file'; path:string}
-  | {type:'wacz-member'; path:string}
-  | {type:'warc-response'; url:string; ts:number};
-
-/** size/hash describe the logical payload, not additional allocated disk space.
- * Multiple artifacts may reference the same stored body. */
-export type Artifact = {
-  type:'Artifact'; id:string; snapshot_id:string; plugin:string; kind:string;
-  created_at:string; mimetype:string; size:number; hash:string;
-  storage:ArtifactStorage; headers:Record<string,string>; metadata:Record<string,unknown>;
-};
-export type OutputFile = {path:string; extension:string; mimetype:string; size:number};
+/** Mirrors abx_dl.output_files.OutputFile, including its extra metadata fields. */
+export type OutputFile = {path:string; extension:string; mimetype:string; size:number; [key:string]:unknown};
 export type SnapshotRecord = {
   type:'Snapshot'; id:string; url:string; title:string; depth:number;
   created_at:string; status:'sealed';
@@ -29,7 +18,7 @@ export type ArchiveResultRecord = {
   };
 };
 export type IndexRecord = SnapshotRecord | ArchiveResultRecord;
-export const interchange = {format:'archivebox',version:2,index:'index.jsonl',artifacts:'artifacts.jsonl'} as const;
+export const interchange = {format:'archivebox',version:2,index:'index.jsonl'} as const;
 
 /** Same export policy as archivebox.config.common.redact_sensitive_config. */
 export function redactConfig(config:Record<string,unknown>,sensitiveKeys:Iterable<string>=[]):Record<string,unknown> {
@@ -48,16 +37,5 @@ export function parseJSONL<T>(text:string,filename:string):T[] {
   });
 }
 export function validatePath(path:string):void {
-  if(typeof path!=='string'||!path||/[\\\u0000]/.test(path)||path.includes(':')||path.split('/').some(part=>!part||part==='.'||part==='..'))throw Error('Invalid artifact path');
-}
-export function validateArtifact(artifact:Artifact,snapshotId?:string):void {
-  if(artifact.type!=='Artifact'||typeof artifact.id!=='string'||!artifact.id.startsWith('urn:')||!artifact.snapshot_id||
-    (snapshotId&&artifact.snapshot_id!==snapshotId)||!Number.isFinite(Date.parse(artifact.created_at))||
-    !/^[a-zA-Z0-9_-]+$/.test(artifact.plugin)||!Number.isSafeInteger(artifact.size)||artifact.size<0||
-    !/^sha256:[0-9a-f]{64}$/.test(artifact.hash))throw Error('Invalid artifact metadata');
-  const storage=artifact.storage;
-  if(storage?.type==='file'||storage?.type==='wacz-member')validatePath(storage.path);
-  else if(storage?.type==='warc-response'){
-    if(!/^https?:\/\//.test(storage.url)||!Number.isSafeInteger(storage.ts))throw Error('Invalid archived response reference');
-  }else throw Error('Unknown artifact storage type');
+  if(typeof path!=='string'||!path||/[\\\u0000]/.test(path)||path.includes(':')||path.split('/').some(part=>!part||part==='.'||part==='..'))throw Error('Invalid output path');
 }

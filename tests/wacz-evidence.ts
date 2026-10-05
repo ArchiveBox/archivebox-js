@@ -69,7 +69,7 @@ export async function inspectWaczEvidence(filename:string){
         }
       }
     }
-    const contractFiles=manifest.archivebox?.version===2?['index.jsonl','artifacts.jsonl']:[];
+    const contractFiles=manifest.archivebox?['index.jsonl']:[];
     const nonCoreMembers=Object.keys(zip).filter(name=>!name.endsWith('/')&&!/^(archive|pages|indexes)\//.test(name)&&!['datapackage.json','datapackage-digest.json',...contractFiles].includes(name));
     expect(nonCoreMembers.sort(),'Every generated ZIP member has an original evidence reference').toEqual([...nativePaths].sort());
   }

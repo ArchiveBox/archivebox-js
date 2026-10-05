@@ -22,7 +22,7 @@ export class CaptureEngine {
     this.recorder = new CaptureRecorder(tabId, id, url);
     this.runner = new HookRunner(this.capture, {
       finishAcquisition:()=>this.finishAcquisition(),
-      invoke: async (method, args, plugin, signal) => {
+      invoke: async (method, args, plugin, signal, resultId) => {
         switch (method) {
           case 'solveYtdlpChallenge': if(plugin!=='ytdlp')throw Error('Only yt-dlp may request its solver');return solveYtdlpChallenge(args[0],signal);
           case 'parseDocument': {
@@ -46,7 +46,7 @@ export class CaptureEngine {
           case 'fetch': if(this.acquisitionFinished)throw Error('Network acquisition has finished');return this.recorder.fetchResource(args[0], signal, args[1]);
           case 'read': return this.recorder.readResource(args[0]);
           case 'entries': return this.recorder.listResources();
-          case 'addResource': return this.recorder.addResource(args[0], plugin);
+          case 'addResource': return this.recorder.addResource(args[0], plugin, resultId);
           default: throw Error(`Unknown hook operation: ${method}`);
         }
       },

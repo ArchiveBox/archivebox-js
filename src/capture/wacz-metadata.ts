@@ -1,8 +1,8 @@
 import { Downloader } from '../../vendor/archivewebpage/downloader';
 import type { Capture } from './types';
-import type {PluginFile} from '../archive/metadata';
+import type {RecordedOutputFile} from '../archive/metadata';
 import {v5 as uuidv5} from 'uuid';
-import {interchange,jsonl,redactConfig,validateArtifact,type Artifact,type IndexRecord,type SnapshotRecord,type ArchiveResultRecord} from '../../abx-plugins/shared/records';
+import {interchange,jsonl,redactConfig,type IndexRecord,type SnapshotRecord,type ArchiveResultRecord} from '../../abx-plugins/shared/records';
 import {plugins} from './registry';
 import {digestMessage} from '@webrecorder/wabac/swlib';
 
@@ -28,7 +28,6 @@ export function createIndexRecords(capture:Capture, configurations:PluginConfigu
     snapshot_id:capture.id,plugin:hook.plugin,hook_name:hook.hook.replace(/\.[^.]+$/,''),
     status:hook.status==='killed'?'failed':hook.status as ArchiveResultRecord['status'],output_str:hook.summary||'',
     start_ts:new Date(hook.started).toISOString(),end_ts:new Date(hook.ended!).toISOString(),
-    // Files inside WACZ are artifacts, not files in a native plugin directory.
     output_files:[],output_json:{runtime:'browser',hook_filename:hook.hook,
       ...(hook.ready!==undefined?{ready_ts:new Date(hook.ready).toISOString()}:{}),
       ...(hook.status==='killed'?{termination:'killed' as const}:{}),logs:[...hook.logs],
@@ -42,7 +41,7 @@ export function createIndexRecords(capture:Capture, configurations:PluginConfigu
  */
 export class PluginDownloader extends Downloader {
   private readonly records:IndexRecord[];
-  private files:PluginFile[]=[];
+  private files:RecordedOutputFile[]=[];
   constructor(options: ConstructorParameters<typeof Downloader>[0], capture: Capture, configurations?: PluginConfigurations) {
     super(options);
     this.records = createIndexRecords(capture, configurations);
@@ -64,8 +63,8 @@ export class PluginDownloader extends Downloader {
     for(const record of this.records)if(record.type==='ArchiveResult')for(const ref of record.output_json.records){
       if(ref.captureId!==snapshotId||!available.has(JSON.stringify([ref.url,ref.ts])))throw Error(`Missing hook resource: ${ref.url}`);
     }
-    const files:PluginFile[]=[],paths=new Map<string,string>(),used=new Set<string>();
-    this.files=files;
+    const paths=new Map<string,string>(),used=new Set<string>();
+    const results=new Map(this.records.filter((record):record is ArchiveResultRecord=>record.type==='ArchiveResult').map(result=>[result.id,result]));
     const safe=(value:unknown)=>String(value||'evidence').replace(/[^a-zA-Z0-9_-]/g,'-');
     const identity=(resource:any)=>safe(resource.extraOpts?.plugin)+'/'+safe(resource.url.split(':')[1]);
     const counts=new Map<string,number>(),positions=new Map<string,number>();
@@ -73,46 +72,42 @@ export class PluginDownloader extends Downloader {
     evidence.sort((a,b)=>a.ts-b.ts||a.url.localeCompare(b.url));
     for(const resource of evidence){
       const hash=await digest(resource),reference=http.get(hash);
-      const base={url:resource.url,ts:resource.ts,mime:resource.mime||'application/octet-stream',status:resource.status||200,
-        headers:Object.fromEntries(new Headers(resource.respHeaders||{})),metadata:{...resource.extraOpts},hash,bytes:0};
-      if(reference){
-        // The response already owns these exact bytes. Retain the evidence's
-        // identity and metadata, with a reference to that indexed HTTP body.
-        const bytes=await this.evidenceBytes(resource);files.push({...base,bytes:bytes.length,record:reference});continue;
-      }
-      const existing=paths.get(hash);
-      if(existing){files.push({...base,path:existing});continue;}
+      const result=results.get(resource.extraOpts?.archive_result_id);
+      if(!result||result.plugin!==resource.extraOpts?.plugin)throw Error(`Missing owning ArchiveResult for ${resource.url}`);
       const plugin=safe(resource.extraOpts?.plugin),kind=safe(resource.url.split(':')[1]),key=identity(resource);
       const index=(positions.get(key)||0)+1;positions.set(key,index);
-      const mime=base.mime.split(';')[0]!.toLowerCase();
+      const mimetype=resource.mime||'application/octet-stream',mime=mimetype.split(';')[0]!.toLowerCase();
       const extension=({'image/png':'png','image/jpeg':'jpg','image/webp':'webp','text/html':'html','application/json':'json','application/x-ndjson':'jsonl','text/plain':'txt','application/pdf':'pdf','application/zip':'zip'} as Record<string,string>)[mime]||'bin';
       let name=plugin==='screenshot'&&kind==='fullPage'?'screenshot':kind;
       if(plugin==='screenshot'&&kind==='fullPage'){name+='-'+String(resource.extraOpts?.screenshot?.tile?.index+1||index).padStart(2,'0');}
       else if((counts.get(key)||0)>1)name+='-'+String(index).padStart(4,'0');
       let path=`${plugin}/${name}.${extension}`,suffix=1;while(used.has(path))path=`${plugin}/${name}-${++suffix}.${extension}`;
-      used.add(path);paths.set(hash,path);files.push({...base,path});
-      this.addFile(zip,path,this.generateEvidence(resource),sizeCallback);
+      used.add(path);
+      const existing=paths.get(hash),metadata={...resource.extraOpts};
+      delete metadata.archive_result_id;
+      const output:RecordedOutputFile={path:path.slice(plugin.length+1),extension,mimetype,size:0,
+        url:resource.url,ts:resource.ts,hash:hash.replace(/^sha-256:/,'sha256:'),
+        headers:Object.fromEntries(new Headers(resource.respHeaders||{})),metadata,
+        storage:reference?{type:'warc-response',...reference}:{type:'wacz-member',path:existing||path}};
+      result.output_files.push(output);this.files.push(output);
+      if(reference)output.size=(await this.evidenceBytes(resource)).length;
+      else if(!existing){
+        paths.set(hash,path);
+        this.addFile(zip,path,this.generateEvidence(resource),sizeCallback);
+      }
     }
-    this.addFile(zip,interchange.artifacts,this.generateArtifacts(),sizeCallback);
     this.addFile(zip,interchange.index,this.generateIndex(),sizeCallback);
   }
-  private async *generateIndex(){yield jsonl(this.records)}
-  private async *generateArtifacts(){
+  private async *generateIndex(){
     for(const file of this.files){
-      if(file.path){
-        const stats=this.fileStats.find(stats=>stats.filename===file.path);
-        if(!stats?.hash)throw Error(`Plugin ZIP member was not hashed: ${file.path}`);
-        if(file.hash.replace(/^sha-256:/,'sha256:')!==`sha256:${stats.hash}`)throw Error(`Generated payload changed: ${file.url}`);
-        file.bytes=stats.size;
+      if(file.storage.type==='wacz-member'){
+        const path=file.storage.path,stats=this.fileStats.find(stats=>stats.filename===path);
+        if(!stats?.hash)throw Error(`Plugin ZIP member was not hashed: ${path}`);
+        if(file.hash!==`sha256:${stats.hash}`)throw Error(`Generated payload changed: ${file.url}`);
+        file.size=stats.size;
       }
-      const artifact:Artifact={type:'Artifact',id:file.url,snapshot_id:this.records[0]!.id,
-        plugin:String(file.metadata.plugin),kind:file.url.split(':')[1]!,created_at:new Date(file.ts).toISOString(),
-        mimetype:file.mime,size:file.bytes,hash:file.hash.replace(/^sha-256:/,'sha256:'),
-        headers:file.headers,metadata:file.metadata,
-        storage:file.path?{type:'wacz-member',path:file.path}:{type:'warc-response',...file.record!}};
-      validateArtifact(artifact,this.records[0]!.id);
-      yield jsonl([artifact]);
     }
+    yield jsonl(this.records);
   }
   private async evidenceBytes(resource:any):Promise<Uint8Array> {
     const payload=await this.db.loadPayload(resource,{});

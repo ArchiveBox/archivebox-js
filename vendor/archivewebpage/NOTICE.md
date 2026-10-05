@@ -20,7 +20,7 @@ The first page receives its identity before navigation commits, so initial HTTP 
 
 Supplemental-fetch failures are reported to the host, and redirect fallback fetches honor the host abort signal.
 
-The exporter exposes getDataPackageMetadata() before upstream manifest hashing, allowing PluginDownloader to add the optional versioned datapackage.archivebox descriptor without replacing ZIP/WARC/CDX writing. ArchiveBox capture records live in index.jsonl and generated-artifact references in artifacts.jsonl; both pass through the same addFile hashing stream.
+The exporter exposes getDataPackageMetadata() before upstream manifest hashing, allowing PluginDownloader to add the optional versioned datapackage.archivebox descriptor without replacing ZIP/WARC/CDX writing. ArchiveBox Snapshot and ArchiveResult records, including output_files, live in index.jsonl and pass through the same addFile hashing stream.
 
 Datapackage resources explicitly declare Frictionless `type: "file"`, avoiding
 metadata-type inference from arbitrary plugin JSON keys such as `steps`.
@@ -28,8 +28,8 @@ metadata-type inference from arbitrary plugin JSON keys such as `steps`.
 The exporter also exposes addExtraFiles() and shouldExportWARCResource(). The
 host writes original generated URN evidence once in plugin ZIP folders through
 the same addFile hashing stream and excludes those bytes from WARC. HTTP
-exchanges, including downloaded paper PDFs, remain in WARC. The optional
-artifacts.jsonl index preserves each generated resource's URI, timestamp,
+exchanges, including downloaded paper PDFs, remain in WARC. ArchiveResult
+output_files preserve each generated resource's URI, timestamp,
 headers and metadata; equal generated payloads share one ZIP path, and evidence
 equal to an HTTP payload references that original exchange instead. Export does
 not alter the recoverable acquisition database.

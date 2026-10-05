@@ -1,57 +1,53 @@
-# ArchiveBox records and artifacts
+# ArchiveBox records in WACZ
 
-A capture contains the usual Webrecorder WARC/CDX/pages structure, plus two UTF-8 JSONL members:
+`index.jsonl` contains one ArchiveBox `Snapshot` and an `ArchiveResult` for each executed hook. Generated outputs belong to their producing result's `output_files`; observations, diagnostics, and captured response references belong to `output_json`.
 
-| Member | Contents |
+These use the existing [ArchiveBox](https://github.com/ArchiveBox/ArchiveBox) and [abx-dl models](https://github.com/ArchiveBox/abx-dl/blob/main/abx_dl/models.py). The browser's TypeScript declarations in [`abx-plugins/shared/records.ts`](../abx-plugins/shared/records.ts) mirror those fields. Python's existing `OutputFile` model preserves additional recorder metadata on each output entry.
+
+## Snapshot and results
+
+- `Snapshot.id` is the original capture UUID. Each `ArchiveResult.id` is assigned when its hook starts. Local replay collection IDs are independent of these record IDs.
+- `hook_name` uses Python's filename-stem convention, retaining the order and background suffix while removing `.ts`. The executed filename remains in `output_json.hook_filename`.
+- `created_at`, `start_ts`, `end_ts`, and `ready_ts` use UTC ISO timestamps.
+- Hook outcomes are `succeeded`, `noresults`, `skipped`, or `failed`. Killed workers emit `failed` with `output_json.termination="killed"`.
+- A finished package has snapshot status `sealed`; `capture_state` retains whether acquisition was complete, partial, or failed.
+- `config` contains resolved named configuration with ArchiveBox's sensitive-value redaction. Hook-local `HOOK_TIMEOUT` settings remain in `plugin_config`.
+- `plugins` lists enabled plugins. Derived-only viewers do not create capture results.
+
+## Output files and response references
+
+Each `ArchiveResult.output_files` entry uses the existing `path`, `extension`, `mimetype`, and `size` fields. `path` is the logical filename relative to that plugin's output directory, such as `screenshot.jpg` for the screenshot plugin.
+
+Recorder metadata on the entry retains its resource `url`, millisecond timestamp `ts`, SHA-256 `hash`, `headers`, and `metadata`. The `storage` field locates its bytes:
+
+| Storage | Location |
 | --- | --- |
-| `index.jsonl` | One ArchiveBox `Snapshot` and an `ArchiveResult` for each executed hook |
-| `artifacts.jsonl` | Generated artifact identities, ownership, payload metadata, and storage references |
+| `{"type":"wacz-member","path":"screenshot/screenshot.jpg"}` | A member relative to the WACZ root |
+| `{"type":"warc-response","url":"https://…","ts":…}` | An existing HTTP payload with identical bytes |
 
-Both members appear in `datapackage.json.resources` with byte counts and SHA-256 hashes, and are covered by `datapackage-digest.json`. They are outside WACZ's reserved `archive/`, `indexes/`, and `pages/` directories, following the [WACZ extension rules](https://specs.webrecorder.net/wacz/1.1.1/#other-files-and-directories). Webrecorder owns WARC records, CDX indexes, revisit resolution, ZIP layout, and byte-range access.
+The recorder associates generated output with the executing hook's result ID before saving it, including output written before a hook fails. Equal generated payloads share one member; output equal to a recorded HTTP body references that body. Output sizes describe logical content, while the datapackage inventory counts physical members once.
 
-The only ArchiveBox-specific datapackage field is the descriptor:
+Original HTTP responses remain indexed by CDX. Hook `output_json.records` entries contain `{url, ts, captureId}` references, optionally with `member` paths inside a downloaded ZIP. The URL is the recorder's exact lookup key, including POST identity where applicable. Replay resolves these references without contacting the original server.
+
+Plugins continue using `archive.fetch`, `archive.addResource`, and `archive.read`. The host assigns output ownership and resolves member paths, deduplication, byte ranges, and WARC revisits.
+
+## Webrecorder packaging
+
+The normal WARC/CDX/pages structure is unchanged. `index.jsonl` and generated plugin files pass through Webrecorder's exporter and appear in `datapackage.json.resources` with byte counts and SHA-256 hashes. `datapackage-digest.json` covers the manifest.
+
+The optional datapackage field identifies the ArchiveBox index:
 
 ```json
-{"archivebox":{"format":"archivebox","version":2,"index":"index.jsonl","artifacts":"artifacts.jsonl"}}
+{"archivebox":{"format":"archivebox","version":2,"index":"index.jsonl"}}
 ```
 
-Capture status, configuration, hook diagnostics, and artifact locations are stored once in the JSONL members. The player projects these records into its runtime view model. Existing version-1 experimental captures are decoded at that same read boundary; new exports always use version 2.
+These extra members follow the [WACZ extension rules](https://specs.webrecorder.net/wacz/1.1.1/#other-files-and-directories), outside the reserved `archive/`, `indexes/`, and `pages/` directories. Webrecorder owns WARC/CDX writing and range-based replay. Standard WACZ files without ArchiveBox metadata remain readable.
 
-## Snapshot and result records
-
-The record names and common fields follow [abx-dl](https://github.com/ArchiveBox/abx-dl) and [ArchiveBox](https://github.com/ArchiveBox/ArchiveBox). The portable definitions live in [`abx-plugins/shared/records.ts`](../abx-plugins/shared/records.ts), alongside the [index record JSON Schema](../abx-plugins/shared/index-record.schema.json). They have no Django, browser, or filesystem dependency.
-
-- `Snapshot.id` is the original capture UUID. `ArchiveResult.id` is assigned when its hook starts and survives export/import. Local replay collection IDs are independent of these durable record IDs.
-- `hook_name` follows Python's filename-stem convention, retaining the order and background suffix while removing `.ts`. The actual executed filename remains in `output_json.hook_filename`.
-- `created_at`, `start_ts`, `end_ts`, and `ready_ts` are UTC ISO timestamps.
-- Hook statuses are `succeeded`, `noresults`, `skipped`, and `failed`. A killed worker emits `failed` with `output_json.termination="killed"`. Unfinished hooks cannot be exported until shutdown/recovery records their outcome.
-- A finished package has snapshot status `sealed`; `capture_state` preserves whether acquisition was complete, partial, or failed. Sealing does not imply every plugin succeeded.
-- `config` contains the resolved flat named configuration. Hook-local `HOOK_TIMEOUT` overrides live in `plugin_config`. Sensitive keys use ArchiveBox's `********` redaction policy, including plugin `x-sensitive` declarations.
-- `plugins` lists enabled plugins. Derived-only viewers do not acquire invented successful `ArchiveResult` rows.
-- `output_json` preserves the plugin's small acquisition data, resource references, logs, and browser runtime diagnostics. It contains no copied response bodies.
-- `output_files` is empty for WACZ-contained outputs: those are artifact references, not files in a native plugin output directory. A future Python importer can attach the WACZ container and resolve artifacts without pretending that every member already exists on disk.
-
-The descriptor version identifies this interchange format independently of an ArchiveBox application's release version. The index is a capture manifest, not an append-only synchronization log. This change does not implement a Django database importer or automatically queue imported URLs for recapture.
-
-## Shared artifact contract
-
-[`artifact.schema.json`](../abx-plugins/shared/artifact.schema.json) describes `Artifact` records. Each has an `id`, `snapshot_id`, owning `plugin`, `kind`, creation timestamp, MIME type, logical payload `size`, SHA-256 `hash`, and exactly one storage reference:
-
-| Storage type | Meaning |
-| --- | --- |
-| `file` | A real file relative to a native plugin output directory; defined for Python hosts, rejected inside a WACZ |
-| `wacz-member` | A generated member such as `screenshot/screenshot.jpg` |
-| `warc-response` | Generated content identical to an already stored original HTTP payload; references that exchange instead of storing another copy |
-
-Original server responses are indexed by CDX and referenced directly by hook `output_json.records`; they are not copied into the artifact catalog. Each resource reference retains `{url, ts, captureId}` from the recorder, with optional `member` paths for content inside downloaded ZIPs. `ts` is Unix milliseconds and `captureId` is the owning snapshot UUID. The URL is the recorder's exact lookup key, including its POST request identity where applicable; it is not a new request to issue during replay.
-
-Generated resource URNs resolve through `artifacts.jsonl`. Both generated artifacts and HTTP references use the existing `archive.read(ref)` API during capture; viewers use the shared archive reader. Plugins never handle offsets, CDX parsing, ZIP decompression, or revisit resolution.
-
-Artifact sizes describe logical content. Multiple artifact identities may reference the same member or response. Storage totals count physical package members once, using the standard datapackage inventory; summing artifact sizes would double-count aliases. Generated files remain in their plugin folders, and original responses remain in WARC.
+Datapackage resources declare Frictionless `type: "file"` to avoid inferring pipeline definitions from arbitrary JSON content. Webrecorder's Python `wacz 0.6.0 validate` has a path-check limitation for root-level extra members: its lookup includes the extraction directory's name. The WACZ specification permits these members.
 
 ## Read with Python
 
-This reads only the small metadata members; it does not extract the archive:
+Read the index without extracting response bodies:
 
 ```python
 import json
@@ -59,24 +55,10 @@ from zipfile import ZipFile
 from abx_dl.models import Snapshot, ArchiveResult
 
 with ZipFile("capture.wacz") as archive:
-    descriptor = json.loads(archive.read("datapackage.json"))["archivebox"]
-    for line in archive.read(descriptor["index"]).decode().splitlines():
+    for line in archive.read("index.jsonl").decode().splitlines():
         record = json.loads(line)
         model = Snapshot if record["type"] == "Snapshot" else ArchiveResult
         parsed = model.model_validate(record)
-    artifacts = [json.loads(line) for line in archive.read(descriptor["artifacts"]).splitlines()]
 ```
 
-The JSON Schema validation helper and live test also check IDs, hook outcomes, references, artifact payload hashes, and package hashes against a real all-plugin capture:
-
-```sh
-ABX_INTEROP_WACZ=/path/to/capture.wacz \
-ABX_PYTHON_PROJECT=/path/to/abx-dl \
-pnpm exec playwright test tests/interchange-live.test.ts
-```
-
-The test expects the normal capture harness's adjacent `capture.json`, so exported records can be compared with the actual acquisition outcomes. The Python validator uses `uv` and the installed abx-dl models, plus the shared JSON Schemas.
-
-Datapackage resources declare Frictionless `type: "file"` so arbitrary plugin JSON is validated as a file, rather than inferred to be a pipeline or schema from its contents. Frictionless validation, member inventory/hash checks, the datapackage digest, and offline ReplayWeb.page reads are verified against the exported capture.
-
-Webrecorder's Python `wacz 0.6.0 validate` has a path-check limitation: it takes the last two path components of every extracted file, so a root member such as `index.jsonl` becomes `<temporary-directory>/index.jsonl` and fails its inventory/hash lookup. The WACZ specification allows these root members. The tests check complete ZIP-relative paths and hashes directly; the upstream CLI does not currently report success for this layout.
+This exposes capture records using the existing Python models; it does not import them into Django or implement database synchronization.

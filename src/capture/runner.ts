@@ -3,7 +3,7 @@ import type { Capture, HookAttempt, HookDefinition, HookResult } from './types';
 
 export interface HookHost {
   finishAcquisition(): Promise<void>;
-  invoke(method: string, args: any[], plugin: string, signal: AbortSignal): Promise<unknown>;
+  invoke(method: string, args: any[], plugin: string, signal: AbortSignal, resultId:string): Promise<unknown>;
   subscribe(method: string, callback: (params: unknown) => void): () => void;
   interrupt(): Promise<void>;
 }
@@ -104,7 +104,7 @@ export class HookRunner {
             }));
             return true;
           }
-          return this.host.invoke(data.method, data.args, definition.plugin, controller.signal);
+          return this.host.invoke(data.method, data.args, definition.plugin, controller.signal, attempt.id!);
         })();
         pending.add(call);
         void call.then(value => { if (!settled) worker.postMessage({ type: 'reply', id: data.id, value }); },

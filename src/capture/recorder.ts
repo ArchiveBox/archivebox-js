@@ -193,7 +193,7 @@ export class CaptureRecorder extends Recorder {
   loadFavIcon(url: string) { this.pageInfo.favIconUrl = url; }
   getExternalInjectURL(path: string) { return chrome.runtime.getURL(path); }
   async getFavIcon() { return (await chrome.tabs.get(this.tabId)).favIconUrl || ''; }
-  async addResource(input: ResourceInput, plugin: string): Promise<RecordRef> {
+  async addResource(input: ResourceInput, plugin: string, resultId:string): Promise<RecordRef> {
     const payload = typeof input.body === 'string' ? new TextEncoder().encode(input.body) : input.body;
     const sourceUrl = input.sourceUrl || (/^https?:/.test(this.pageInfo.url || '') ? this.pageInfo.url : this.url);
     // Evidence has its own identity. A page URL fragment is not part of a WARC
@@ -202,7 +202,7 @@ export class CaptureRecorder extends Recorder {
     const data = {
       url, ts: Date.now(), status: 200, statusText: 'OK', pageId: this.pageInfo.id,
       mime: input.mime, respHeaders: { 'Content-Type': input.mime, 'Content-Length': String(payload.length) }, reqHeaders: {}, payload,
-      extraOpts: { resource: true, plugin, captureId: this.captureId, sourceUrl, ...input.metadata },
+      extraOpts: { ...input.metadata, resource: true, plugin, captureId: this.captureId, sourceUrl, archive_result_id:resultId },
     };
     await this._doAddResource(data);
     return { captureId: this.captureId, url, ts: data.ts };

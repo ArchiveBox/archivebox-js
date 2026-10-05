@@ -60,7 +60,6 @@ capture.wacz
 ├── datapackage.json          File inventory, hashes, and metadata references
 ├── datapackage-digest.json   Package manifest digest
 ├── index.jsonl               ArchiveBox Snapshot and ArchiveResult records
-├── artifacts.jsonl           Plugin artifact identities and storage references
 ├── screenshot/               Generated screenshots
 ├── consolelog/               Captured browser observations
 ├── liteparse/                Extracted text and OCR layout
@@ -73,7 +72,7 @@ capture.wacz
 
 </details>
 
-The [ArchiveBox interchange contract](docs/interchange.md) exposes the same snapshot and result record families used by Python, with shared schemas and explicit references to WACZ artifacts.
+The [ArchiveBox records](docs/interchange.md) use Python's existing `Snapshot`, `ArchiveResult`, and `output_files` fields, with references to outputs inside the WACZ.
 
 <table>
 <tr>
