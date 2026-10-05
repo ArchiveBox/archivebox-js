@@ -28,7 +28,7 @@ export function CanonicalDataPreview({archive,presentation,hideTitlebar=false}:{
       const raw=doc.getElementById('raw') as HTMLAnchorElement|null;if(raw){raw.href=rawURL;raw.target='_blank';raw.rel='noopener';}
       if(hideTitlebar){const header=doc.querySelector('header');if(header)header.style.display='none';}
       cleanup=await presentation.initialize(doc,data,{downloadURL,rawURL,openFiles,resourceURL:(value,base)=>{
-        if(!value)return undefined;try{const url=new URL(value,base||archive.manifest.archivebox?.url).href,entry=archive.find(url);return entry?recordURL(archive,entry):undefined;}catch{return undefined;}
+        if(!value)return undefined;try{const url=new URL(value,base||archive.metadata?.url).href,entry=archive.find(url);return entry?recordURL(archive,entry):undefined;}catch{return undefined;}
       }});
       if(!current)cleanup?.();
     }).catch(error=>{if(current)setError(String(error))});

@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {inspectWaczEvidence,verifyReplayPayloads} from './wacz-evidence';
 import {openSnapshotOutput} from './snapshot-controls';
 import {test,expect,chromium} from '@playwright/test';
@@ -7,7 +8,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
-import {unzipSync,strFromU8} from 'fflate';
+import {unzipSync} from 'fflate';
 import {WARCParser} from 'warcio';
 
 for(const source of [
@@ -68,8 +69,8 @@ for(const source of [
     const downloading=studio.waitForEvent('download');await studio.getByRole('button',{name:'Download WACZ',exact:true}).click();
     const archivePath=info.outputPath(`${source.name}.wacz`);await(await downloading).saveAs(archivePath);
     report.waczEvidence=await inspectWaczEvidence(archivePath);
-    const zip=unzipSync(await readFile(archivePath)),manifest=JSON.parse(strFromU8(zip['datapackage.json']!));
-    expect(manifest.archivebox).not.toHaveProperty('responseReuses');
+    const zip=unzipSync(await readFile(archivePath)),manifest=(await readWaczPackage(zip));
+    expect(manifest.metadata).not.toHaveProperty('responseReuses');
     expect(capture).not.toHaveProperty('responseReuses');
     for(const resource of manifest.resources)expect(`sha256:${createHash('sha256').update(zip[resource.path]!).digest('hex')}`,resource.path).toBe(resource.hash);
     const originals:{url:string;body:Buffer}[]=[],pdfExchanges:string[]=[],redirects:string[]=[];

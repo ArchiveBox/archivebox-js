@@ -1,0 +1,126 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ArchiveBox artifact v1",
+  "type": "object",
+  "required": [
+    "type",
+    "id",
+    "snapshot_id",
+    "plugin",
+    "kind",
+    "created_at",
+    "mimetype",
+    "size",
+    "hash",
+    "storage",
+    "headers",
+    "metadata"
+  ],
+  "properties": {
+    "type": {
+      "const": "Artifact"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^urn:"
+    },
+    "snapshot_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "plugin": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]+$"
+    },
+    "kind": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "mimetype": {
+      "type": "string"
+    },
+    "size": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "storage": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "path"
+          ],
+          "properties": {
+            "type": {
+              "const": "file"
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*//)(?!.*[\\\\:\\u0000])(?!.*\\/$).+$"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "path"
+          ],
+          "properties": {
+            "type": {
+              "const": "wacz-member"
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*//)(?!.*[\\\\:\\u0000])(?!.*\\/$).+$"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "url",
+            "ts"
+          ],
+          "properties": {
+            "type": {
+              "const": "warc-response"
+            },
+            "url": {
+              "type": "string",
+              "pattern": "^https?://"
+            },
+            "ts": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "headers": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "metadata": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": false
+}

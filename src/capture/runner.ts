@@ -48,7 +48,7 @@ export class HookRunner {
 
   private start(definition: HookDefinition): Task {
     const worker = new Worker(new URL('./hook-worker.ts', import.meta.url), { type: 'module' });
-    const attempt: HookAttempt = { plugin: definition.plugin, hook: definition.name, status: 'running', started: Date.now(), logs: [] };
+    const attempt: HookAttempt = { id:crypto.randomUUID(), plugin: definition.plugin, hook: definition.name, status: 'running', started: Date.now(), logs: [] };
     this.capture.hooks.push(attempt); this.changed();
     let readyResolve!: () => void, doneResolve!: () => void;
     const ready = new Promise<void>(resolve => { readyResolve = resolve; });

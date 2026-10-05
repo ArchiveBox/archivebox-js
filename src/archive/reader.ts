@@ -4,6 +4,7 @@ import { WARCParser } from 'warcio';
 import { warcRanges } from './warc-ranges';
 import {integrityTree} from './integrity';
 import { playerURL, replayCommand } from '../replay/client';
+import {readCaptureMetadata,type CaptureMetadata} from './metadata';
 export type ArchiveEntry = {
   url: string; timestamp: string; ts: number; mime: string; status: number; method?: string;
   digest: string; filename: string; offset: number; length: number;
@@ -17,6 +18,7 @@ export class ArchiveReader {
   readonly entries: ArchiveEntry[] = [];
   readonly pages: any[] = [];
   manifest: any;
+  metadata?:CaptureMetadata;
   replayHash?: string;
   size = 0;
   private zip: ZipRangeReader;
@@ -65,6 +67,7 @@ export class ArchiveReader {
     const files = await archive.zip.load();
     if (!files['datapackage.json']) throw Error('Missing WACZ datapackage.json');
     archive.manifest = JSON.parse(decoder.decode(await archive.member('datapackage.json')));
+    archive.metadata = await readCaptureMetadata(archive.manifest,name=>archive.member(name));
     // Package-only inspection is available before import. Resource discovery and
     // replay both use the same mounted upstream MultiWACZ collection.
     if (archive.captureId) {
@@ -158,7 +161,7 @@ export class ArchiveReader {
       const entry=this.find(page.url,Date.parse(page.ts));
       if(entry&&/^https?:/.test(entry.url)&&/html/i.test(entry.mime))return entry;
     }
-    const pageUrl = this.manifest.archivebox?.url;
+    const pageUrl = this.metadata?.url;
     const entry=pageUrl?this.find(pageUrl):undefined;
     return entry&&/^https?:/.test(entry.url)&&/html/i.test(entry.mime)?entry:this.entries.find(item=>/^https?:/.test(item.url)&&/^(text\/html|application\/xhtml\+xml)/i.test(item.mime));
   }

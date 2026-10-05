@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {test,expect,chromium} from '@playwright/test';
 import {mkdtemp,readFile,writeFile,lstat,readlink} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -9,8 +10,8 @@ import {openSnapshotOutput} from './snapshot-controls';
 const execute=promisify(execFile);
 test('requested Git WACZ reconstructs a native checkout ZIP offline',async({},info)=>{
  const archivePath=process.env.ABX_GIT_WACZ;if(!archivePath)throw Error('Set ABX_GIT_WACZ to the real requested GitHub all-plugin capture');
- const manifest=JSON.parse(new TextDecoder().decode(unzipSync(await readFile(archivePath),{filter:file=>file.name==='datapackage.json'})['datapackage.json']));
- const hook=manifest.archivebox.plugins.find((plugin:any)=>plugin.id==='git').hooks[0];expect(hook.status,JSON.stringify(hook)).toBe('succeeded');const expectedHead=hook.summary.match(/[0-9a-f]{40}/)?.[0];expect(expectedHead).toBeTruthy();
+ const manifest=await readWaczPackage(unzipSync(await readFile(archivePath)));
+ const hook=manifest.metadata.plugins.find((plugin:any)=>plugin.id==='git').hooks[0];expect(hook.status,JSON.stringify(hook)).toBe('succeeded');const expectedHead=hook.summary.match(/[0-9a-f]{40}/)?.[0];expect(expectedHead).toBeTruthy();
  const extension=path.resolve('.output/chrome-mv3'),profile=await mkdtemp(path.join(tmpdir(),'abx-git-offline-'));
  const context=await chromium.launchPersistentContext(profile,{channel:'chromium',headless:true,acceptDownloads:true,args:[`--disable-extensions-except=${extension}`,`--load-extension=${extension}`]});
  try{

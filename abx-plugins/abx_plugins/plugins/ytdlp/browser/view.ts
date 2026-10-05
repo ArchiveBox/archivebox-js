@@ -12,7 +12,7 @@ export function capturedMedia(archive:ArchiveReader){
  return [...new Map(archive.entries.filter(entry=>entry.status===200&&/^(video|audio)\//.test(entry.mime)&&!streamKind(entry.url,entry.mime)&&! /\.(?:ts|m4s)(?:[?#]|$)/i.test(entry.url)).map(entry=>[entry.url,entry])).values()];
 }
 async function derive({archive,url,signal}:ViewContext):Promise<ViewResult>{
- const plugin=archive.manifest.archivebox?.plugins.find((plugin:any)=>plugin.id==='ytdlp'),hook=plugin?.hooks[0],files:YtdlpFile[]=[],used=new Set<string>();
+ const plugin=archive.metadata?.plugins.find((plugin:any)=>plugin.id==='ytdlp'),hook=plugin?.hooks[0],files:YtdlpFile[]=[],used=new Set<string>();
  const data=hook?.data as {userAgent?:string;supported?:boolean;tracks?:any[]}|undefined;
  const available=capturedMedia(archive);
  const add=(path:string,entry:ArchiveEntry,extra:Partial<YtdlpFile>={})=>{files.push({path,mime:entry.mime,entry,...extra});used.add(entry.url)};

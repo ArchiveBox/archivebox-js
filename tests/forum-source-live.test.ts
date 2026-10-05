@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {openSnapshotOutput} from './snapshot-controls';
 import {test,expect,chromium} from '@playwright/test';
 import {mkdtemp,readFile,writeFile} from 'node:fs/promises';
@@ -32,8 +33,8 @@ for(const site of sites)test(`source forum-dl ${site.id}: original pagination an
     const hook=capture.hooks.find((item:any)=>item.plugin==='forumdl');
     expect(capture.state,JSON.stringify(capture,null,2)).toBe(site.partial?'partial':'complete');expect(hook.status,JSON.stringify(hook)).toBe(site.partial?'failed':'succeeded');
     if(site.partial)expect(hook.summary).toContain('request budget 8 exhausted');
-    const zip=unzipSync(await readFile(file));const manifest=JSON.parse(strFromU8(zip['datapackage.json']!));
-    expect(manifest.archivebox.plugins.find((item:any)=>item.id==='forumdl').hooks[0].records).toEqual(hook.records);
+    const zip=unzipSync(await readFile(file));const manifest=(await readWaczPackage(zip));
+    expect(manifest.metadata.plugins.find((item:any)=>item.id==='forumdl').hooks[0].records).toEqual(hook.records);
     expect(new Set(hook.records.map((ref:any)=>JSON.stringify([ref.url,ref.ts]))).size).toBe(hook.records.length);
     const originals:{url:string;requested:string;data:any}[]=[];
     for(const [name,bytes]of Object.entries(zip))if(name.startsWith('archive/')&&name.endsWith('.warc.gz'))for await(const record of new WARCParser([bytes])){

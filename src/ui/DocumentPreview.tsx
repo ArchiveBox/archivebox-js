@@ -12,7 +12,7 @@ const markup=fullTemplate.replace(/<script>[\s\S]*?<\/script>/,'').replace('{{ p
 export function DocumentPreview({archive,documents}:{archive:ArchiveReader;documents:DocumentSource[]}){
   const frame=React.useRef<HTMLIFrameElement>(null),[doc,setDoc]=React.useState<Document|null>(null),[error,setError]=React.useState('');
   React.useEffect(()=>{if(!doc)return;let current=true,cleanup:(()=>void)|undefined;
-    void mountReplay(archive).then(()=>{if(current)cleanup=initializeLiteParse(doc,documents,{url:archive.manifest.archivebox?.finalUrl||archive.manifest.archivebox?.url,openFiles:()=>{location.hash='view=liteparse&files=1'},resourceURL:entry=>recordURL(archive,entry),originalPDF:async source=>URL.createObjectURL(new Blob([(source.original?await source.original():await archive.read(source.entry)).body as BlobPart],{type:'application/pdf'}))})}).catch(error=>{if(current)setError(String(error))});
+    void mountReplay(archive).then(()=>{if(current)cleanup=initializeLiteParse(doc,documents,{url:archive.metadata?.finalUrl||archive.metadata?.url||archive.pages[0]?.url||'',openFiles:()=>{location.hash='view=liteparse&files=1'},resourceURL:entry=>recordURL(archive,entry),originalPDF:async source=>URL.createObjectURL(new Blob([(source.original?await source.original():await archive.read(source.entry)).body as BlobPart],{type:'application/pdf'}))})}).catch(error=>{if(current)setError(String(error))});
     return()=>{current=false;cleanup?.()};
   },[archive,doc,documents]);
   React.useEffect(()=>{if(!doc)return;const resize=()=>{if(frame.current)frame.current.style.height=Math.max(320,doc.body.scrollHeight)+'px'};const observer=new ResizeObserver(resize);observer.observe(doc.body);resize();return()=>observer.disconnect()},[doc]);

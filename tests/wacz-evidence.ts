@@ -3,6 +3,17 @@ import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {unzipSync} from 'fflate';
 import {WARCParser} from 'warcio';
+import {readCaptureMetadata} from '../src/archive/metadata';
+
+/** Read metadata through the same JSONL boundary as the player, retaining the
+ * actual datapackage descriptor separately from the runtime projection. */
+export async function readWaczPackage(zip:Record<string,Uint8Array>){
+  const manifest=JSON.parse(new TextDecoder().decode(zip['datapackage.json']!));
+  const metadata=await readCaptureMetadata(manifest,async name=>{
+    if(!zip[name])throw Error(`Missing WACZ member: ${name}`);return zip[name]!;
+  });
+  return {...manifest,metadata};
+}
 
 /** Inspect real exported records, including payloads and recorded requests. */
 export async function inspectWaczEvidence(filename:string){
@@ -10,8 +21,8 @@ export async function inspectWaczEvidence(filename:string){
   const bodies=new Map<string,string>(),requests:{url:string;method:string;headers:Record<string,string>}[]=[];
   const httpBodies=new Map<string,number>();
   const originals=new Map<string,{url:string;date:string;digest:string}>(),references:{id:string;url:string;date:string;digest:string}[]=[];
-  const zip=unzipSync(await readFile(filename)),manifest=JSON.parse(new TextDecoder().decode(zip['datapackage.json']));
-  const files=manifest.archivebox?.files;
+  const zip=unzipSync(await readFile(filename)),manifest=await readWaczPackage(zip);
+  const files=manifest.metadata?.files;
   let revisits=0;
   for(const [name,bytes]of Object.entries(zip)){
     if(!name.startsWith('archive/'))continue;
@@ -40,7 +51,7 @@ export async function inspectWaczEvidence(filename:string){
     for(const file of files){
       expect(file.url).toMatch(/^urn:/);expect(file.status).toBe(200);expect(Number.isFinite(file.ts)).toBe(true);
       const identity=`${file.url} ${file.ts}`;expect(identities.has(identity),'Native evidence identity is indexed once').toBe(false);identities.add(identity);
-      expect(file.metadata.resource).toBe(true);expect(file.metadata.plugin).toMatch(/^[a-zA-Z0-9_-]+$/);expect(file.metadata.captureId).toBe(manifest.archivebox.captureId);expect(file.metadata.sourceUrl).toMatch(/^https?:/);
+      expect(file.metadata.resource).toBe(true);expect(file.metadata.plugin).toMatch(/^[a-zA-Z0-9_-]+$/);expect(file.metadata.captureId).toBe(manifest.metadata.captureId);expect(file.metadata.sourceUrl).toMatch(/^https?:/);
       expect(file.headers['content-type']).toBe(file.mime);expect(Number(file.headers['content-length'])).toBe(file.bytes);
       expect(Boolean(file.path)!==Boolean(file.record),'Native evidence has exactly one body reference').toBe(true);
       expect(file.hash).toMatch(/^sha256:[a-f0-9]{64}$/);
@@ -58,7 +69,8 @@ export async function inspectWaczEvidence(filename:string){
         }
       }
     }
-    const nonCoreMembers=Object.keys(zip).filter(name=>!name.endsWith('/')&&!/^(archive|pages|indexes)\//.test(name)&&!['datapackage.json','datapackage-digest.json'].includes(name));
+    const contractFiles=manifest.archivebox?.version===2?['index.jsonl','artifacts.jsonl']:[];
+    const nonCoreMembers=Object.keys(zip).filter(name=>!name.endsWith('/')&&!/^(archive|pages|indexes)\//.test(name)&&!['datapackage.json','datapackage-digest.json',...contractFiles].includes(name));
     expect(nonCoreMembers.sort(),'Every generated ZIP member has an original evidence reference').toEqual([...nativePaths].sort());
   }
   return {requests,revisits,payloads:bodies.size,nativeReferences:files?.length||0,nativeFiles:[...nativePaths]};

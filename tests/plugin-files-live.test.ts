@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {test,expect,chromium} from '@playwright/test';
 import {mkdtemp,readFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -10,8 +11,8 @@ test('all-plugin files stay with their plugin and HTTP references open exact req
   const archivePath=process.env.ABX_ALL_PLUGIN_WACZ;
   if(!archivePath)throw Error('ABX_ALL_PLUGIN_WACZ must name a real all-plugin capture');
   const zip=unzipSync(await readFile(archivePath),{filter:file=>file.name==='datapackage.json'});
-  const manifest=JSON.parse(new TextDecoder().decode(zip['datapackage.json']));
-  expect(manifest.archivebox.plugins).toHaveLength(46);
+  const manifest=(await readWaczPackage(zip));
+  expect(manifest.metadata.plugins).toHaveLength(46);
   const extension=path.resolve('.output/chrome-mv3');
   const context=await chromium.launchPersistentContext(await mkdtemp(path.join(tmpdir(),'abx-plugin-files-')),{channel:'chromium',headless:true,viewport:{width:1500,height:1000},args:[`--disable-extensions-except=${extension}`,`--load-extension=${extension}`]});
   try{

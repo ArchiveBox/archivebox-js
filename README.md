@@ -57,8 +57,10 @@ capture.wacz
 ├── archive/                  Original HTTP exchanges in compressed WARC
 ├── indexes/                  CDXJ resource indexes and index-block lookup
 ├── pages/pages.jsonl         Page URLs, timestamps, and titles
-├── datapackage.json          File inventory, hashes, and plugin metadata
+├── datapackage.json          File inventory, hashes, and metadata references
 ├── datapackage-digest.json   Package manifest digest
+├── index.jsonl               ArchiveBox Snapshot and ArchiveResult records
+├── artifacts.jsonl           Plugin artifact identities and storage references
 ├── screenshot/               Generated screenshots
 ├── consolelog/               Captured browser observations
 ├── liteparse/                Extracted text and OCR layout
@@ -70,6 +72,8 @@ capture.wacz
 - Plugins work with resource references through `fetch`, `read`, and `addResource`. The archive layer owns deduplication, record locations, range reads, and replay URLs.
 
 </details>
+
+The [ArchiveBox interchange contract](docs/interchange.md) exposes the same snapshot and result record families used by Python, with shared schemas and explicit references to WACZ artifacts.
 
 <table>
 <tr>

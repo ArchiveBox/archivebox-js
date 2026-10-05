@@ -73,7 +73,10 @@ test('imported gallery Python expressions cannot fetch live HTTP or access exten
     // Retain the original real capture. Only the second archive's untrusted
     // configuration changes; every recorded HTTP/WARC byte stays identical.
     const members=unzipSync(await readFile(archivePath));const metadata=JSON.parse(new TextDecoder().decode(members['datapackage.json']));
-    metadata.archivebox.plugins.find((plugin:any)=>plugin.id==='gallerydl').config.GALLERYDL_CONFIG=JSON.stringify({extractor:{retries:0,'image-filter':expression}});
+    const records=new TextDecoder().decode(members['index.jsonl']!).trim().split('\n').map(line=>JSON.parse(line));
+    records.find((record:any)=>record.type==='Snapshot').config.GALLERYDL_CONFIG=JSON.stringify({extractor:{retries:0,'image-filter':expression}});
+    members['index.jsonl']=new TextEncoder().encode(records.map(record=>JSON.stringify(record)+'\n').join(''));
+    Object.assign(metadata.resources.find((resource:any)=>resource.path==='index.jsonl'),{bytes:members['index.jsonl'].length,hash:'sha256:'+createHash('sha256').update(members['index.jsonl']).digest('hex')});
     members['datapackage.json']=new TextEncoder().encode(JSON.stringify(metadata));members['datapackage-digest.json']=new TextEncoder().encode(JSON.stringify({path:'datapackage.json',hash:'sha256:'+createHash('sha256').update(members['datapackage.json']).digest('hex')}));
     const adversarialPath=info.outputPath('gallery-untrusted-expression.wacz');await writeFile(adversarialPath,zipSync(members,{level:0}));
     const after=unzipSync(await readFile(adversarialPath));for(const [name,bytes] of Object.entries(members))if(name.startsWith('archive/'))expect(after[name]).toEqual(bytes);

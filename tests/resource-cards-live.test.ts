@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {test,expect,chromium} from '@playwright/test';
 import {mkdtemp,readFile,writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -47,7 +48,7 @@ test('all-plugin image and PDF captures keep their LiteParse previews',async({},
 test('all-plugin DOM and scrolling survive browser restart',async({},info)=>{
  const profile=await mkdtemp(path.join(tmpdir(),'abx-resource-cards-'));
  const zip=unzipSync(await readFile('/tmp/abx-wacz-demo/hacker-news-49944227-all-plugins-scroll-20261004.wacz'));
- const manifest=JSON.parse(new TextDecoder().decode(zip['datapackage.json']!)).archivebox;
+ const manifest=(await readWaczPackage(zip)).metadata;
  const enabled=manifest.plugins.map((plugin:any)=>plugin.id);
  expect(enabled).toHaveLength(46);for(const id of ['dom','singlefile','infiniscroll'])expect(enabled).toContain(id);
  const evidence=JSON.parse(new TextDecoder().decode(zip['infiniscroll/infiniscroll.json']!));expect(evidence.steps).toBe(10);

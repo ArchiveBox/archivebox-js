@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {test,expect,chromium} from '@playwright/test';
 import {mkdtemp,readdir,readFile,writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -55,14 +56,14 @@ for(const document of documents)test(`Google ${document.kind}: full exports, ori
   if(document.kind==='spreadsheets'){expect(data.sheets).toEqual([{id:'0',name:'Test Sheet'},{id:'211973040',name:'this/that'}]);expect(data.selected_sheet).toBe('211973040');for(const format of expected.filter(f=>['csv','tsv'].includes(f)))expect(data.exports.filter((item:any)=>item.format===format)).toHaveLength(2)}
   const evidence=await inspectWaczEvidence(archivePath);await writeFile(info.outputPath('integrity.json'),JSON.stringify(evidence,null,2));
   const zip=unzipSync(await readFile(archivePath));expect(Object.keys(zip).filter(name=>name.startsWith('googledocs/')),'Export bytes belong only in the shared WARC').toEqual([]);
-  const manifest=JSON.parse(new TextDecoder().decode(zip['datapackage.json']));
-  const indexFile=manifest.archivebox.files.find((file:any)=>file.path==='search_contents/index.json');
+  const manifest=(await readWaczPackage(zip));
+  const indexFile=manifest.metadata.files.find((file:any)=>file.path==='search_contents/index.json');
   expect(indexFile,'Final-stage text index').toBeDefined();
   const indexData=JSON.parse(new TextDecoder().decode(zip[indexFile.path]));
   expect(indexData.documents.length).toBeGreaterThan(0);
   expect(indexData.documents.every((entry:any)=>!('text' in entry))).toBe(true);
   expect(indexData.index.storedFields).toEqual({});
-  expect(manifest.archivebox.files.some((file:any)=>/^(readability|forumdl)\//.test(file.path||''))).toBe(false);
+  expect(manifest.metadata.files.some((file:any)=>/^(readability|forumdl)\//.test(file.path||''))).toBe(false);
   if(document.kind==='spreadsheets'){
    const index=MiniSearch.loadJS(indexData.index,searchOptions);
    const matches=index.search('Favorite number').map(result=>indexData.documents[result.id]);

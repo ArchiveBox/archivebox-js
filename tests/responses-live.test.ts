@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {test,expect,chromium} from '@playwright/test';
 import {mkdtemp,readFile,writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -49,8 +50,8 @@ test('Responses inspects original WARC request pairs and header comparisons offl
 
 test('Responses explains incoming header matching from preserved headers immediately',async({},info)=>{
  const filename=process.env.ABX_ALL_RESPONSES_WACZ||'/tmp/abx-all-plugins-commons-build14-20261004/all-plugins-live-all-plugi-ef16b-enshot-and-metadata-offline/commons-all-plugins.wacz';
- const zip=unzipSync(await readFile(filename)),manifest=JSON.parse(new TextDecoder().decode(zip['datapackage.json']));
- expect(manifest.archivebox.plugins).toHaveLength(46);
+ const zip=unzipSync(await readFile(filename)),manifest=(await readWaczPackage(zip));
+ expect(manifest.metadata.plugins).toHaveLength(46);
  const target={url:'https://commons.wikimedia.org/static/favicon/commons.ico',ts:0};
  let original:Record<string,string>|undefined;
  for(const [name,data]of Object.entries(zip))if(name.startsWith('archive/'))for await(const record of new WARCParser([data])){await record.readFully();if(record.warcType==='request'&&record.warcTargetURI===target.url&&!original){original=Object.fromEntries(record.httpHeaders?.headers||[]);target.ts=Date.parse(record.warcDate!);}}

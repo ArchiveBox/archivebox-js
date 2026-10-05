@@ -36,7 +36,7 @@ export function createYtdlpCardPreview({archive}:{archive:ArchiveReader}){
  const wrapper=document.createElement('div');const style=document.createElement('style');style.textContent=cardTemplate.match(/<style>([\s\S]*?)<\/style>/)?.[1]||'';wrapper.append(style);
  const list=document.createElement('div');list.className='ytdlp-file-list';wrapper.append(list);
  if(!files.length){const empty=document.createElement('p');empty.setAttribute('style','margin:0 0 6px;color:#666;font:12px/1.4 system-ui,sans-serif');empty.textContent='No video or audio identified. Saved files:';list.append(empty);
-  const plugin=archive.manifest.archivebox?.plugins.find((plugin:any)=>plugin.id==='ytdlp');for(const track of plugin?.hooks[0]?.data?.tracks||[]){const entry=track.ref&&archive.find(track.ref.url,track.ref.ts);if(entry)files.push({entry,path:new URL(entry.url).pathname.split('/').at(-1)||entry.url,mime:entry.mime})}
+  const plugin=archive.metadata?.plugins.find((plugin:any)=>plugin.id==='ytdlp');for(const track of (plugin?.hooks[0]?.data as {tracks?:{ref?:{url:string;ts:number}}[]}|undefined)?.tracks||[]){const entry=track.ref&&archive.find(track.ref.url,track.ref.ts);if(entry)files.push({entry,path:new URL(entry.url).pathname.split('/').at(-1)||entry.url,mime:entry.mime})}
  }
  for(const file of files){const badge=document.createElement('div');badge.className='ytdlp-file-badge';badge.title=file.path;const icon=document.createElement('span');icon.className='ytdlp-file-icon';icon.setAttribute('aria-hidden','true');icon.textContent=file.mime.startsWith('video/')?'🎬':file.mime.startsWith('audio/')?'🎧':'📄';const name=document.createElement('span');name.className='ytdlp-file-name';name.textContent=file.path;badge.append(icon,name);list.append(badge)}
  return wrapper;

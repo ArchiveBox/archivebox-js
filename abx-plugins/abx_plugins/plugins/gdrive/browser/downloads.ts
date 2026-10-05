@@ -4,7 +4,7 @@ import {openZipMembers,memberMime} from '@/src/archive/zip-members';
 export type CloudFile={path:string;filename:string;format:string;size:number;sha256:string;mime:string;ref:RecordRef};
 export type CloudFiles={title:string;files:CloudFile[];downloads:BrowserDownload[]};
 export function cloudEvidence(context:ViewContext,plugin:string){
-  const hook=context.capture?.hooks.find(hook=>hook.plugin===plugin)||context.archive.manifest.archivebox?.plugins?.find((item:{id:string})=>item.id===plugin)?.hooks?.[0];
+  const hook=context.capture?.hooks.find(hook=>hook.plugin===plugin)||context.archive.metadata?.plugins?.find((item:{id:string})=>item.id===plugin)?.hooks?.[0];
   return hook?.data as CloudFiles|undefined;
 }
 export async function inventoryDownloads(ctx:HookContext,downloads:BrowserDownload[],requireZip=false):Promise<CloudFiles>{

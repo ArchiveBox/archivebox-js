@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {openSnapshotOutput} from './snapshot-controls';
 import {test, expect, chromium} from '@playwright/test';
 import {mkdtemp, readdir, readFile, writeFile} from 'node:fs/promises';
@@ -58,10 +59,10 @@ test('all-plugin HN preserves a capped JPEG and full-resolution PNG pages, with 
     }
     const before=await readFile(archivePath),zip=unzipSync(before);
     await inspectWaczEvidence(archivePath);
-    const manifest=JSON.parse(new TextDecoder().decode(zip['datapackage.json']));
+    const manifest=(await readWaczPackage(zip));
     const indexed=JSON.parse(new TextDecoder().decode(zip['search_contents/index.json']));
     expect(indexed.documents.filter((entry:any)=>entry.url.includes('hacker-news.firebaseio.com/v0/item/')).length).toBeGreaterThan(500);
-    expect(manifest.archivebox.files.some((file:any)=>/^(readability|forumdl)\//.test(file.path||''))).toBe(false);
+    expect(manifest.metadata.files.some((file:any)=>/^(readability|forumdl)\//.test(file.path||''))).toBe(false);
     const searchIndex=MiniSearch.loadJS(indexed.index,searchOptions);let commentWord='';
     for(const [name,body]of Object.entries(zip))if(name.startsWith('archive/'))for await(const record of new WARCParser([body])){
       if(record.warcType!=='response'||!record.warcTargetURI?.includes('hacker-news.firebaseio.com/v0/item/'))continue;
@@ -71,17 +72,17 @@ test('all-plugin HN preserves a capped JPEG and full-resolution PNG pages, with 
     }
     expect(commentWord).not.toBe('');
     const pageLimit=Math.max(1,capture.pluginConfig.infiniscroll.INFINISCROLL_SCROLL_LIMIT);
-    expect(manifest.archivebox.files.filter((file:any)=>file.url.startsWith('urn:fullPage:')).length,'PNG count respects the configured scroll page limit').toBeLessThanOrEqual(pageLimit);
+    expect(manifest.metadata.files.filter((file:any)=>file.url.startsWith('urn:fullPage:')).length,'PNG count respects the configured scroll page limit').toBeLessThanOrEqual(pageLimit);
     expect(Object.keys(zip).filter(name=>/^(dom|accessibility|chrome_screencast)\//.test(name))).toEqual([]);
-    expect(manifest.archivebox.files.filter((file:any)=>/^urn:(dom|accessibility|screencast):/.test(file.url))).toEqual([]);
+    expect(manifest.metadata.files.filter((file:any)=>/^urn:(dom|accessibility|screencast):/.test(file.url))).toEqual([]);
     expect(capture.hooks.filter((hook:any)=>['dom','accessibility','chrome_screencast'].includes(hook.plugin))).toEqual([]);
-    const preview=manifest.archivebox.files.find((file:any)=>file.url.startsWith('urn:screenshot:'));
+    const preview=manifest.metadata.files.find((file:any)=>file.url.startsWith('urn:screenshot:'));
     expect(preview.path).toBe('screenshot/screenshot.jpg');expect(preview.mime).toBe('image/jpeg');
     const jpeg=imageSize(zip[preview.path]!);expect(jpeg.type).toBe('jpg');
     expect(jpeg.height).toBe(Math.round(Math.min(preview.metadata.screenshot.capturedArea.height,12000)*preview.metadata.screenshot.devicePixelRatio));
     expect(jpeg.width).toBe(Math.round(preview.metadata.screenshot.capturedArea.width*preview.metadata.screenshot.devicePixelRatio));
     const images:{url:string;width:number;height:number;metadata:any}[]=[];
-    for(const file of manifest.archivebox.files.filter((file:any)=>file.url.startsWith('urn:fullPage:'))) {
+    for(const file of manifest.metadata.files.filter((file:any)=>file.url.startsWith('urn:fullPage:'))) {
       const tile=file.metadata.screenshot.tile;
       expect(file.path).toBe('screenshot/screenshot-'+String(tile.index+1).padStart(2,'0')+'.png');
       const png=imageSize(zip[file.path]!);expect(png.type).toBe('png');

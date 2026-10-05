@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {test,expect,chromium} from '@playwright/test';
 import {createServer} from 'node:http';
 import {mkdtemp,readFile,readdir,writeFile} from 'node:fs/promises';
@@ -10,10 +11,10 @@ import {openSnapshotOutput} from './snapshot-controls';
 
 for(const environment of ['extension','HTTP player'])test(`saved ZIP-member OCR and exact original image replay in ${environment}`,async({},info)=>{
  const archivePath=process.env.ABX_ZIP_OCR_WACZ||'/tmp/abx-search-sheets-20261004/googledocs-live-Google-spr-4dfc6-nal-viewer-and-offline-WACZ/spreadsheets-all-plugins.wacz';
- const bytes=await readFile(archivePath),zip=unzipSync(bytes),manifest=JSON.parse(new TextDecoder().decode(zip['datapackage.json']!));
+ const bytes=await readFile(archivePath),zip=unzipSync(bytes),manifest=(await readWaczPackage(zip));
  const plugins=(await readdir(path.resolve('abx-plugins/abx_plugins/plugins'),{withFileTypes:true})).filter(entry=>entry.isDirectory()).map(entry=>entry.name).sort();
- expect(manifest.archivebox.plugins.map((plugin:any)=>plugin.id).sort()).toEqual(plugins);
- const file=manifest.archivebox.files.find((file:any)=>file.metadata.plugin==='liteparse'&&file.metadata.document.source.member?.at(-1)==='Thumbnails/thumbnail.png');expect(file).toBeDefined();
+ expect(manifest.metadata.plugins.map((plugin:any)=>plugin.id).sort()).toEqual(plugins);
+ const file=manifest.metadata.files.find((file:any)=>file.metadata.plugin==='liteparse'&&file.metadata.document.source.member?.at(-1)==='Thumbnails/thumbnail.png');expect(file).toBeDefined();
  const document=file.metadata.document,parsed=JSON.parse(new TextDecoder().decode(zip[file.path]));expect(parsed.text).toContain('Favorite number');expect(parsed.engine.ocrPages).toBe(1);
  let original:Uint8Array|undefined;
  for(const [name,content]of Object.entries(zip))if(name.startsWith('archive/'))for await(const record of new WARCParser([content])){const body=await record.readFully();if(record.warcType==='response'&&record.warcTargetURI===document.source.url&&Date.parse(record.warcDate!)===document.source.ts)original=body}

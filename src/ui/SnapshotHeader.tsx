@@ -69,7 +69,7 @@ export function SnapshotHeader({archive,capture,captures=[],onSelectCapture,onDo
     try{localStorage.setItem(headerStorageKey,String(next));}catch{}
     onToggleOutputs(next);
   };
-  const rawTags:unknown=archive.manifest?.archivebox?.tags??archive.manifest?.tags;
+  const rawTags:unknown=archive.metadata?.tags??archive.manifest?.tags;
   const tagNames=React.useMemo(()=>Array.isArray(rawTags)?rawTags.map(tag=>typeof tag==='string'?tag:typeof tag?.name==='string'?tag.name:'').filter(Boolean).sort():[],[rawTags]);
   const [tagStyles,setTagStyles]=React.useState<Record<string,React.CSSProperties>>({});
   React.useEffect(()=>{

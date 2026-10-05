@@ -1,4 +1,5 @@
-export type RecordRef = { url: string; ts: number; captureId: string; member?:string[] };
+export type {ResourceRef as RecordRef} from '../../abx-plugins/shared/records';
+import type {ResourceRef as RecordRef} from '../../abx-plugins/shared/records';
 export type BrowserDownload={filename:string;ref:RecordRef};
 export type CapturedEntry = RecordRef & {mime:string;status:number;method?:string;digest?:string};
 export type FetchMethod = 'GET'|'HEAD'|'POST'|'PUT'|'PATCH'|'DELETE'|'OPTIONS';
@@ -7,12 +8,12 @@ export type StoredResponse = { body: Uint8Array; mime: string; status: number; h
 export type ResourceInput = { kind: string; mime: string; body: string | Uint8Array; sourceUrl?: string; metadata?: Record<string, unknown> };
 export type HookStatus = 'running' | 'succeeded' | 'noresults' | 'skipped' | 'failed' | 'killed';
 export type HookResult = { status?: Exclude<HookStatus, 'running'>; summary?: string; records?: RecordRef[]; data?: unknown };
-export type HookAttempt = Omit<HookResult, 'status'> & { plugin: string; hook: string; status: HookStatus; started: number; ended?: number; ready?: number; logs: string[] };
+export type HookAttempt = Omit<HookResult, 'status'> & { id?:string; plugin: string; hook: string; status: HookStatus; started: number; ended?: number; ready?: number; logs: string[] };
 export type PluginConfig = {
   title: string; description: string; category?: string; default_enabled?: boolean;
   timeout?: number; shutdown_grace?: number; required_plugins?: string[];
   wait_for_plugins?: string[]; wait_for_background_cleanup?: boolean;
-  properties?: Record<string, { default?: unknown; type?: string; description?: string; minimum?: number; maximum?: number }>;
+  properties?: Record<string, { default?: unknown; type?: string; description?: string; minimum?: number; maximum?: number; 'x-sensitive'?:boolean }>;
 };
 export type HookDefinition = { key: string; plugin: string; name: string; event: string; order: number; background: boolean; config: PluginConfig };
 export type NetworkIdleOptions = {quietMs?:number;maxWaitMs?:number;maxActiveRequests?:number};

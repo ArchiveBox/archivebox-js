@@ -1,11 +1,10 @@
-import type {HookAttempt} from '@/src/capture/types';
 import type {ViewContext,ViewResult} from '@/src/archive/views';
 import {cloneGit,normalizeGitURL,gitDomains,type GitRepository} from '@/vendor/git/runtime';
 import {createArchivedTransport} from '@/vendor/python/transport';
 export type GitPresentation={type:'git';repository:GitRepository|null;source:string;page:string};
 export default async function({archive,capture,url,signal}:ViewContext):Promise<ViewResult>{
-  const plugin=archive.manifest.archivebox?.plugins?.find((item:any)=>item.id==='git');
-  const hooks:HookAttempt[]=plugin?.hooks||(capture?.hooks||[]).filter(hook=>hook.plugin==='git');
+  const plugin=archive.metadata?.plugins?.find((item:any)=>item.id==='git');
+  const hooks=plugin?.hooks||(capture?.hooks||[]).filter(hook=>hook.plugin==='git');
   const remote=normalizeGitURL(url,String(plugin?.config?.GIT_DOMAINS||capture?.pluginConfig?.git?.GIT_DOMAINS||gitDomains));
   const refs=hooks.flatMap(hook=>hook.records||[]);
   let repository:GitRepository|null=null;

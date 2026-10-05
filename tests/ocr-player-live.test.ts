@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {test,expect,chromium} from '@playwright/test';
 import {createServer} from 'node:http';
 import {readFile,readdir,stat,writeFile} from 'node:fs/promises';
@@ -9,8 +10,8 @@ for(const source of [{filename:'filing.wacz',text:'UNITED STATES',pages:1},{file
   const captures=process.env.ABX_LIVE_CAPTURE_DIR||'/tmp/abx-ocr-final-captures';
   let archivePath='';for(const dir of await readdir(captures,{withFileTypes:true})){const candidate=path.join(captures,dir.name,source.filename);if(dir.isDirectory()&&await stat(candidate).catch(()=>undefined)){archivePath=candidate;break}}
   expect(archivePath,`Missing real capture ${source.filename} under ${captures}`).not.toBe('');
-  const zip=unzipSync(await readFile(archivePath)),manifest=JSON.parse(new TextDecoder().decode(zip['datapackage.json']!));
-  const saved=manifest.archivebox.files.filter((file:any)=>file.metadata.plugin==='liteparse').map((file:any)=>JSON.parse(new TextDecoder().decode(zip[file.path]))).find((parsed:any)=>parsed.text.includes(source.text));
+  const zip=unzipSync(await readFile(archivePath)),manifest=(await readWaczPackage(zip));
+  const saved=manifest.metadata.files.filter((file:any)=>file.metadata.plugin==='liteparse').map((file:any)=>JSON.parse(new TextDecoder().decode(zip[file.path]))).find((parsed:any)=>parsed.text.includes(source.text));
   expect(saved).toBeDefined();
   const root=path.resolve('.output/player');
   const server=createServer(async(req,res)=>{try{

@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {test,expect,chromium} from '@playwright/test';
 import {mkdir,mkdtemp,readdir,readFile,writeFile,symlink,stat} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -48,13 +49,13 @@ test('all plugins capture Sphere Encoder 2 and render its original paper and OCR
     expect(capture.plugins.slice().sort()).toEqual(expectedPlugins);expect(capture.hooks.map((hook:any)=>hook.hook).sort()).toEqual(expectedHooks);
     expect(capture.hooks.filter((hook:any)=>['pending','running'].includes(hook.status))).toEqual([]);
     report.warc=await inspectWaczEvidence(archivePath);
-    const zip=unzipSync(await readFile(archivePath)),manifest=JSON.parse(new TextDecoder().decode(zip['datapackage.json']));
-    expect(manifest.archivebox.plugins.map((plugin:any)=>plugin.id).sort()).toEqual(expectedPlugins);
-    expect(Array.isArray(manifest.archivebox.files)).toBe(true);
-    for(const plugin of ['screenshot','consolelog','accessibility','dom','sslcerts'])expect(manifest.archivebox.files.some((file:any)=>file.metadata.plugin===plugin),`${plugin} original generated evidence`).toBe(true);
-    const screenshots=manifest.archivebox.files.filter((file:any)=>file.metadata.plugin==='screenshot');if(screenshots.length===1)expect(screenshots[0].path).toBe('screenshot/screenshot.png');
+    const zip=unzipSync(await readFile(archivePath)),manifest=(await readWaczPackage(zip));
+    expect(manifest.metadata.plugins.map((plugin:any)=>plugin.id).sort()).toEqual(expectedPlugins);
+    expect(Array.isArray(manifest.metadata.files)).toBe(true);
+    for(const plugin of ['screenshot','consolelog','accessibility','dom','sslcerts'])expect(manifest.metadata.files.some((file:any)=>file.metadata.plugin===plugin),`${plugin} original generated evidence`).toBe(true);
+    const screenshots=manifest.metadata.files.filter((file:any)=>file.metadata.plugin==='screenshot');if(screenshots.length===1)expect(screenshots[0].path).toBe('screenshot/screenshot.png');
     expect(zip['consolelog/consolelog.json']).toBeDefined();expect(zip['accessibility/accessibility.json']).toBeDefined();
-    for(const ref of capture.hooks.flatMap((hook:any)=>hook.records||[]).filter((ref:any)=>ref.url.startsWith('urn:')))expect(manifest.archivebox.files.some((file:any)=>file.url===ref.url&&file.ts===ref.ts),`Preserved original evidence reference ${ref.url}`).toBe(true);
+    for(const ref of capture.hooks.flatMap((hook:any)=>hook.records||[]).filter((ref:any)=>ref.url.startsWith('urn:')))expect(manifest.metadata.files.some((file:any)=>file.url===ref.url&&file.ts===ref.ts),`Preserved original evidence reference ${ref.url}`).toBe(true);
     for(const resource of manifest.resources)expect(`sha256:${sha256(zip[resource.path]!)}`,resource.path).toBe(resource.hash);
     const originals:{url:string;body:Uint8Array}[]=[],exchanges:string[]=[];
     for(const [name,bytes]of Object.entries(zip))if(name.startsWith('archive/'))for await(const record of new WARCParser([bytes])){

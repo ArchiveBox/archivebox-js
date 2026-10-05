@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {test,expect,chromium} from '@playwright/test';
 import {mkdtemp,readFile,writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -5,8 +6,8 @@ import path from 'node:path';
 import {unzipSync} from 'fflate';
 test('real captured scrolling diagram preserves measurements and frame geometry offline',async({},info)=>{
  const file=process.env.ABX_SCROLL_WACZ||'/tmp/abx-wacz-demo/sweeting-all-plugins-20261004.wacz';
- const zip=unzipSync(await readFile(file)),manifest=JSON.parse(new TextDecoder().decode(zip['datapackage.json']!)),files=manifest.archivebox.files||manifest.archivebox.nativeFiles;
- const hook=manifest.archivebox.plugins.find((plugin:any)=>plugin.id==='infiniscroll').hooks.find((hook:any)=>hook.records?.length),resource=files.find((item:any)=>item.url===hook.records[0].url),evidence=JSON.parse(new TextDecoder().decode(zip[resource.path]!));
+ const zip=unzipSync(await readFile(file)),manifest=(await readWaczPackage(zip)),files=manifest.metadata.files||manifest.metadata.nativeFiles;
+ const hook=manifest.metadata.plugins.find((plugin:any)=>plugin.id==='infiniscroll').hooks.find((hook:any)=>hook.records?.length),resource=files.find((item:any)=>item.url===hook.records[0].url),evidence=JSON.parse(new TextDecoder().decode(zip[resource.path]!));
  const observedAt=(item:any)=>Number.isFinite(item.metadata.frame?.timestamp)?item.metadata.frame.timestamp*1000:item.metadata.receivedAt;
  const recorded=files.filter((item:any)=>item.metadata?.frame).sort((a:any,b:any)=>observedAt(a)-observedAt(b));
  const before=recorded.filter((item:any)=>observedAt(item)<=hook.started).at(-1),after=recorded.find((item:any)=>observedAt(item)>=hook.ended);

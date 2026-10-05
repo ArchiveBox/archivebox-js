@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {test,expect,chromium} from '@playwright/test';
 import {mkdtemp,readFile,readdir,writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -26,8 +27,8 @@ for(const stop of [false,true])test(`all-plugin Browsertrix ${stop?'cooperative 
   const hook=capture.hooks.find((hook:any)=>hook.plugin==='browsertrix_behaviors');expect(hook.status,JSON.stringify(hook)).toBe(stop?'killed':'succeeded');
   expect(hook.records.length).toBeGreaterThan(0);
   expect(hook.summary).toContain('Webrecorder Autofetcher, Autoplay, Autoclick');
-  const zip=unzipSync(await readFile(file)),manifest=JSON.parse(new TextDecoder().decode(zip['datapackage.json']));
-  const evidence=manifest.archivebox.files.find((file:any)=>file.metadata.plugin==='browsertrix_behaviors');expect(evidence).toBeTruthy();
+  const zip=unzipSync(await readFile(file)),manifest=(await readWaczPackage(zip));
+  const evidence=manifest.metadata.files.find((file:any)=>file.metadata.plugin==='browsertrix_behaviors');expect(evidence).toBeTruthy();
   const activity=JSON.parse(new TextDecoder().decode(zip[evidence.path]));
   expect(activity.behaviors).toEqual(['Autofetcher','Autoplay','Autoclick',stop?'Autoscroll':'Telegram']);
   expect(activity.errors).toEqual([]);

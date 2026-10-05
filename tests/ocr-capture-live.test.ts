@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {test,expect,chromium} from '@playwright/test';
 import {mkdtemp,readFile,readdir,writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -35,8 +36,8 @@ for(const source of cases)test(`all plugins save ${source.name} OCR during captu
    expect(capture.hooks.find((hook:any)=>hook.hook==='on_Snapshot__30_navigate.ts').data.download.ref.url).toBe(source.url);expect(capture.finalUrl).toBe(source.url);
    expect(capture.hooks.find((hook:any)=>hook.plugin==='screenshot').status).toBe('noresults');
   }
-  const bytes=await readFile(archivePath),zip=unzipSync(bytes),manifest=JSON.parse(new TextDecoder().decode(zip['datapackage.json']!));
-  const saved=manifest.archivebox.files.filter((file:any)=>file.metadata.plugin==='liteparse');expect(saved.length).toBeGreaterThan(0);
+  const bytes=await readFile(archivePath),zip=unzipSync(bytes),manifest=(await readWaczPackage(zip));
+  const saved=manifest.metadata.files.filter((file:any)=>file.metadata.plugin==='liteparse');expect(saved.length).toBeGreaterThan(0);
   expect(saved.every((file:any)=>file.url.startsWith('urn:ocr:')&&file.mime==='application/json'&&file.path.startsWith('liteparse/')&&file.path.endsWith('.json'))).toBe(true);
   expect(new Set(saved.map((file:any)=>file.metadata.document.digest)).size).toBe(saved.length);
   expect(Object.keys(zip).filter(name=>name.startsWith('liteparse/')).sort()).toEqual([...new Set(saved.map((file:any)=>file.path))].sort());
@@ -45,7 +46,7 @@ for(const source of cases)test(`all plugins save ${source.name} OCR during captu
   for(const file of saved){const document=file.metadata.document,original=originals.get(`${document.source.url} ${document.source.ts}`);expect(original,document.source.url).toBeDefined();expect(document.digest).toBe('sha256:'+original!.digest);expect(document.size).toBe(original!.body.length);expect(JSON.parse(new TextDecoder().decode(zip[file.path])).engine.pdf).toBe('LiteParse WASM 2.15.1')}
   const target=saved.find((file:any)=>file.metadata.document.source.url===source.url);expect(target).toBeDefined();
   const parsed=JSON.parse(new TextDecoder().decode(zip[target.path]));report.parsed=parsed;
-  const indexFile=manifest.archivebox.files.find((file:any)=>file.metadata.plugin==='search_contents'&&file.url.startsWith('urn:index:'));expect(indexFile.path).toBe('search_contents/index.json');
+  const indexFile=manifest.metadata.files.find((file:any)=>file.metadata.plugin==='search_contents'&&file.url.startsWith('urn:index:'));expect(indexFile.path).toBe('search_contents/index.json');
   const index=JSON.parse(new TextDecoder().decode(zip[indexFile.path]));expect(index.engine).toBe('MiniSearch 7.2.0');
   expect(index.documents.some((document:any)=>document.ocr?.url===target.url&&document.ref.url===target.metadata.document.source.url)).toBe(true);
   expect(index.documents.every((document:any)=>!Object.hasOwn(document,'text'))).toBe(true);report.searchDocuments=index.documents;

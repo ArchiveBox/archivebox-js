@@ -422,6 +422,9 @@ class Downloader {
             resources: this.fileStats.map((stats) => {
                 const path = stats.filename;
                 return {
+                    // WACZ members are files, not Frictionless metadata documents
+                    // inferred from JSON keys such as "steps" or "resources".
+                    type: "file",
                     name: path.slice(path.lastIndexOf("/") + 1),
                     path,
                     hash: this.hashType + ":" + stats.hash,

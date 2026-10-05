@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {test,expect,chromium} from '@playwright/test';
 import {mkdtemp,readFile,readdir,writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -62,8 +63,8 @@ test('all plugins capture Commons and replay gallery, screenshot and metadata of
     for(const plugin of ['gallerydl','screenshot','sslcerts','accessibility','dom'])expect(capture.hooks.find((hook:any)=>hook.plugin===plugin)?.status,plugin).toBe('succeeded');
     const evidence=await inspectWaczEvidence(archivePath);await writeFile(info.outputPath('warc-evidence.json'),JSON.stringify(evidence,null,2));
     const zip=unzipSync(await readFile(archivePath));
-    const savedPackage=JSON.parse(new TextDecoder().decode(zip['datapackage.json']));
-    expect(savedPackage.archivebox.plugins.map((plugin:any)=>plugin.id).sort()).toEqual(expectedPlugins);
+    const savedPackage=(await readWaczPackage(zip));
+    expect(savedPackage.metadata.plugins.map((plugin:any)=>plugin.id).sort()).toEqual(expectedPlugins);
     let screenshotCount=0,sslConnections=0,axNodes=0;const screenshotURLs:string[]=[],fullPageURLs:string[]=[];
     for(const [name,bytes]of Object.entries(zip)){if(!name.startsWith('archive/'))continue;for await(const record of new WARCParser([bytes])){const body=await record.readFully(),target=record.warcTargetURI||'';
       if(/^urn:(fullPage|fullPageFinal|view|thumbnail):/.test(target)){screenshotCount++;screenshotURLs.push(target);if(/^urn:(fullPage|fullPageFinal):/.test(target))fullPageURLs.push(target);if(record.warcType!=='revisit')expect(Buffer.from(body).subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10]))).toBe(true);}

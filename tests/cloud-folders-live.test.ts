@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {test,expect,chromium} from '@playwright/test';
 import {mkdtemp,readdir,readFile,writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -39,7 +40,7 @@ for(const fixture of fixtures)test(`all-plugin original ${fixture.plugin} folder
   capture=await page.evaluate(async()=>((await chrome.storage.local.get('wacz-captures'))['wacz-captures'] as any[])[0]);expect(capture.plugins.slice().sort()).toEqual(plugins);
   const hook=capture.hooks.find((hook:any)=>hook.plugin===fixture.plugin);expect(hook?.status,JSON.stringify(hook)).toBe('succeeded');expect(hook.data.files).toHaveLength(fixture.count);
   const data=hook.data,zip=unzipSync(await readFile(archivePath));expect(Object.keys(zip).filter(name=>name.startsWith(fixture.plugin+'/')),'Provider bodies remain original HTTP WARC bytes').toEqual([]);
-  const manifest=JSON.parse(new TextDecoder().decode(zip['datapackage.json']!)),ocrFiles=manifest.archivebox.files.filter((file:any)=>file.metadata.plugin==='liteparse'&&file.metadata.document);
+  const manifest=(await readWaczPackage(zip)),ocrFiles=manifest.metadata.files.filter((file:any)=>file.metadata.plugin==='liteparse'&&file.metadata.document);
   const providerBodies=new Map<string,Uint8Array>();
   for(const [name,body]of Object.entries(zip)){if(!name.startsWith('archive/'))continue;for await(const record of new WARCParser([body])){const payload=await record.readFully();if(record.warcType==='response'&&data.downloads.some((item:any)=>item.ref.url===record.warcTargetURI))providerBodies.set(record.warcTargetURI!,payload)}}
   for(const download of data.downloads){

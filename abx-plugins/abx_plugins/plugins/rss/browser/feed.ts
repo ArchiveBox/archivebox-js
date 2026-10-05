@@ -59,7 +59,7 @@ export async function feedURLs({ archive, url }: ViewContext) {
   // Supplemental capture follows redirects; its final response can be plain
   // application/xml at an API URL. Resolve the discovery URL to that recorded
   // response instead of reporting a missing feed or relying on its suffix.
-  const refs=archive.manifest.archivebox?.plugins?.find((plugin:any)=>plugin.id==='rss')?.hooks.flatMap((hook:any)=>hook.records||[])||[];
+  const refs=archive.metadata?.plugins?.find((plugin:any)=>plugin.id==='rss')?.hooks.flatMap((hook:any)=>hook.records||[])||[];
   for(const ref of refs){
     const entry=archive.find(ref.url,ref.ts);if(!entry)continue;
     const record=await archive.headers(entry),metadata=JSON.parse(record.warcHeaders['WARC-JSON-Metadata']||'{}');

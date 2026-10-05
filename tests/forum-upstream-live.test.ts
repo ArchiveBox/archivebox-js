@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {openSnapshotOutput} from './snapshot-controls';
 import {inspectWaczEvidence,verifyReplayPayloads} from './wacz-evidence';
 import {test,expect,chromium} from '@playwright/test';
@@ -6,7 +7,7 @@ import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
-import {unzipSync,strFromU8} from 'fflate';
+import {unzipSync} from 'fflate';
 const execute=promisify(execFile);
 const sites=[
   {id:'pipermail',url:'https://lists.opensource.org/pipermail/license-review_lists.opensource.org/2008-January/000031.html'},
@@ -42,8 +43,8 @@ for(const site of sites)test(`complete upstream forum-dl ${site.id}: native comp
     if(site.id==='phpbb')expect(evidence.requests.filter(request=>request.url===site.url&&request.headers['user-agent']==='forum-dl/0.3.0')).toHaveLength(1);
     const hook=capture.hooks.find((item:any)=>item.plugin==='forumdl');
     expect(hook.status,JSON.stringify(hook)).toBe('succeeded');expect(hook.logs).toContain('Verified identical complete upstream metadata using captured responses only');
-    const zip=unzipSync(await readFile(file));const manifest=JSON.parse(strFromU8(zip['datapackage.json']!));
-    expect(manifest.archivebox.plugins.find((item:any)=>item.id==='forumdl').hooks[0].records).toEqual(hook.records);
+    const zip=unzipSync(await readFile(file));const manifest=(await readWaczPackage(zip));
+    expect(manifest.metadata.plugins.find((item:any)=>item.id==='forumdl').hooks[0].records).toEqual(hook.records);
     expect(hook.data).toBeUndefined();
     await studio.getByRole('button',{name:'Delete capture',exact:true}).click();for(const page of context.pages())if(page!==studio)await page.close();
     await context.setOffline(true);const live:string[]=[];context.on('request',request=>{if(/^https?:/.test(request.url()))live.push(request.url());});

@@ -1,91 +1,71 @@
 import { Downloader } from '../../vendor/archivewebpage/downloader';
-import type { Capture, HookStatus, RecordRef } from './types';
+import type { Capture } from './types';
+import type {PluginFile} from '../archive/metadata';
+import {v5 as uuidv5} from 'uuid';
+import {interchange,jsonl,redactConfig,validateArtifact,type Artifact,type IndexRecord,type SnapshotRecord,type ArchiveResultRecord} from '../../abx-plugins/shared/records';
+import {plugins} from './registry';
 import {digestMessage} from '@webrecorder/wabac/swlib';
 
 export type PluginConfigurations = Record<string, Record<string, unknown>>;
-export type PluginFile = {
-  url:string;ts:number;mime:string;status:number;headers:Record<string,string>;
-  metadata:Record<string,unknown>;hash:string;bytes:number;
-} & ({path:string;record?:never}|{path?:never;record:{url:string;ts:number}});
 
-/** Custom datapackage.archivebox metadata. Evidence references address original
- * WARC responses or native ZIP members by URI and Unix milliseconds from hook RPCs.
- * A null config means it was not saved (for example, an older recovered capture).
- * Response bodies and derived reports are deliberately excluded. This manifest
- * is the sole portable copy of capture status, configuration and hook diagnostics.
- */
-export interface PluginManifest {
-  format: 'archivebox-plugins';
-  version: 1;
-  captureId: string;
-  state: Capture['state'];
-  created: number;
-  url: string;
-  finalUrl?: string;
-  title: string;
-  error?: string;
-  files?: PluginFile[];
-  plugins: {
-    id: string;
-    config: Record<string, unknown> | null;
-    hooks: {
-      name: string;
-      status: HookStatus;
-      started: number;
-      ready?: number;
-      ended?: number;
-      summary?: string;
-      logs: string[];
-      records: RecordRef[];
-      data?: unknown;
-    }[];
-  }[];
-}
-
-export function createPluginManifest(capture: Capture, configurations?: PluginConfigurations): PluginManifest {
-  return {
-    format: 'archivebox-plugins', version: 1, captureId: capture.id, state: capture.state,
-    created: capture.created, url: capture.url, finalUrl: capture.finalUrl, title: capture.title, error: capture.error,
-    plugins: [...new Set([...capture.plugins, ...capture.hooks.map(hook => hook.plugin)])].map(id => ({
-      id,
-      // Snapshot JSON at export initialization, before the upstream stream runs.
-      config: configurations?.[id] ? JSON.parse(JSON.stringify(configurations[id])) : null,
-      hooks: capture.hooks.filter(hook => hook.plugin === id).map(hook => ({
-        name: hook.hook, status: hook.status, started: hook.started,
-        ...(hook.ready !== undefined ? {ready: hook.ready} : {}),
-        ...(hook.ended !== undefined ? {ended: hook.ended} : {}),
-        ...(hook.summary !== undefined ? {summary: hook.summary.slice(0, 1024)} : {}),
-        ...(hook.data !== undefined ? {data:hook.data} : {}),
-        logs: [...hook.logs],
-        records: (hook.records || []).map(({url, ts, captureId}) => ({url, ts, captureId})),
-      })),
-    })),
-  };
+/** IDs are assigned when hooks start. Deterministic IDs cover recovered captures
+ * whose acquisition predates result IDs without changing on repeated export. */
+export function createIndexRecords(capture:Capture, configurations:PluginConfigurations={}):IndexRecord[] {
+  if(capture.state==='capturing'||capture.hooks.some(hook=>hook.status==='running'||hook.ended===undefined))throw Error('Cannot export unfinished ArchiveBox results');
+  const config:Record<string,unknown>={},overrides:PluginConfigurations={};
+  for(const [plugin,values] of Object.entries(configurations)){
+    const {HOOK_TIMEOUT,...shared}=values;Object.assign(config,shared);
+    if(HOOK_TIMEOUT!==undefined)overrides[plugin]={HOOK_TIMEOUT};
+  }
+  const sensitive=Object.values(plugins).flatMap(plugin=>Object.entries(plugin.properties||{}).filter(([,property])=>property['x-sensitive']).map(([key])=>key));
+  const redacted=redactConfig(config,sensitive);
+  const snapshot:SnapshotRecord={type:'Snapshot',id:capture.id,url:capture.url,title:capture.title,depth:0,
+    created_at:new Date(capture.created).toISOString(),status:'sealed',config:redacted,
+    ...(Object.keys(overrides).length?{plugin_config:overrides}:{}),plugins:[...capture.plugins],capture_state:capture.state,
+    ...(capture.finalUrl?{final_url:capture.finalUrl}:{}),...(capture.error?{error:capture.error}:{})};
+  return [snapshot,...capture.hooks.map((hook):ArchiveResultRecord=>({
+    type:'ArchiveResult',id:hook.id||uuidv5(JSON.stringify([capture.id,hook.plugin,hook.hook,hook.started]),uuidv5.URL),
+    snapshot_id:capture.id,plugin:hook.plugin,hook_name:hook.hook.replace(/\.[^.]+$/,''),
+    status:hook.status==='killed'?'failed':hook.status as ArchiveResultRecord['status'],output_str:hook.summary||'',
+    start_ts:new Date(hook.started).toISOString(),end_ts:new Date(hook.ended!).toISOString(),
+    // Files inside WACZ are artifacts, not files in a native plugin directory.
+    output_files:[],output_json:{runtime:'browser',hook_filename:hook.hook,
+      ...(hook.ready!==undefined?{ready_ts:new Date(hook.ready).toISOString()}:{}),
+      ...(hook.status==='killed'?{termination:'killed' as const}:{}),logs:[...hook.logs],
+      records:(hook.records||[]).map(ref=>({...ref,...(ref.member?{member:[...ref.member]}:{})})),
+      ...(hook.data!==undefined?{data:hook.data}:{})},
+  }))];
 }
 
 /** Route generated evidence into native members through upstream ZIP hashing.
  * HTTP WARC/CDX generation and datapackage-digest.json remain upstream-owned.
  */
 export class PluginDownloader extends Downloader {
-  private readonly pluginManifest: PluginManifest;
+  private readonly records:IndexRecord[];
+  private files:PluginFile[]=[];
   constructor(options: ConstructorParameters<typeof Downloader>[0], capture: Capture, configurations?: PluginConfigurations) {
     super(options);
-    this.pluginManifest = createPluginManifest(capture, configurations);
+    this.records = createIndexRecords(capture, configurations);
   }
   override shouldExportWARCResource(resource:any):boolean {
     return !(resource.url.startsWith('urn:')&&resource.extraOpts?.resource);
   }
   override async addExtraFiles(zip:any[],sizeCallback?:((size:number)=>void)|null) {
-    const evidence:any[]=[],http=new Map<string,{url:string;ts:number}>();
+    const evidence:any[]=[],http=new Map<string,{url:string;ts:number}>(),available=new Set<string>();
     const digest=async(resource:any)=>resource.digest||await digestMessage(await this.evidenceBytes(resource),'sha-256');
     for await(const resource of this.iterResources(this.firstResources)){
+      available.add(JSON.stringify([resource.url,resource.ts]));
       if(!this.shouldExportWARCResource(resource))evidence.push(resource);
       else if(/^https?:/.test(resource.url)){
         const hash=await digest(resource);if(!http.has(hash))http.set(hash,{url:resource.url,ts:resource.ts});
       }
     }
+    const snapshotId=this.records[0]!.id;
+    for(const record of this.records)if(record.type==='ArchiveResult')for(const ref of record.output_json.records){
+      if(ref.captureId!==snapshotId||!available.has(JSON.stringify([ref.url,ref.ts])))throw Error(`Missing hook resource: ${ref.url}`);
+    }
     const files:PluginFile[]=[],paths=new Map<string,string>(),used=new Set<string>();
-    this.pluginManifest.files=files;
+    this.files=files;
     const safe=(value:unknown)=>String(value||'evidence').replace(/[^a-zA-Z0-9_-]/g,'-');
     const identity=(resource:any)=>safe(resource.extraOpts?.plugin)+'/'+safe(resource.url.split(':')[1]);
     const counts=new Map<string,number>(),positions=new Map<string,number>();
@@ -113,6 +93,26 @@ export class PluginDownloader extends Downloader {
       used.add(path);paths.set(hash,path);files.push({...base,path});
       this.addFile(zip,path,this.generateEvidence(resource),sizeCallback);
     }
+    this.addFile(zip,interchange.artifacts,this.generateArtifacts(),sizeCallback);
+    this.addFile(zip,interchange.index,this.generateIndex(),sizeCallback);
+  }
+  private async *generateIndex(){yield jsonl(this.records)}
+  private async *generateArtifacts(){
+    for(const file of this.files){
+      if(file.path){
+        const stats=this.fileStats.find(stats=>stats.filename===file.path);
+        if(!stats?.hash)throw Error(`Plugin ZIP member was not hashed: ${file.path}`);
+        if(file.hash.replace(/^sha-256:/,'sha256:')!==`sha256:${stats.hash}`)throw Error(`Generated payload changed: ${file.url}`);
+        file.bytes=stats.size;
+      }
+      const artifact:Artifact={type:'Artifact',id:file.url,snapshot_id:this.records[0]!.id,
+        plugin:String(file.metadata.plugin),kind:file.url.split(':')[1]!,created_at:new Date(file.ts).toISOString(),
+        mimetype:file.mime,size:file.bytes,hash:file.hash.replace(/^sha-256:/,'sha256:'),
+        headers:file.headers,metadata:file.metadata,
+        storage:file.path?{type:'wacz-member',path:file.path}:{type:'warc-response',...file.record!}};
+      validateArtifact(artifact,this.records[0]!.id);
+      yield jsonl([artifact]);
+    }
   }
   private async evidenceBytes(resource:any):Promise<Uint8Array> {
     const payload=await this.db.loadPayload(resource,{});
@@ -121,13 +121,6 @@ export class PluginDownloader extends Downloader {
   }
   private async *generateEvidence(resource:any){yield await this.evidenceBytes(resource);}
   override getDataPackageMetadata(): Record<string, unknown> {
-    for(const file of this.pluginManifest.files||[])if(file.path){
-      const stats=this.fileStats.find(stats=>stats.filename===file.path);
-      if(!stats?.hash)throw Error(`Original evidence ZIP member was not hashed: ${file.path}`);
-      const actual=`sha256:${stats.hash}`;
-      if(file.hash.replace(/^sha-256:/,'sha256:')!==actual)throw Error(`Original evidence digest changed: ${file.url}`);
-      file.hash=actual;file.bytes=stats.size;
-    }
-    return {archivebox: this.pluginManifest};
+    return {archivebox:interchange};
   }
 }

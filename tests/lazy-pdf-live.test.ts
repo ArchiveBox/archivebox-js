@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {test,expect,chromium} from '@playwright/test';
 import {mkdtemp,readFile,writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -9,8 +10,8 @@ import {openSnapshotOutput} from './snapshot-controls';
 
 test('opening PDF automatically prints the archived page without changing WACZ',async({},info)=>{
   const archivePath=process.env.ABX_LAZY_PDF_WACZ;if(!archivePath)throw Error('ABX_LAZY_PDF_WACZ must name a new all-plugin webpage capture without a printed PDF');
-  const original=await readFile(archivePath),zip=unzipSync(original),manifest=JSON.parse(new TextDecoder().decode(zip['datapackage.json']!));
-  expect(manifest.archivebox.plugins.some((plugin:{id:string})=>plugin.id==='pdf')).toBe(true);
+  const original=await readFile(archivePath),zip=unzipSync(original),manifest=(await readWaczPackage(zip));
+  expect(manifest.metadata.plugins.some((plugin:{id:string})=>plugin.id==='pdf')).toBe(true);
   expect(Object.keys(zip).filter(name=>name.startsWith('pdf/'))).toEqual([]);
   const extension=path.resolve('.output/chrome-mv3'),context=await chromium.launchPersistentContext(await mkdtemp(path.join(tmpdir(),'abx-lazy-pdf-')),{channel:'chromium',headless:true,acceptDownloads:true,viewport:{width:1440,height:1000},args:[`--disable-extensions-except=${extension}`,`--load-extension=${extension}`]});
   const external:string[]=[],errors:string[]=[],printConsole:string[]=[],styles:string[]=[],redirects:unknown[]=[],imageRequests:string[]=[];
@@ -26,12 +27,12 @@ test('opening PDF automatically prints the archived page without changing WACZ',
     const bytes=Buffer.from(await frame.evaluate(async(node:HTMLIFrameElement)=>Array.from(new Uint8Array(await(await fetch(node.src.split('#')[0]!)).arrayBuffer()))));expect(bytes.subarray(0,5).toString()).toBe('%PDF-');
     await writeFile(info.outputPath('printed.pdf'),bytes);const document=mupdf.Document.openDocument(bytes,'application/pdf');expect(document.countPages()).toBeGreaterThan(0);let text='';
     for(let index=0;index<document.countPages();index++){const page=document.loadPage(index),structured=page.toStructuredText('');text+=structured.asText();structured.destroy();page.destroy()}document.destroy();expect(text.trim().length).toBeGreaterThan(20);
-    if(new URL(manifest.archivebox.url).hostname==='github.com')expect(text.toLowerCase()).toContain(new URL(manifest.archivebox.url).pathname.split('/')[2]!.toLowerCase());
+    if(new URL(manifest.metadata.url).hostname==='github.com')expect(text.toLowerCase()).toContain(new URL(manifest.metadata.url).pathname.split('/')[2]!.toLowerCase());
     expect(context.pages().filter(item=>item.url().endsWith('/print.html'))).toHaveLength(0);
     const after=await page.evaluate(async id=>await chrome.runtime.sendMessage({type:'inspect-wacz',id}),before.id);expect(after.entries).toEqual(before.entries);
     const downloading=page.waitForEvent('download');await page.getByRole('button',{name:'Download WACZ',exact:true}).click();const exported=await readFile((await(await downloading).path())!);expect(createHash('sha256').update(exported).digest('hex')).toBe(createHash('sha256').update(original).digest('hex'));
     await writeFile(info.outputPath('report.json'),JSON.stringify({archivePath,pdfBytes:bytes.length,text,entries:before.entries.length,external,errors,printConsole,styles},null,2));
-    if(new URL(manifest.archivebox.url).pathname==='/pirate/zfsify'){
+    if(new URL(manifest.metadata.url).pathname==='/pirate/zfsify'){
       const originalImage='https://github.com/pirate/zfsify/raw/main/docs/assets/recordings/phase-1.gif';
       const replayImage=imageRequests.find(url=>url.endsWith('/'+originalImage));expect(replayImage,'Print replay must request the original redirecting GitHub image').toBeTruthy();
       const decoded=await page.evaluate(async url=>{const image=new Image();image.src=url;try{await image.decode();return{url,width:image.naturalWidth,height:image.naturalHeight,error:''}}catch(error){return{url,width:image.naturalWidth,height:image.naturalHeight,error:String(error)}}},replayImage!);

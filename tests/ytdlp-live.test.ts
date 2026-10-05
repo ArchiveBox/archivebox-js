@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {unzipSync} from 'fflate';
 import {WARCParser} from 'warcio';
 import {readFile,readdir} from 'node:fs/promises';
@@ -71,8 +72,8 @@ for(const site of cases)test(`upstream yt-dlp WASM ${site.name}`,async({},info)=
     expect(hook.data.tracks.map((track:any)=>({language:track.language,ext:track.ext,url:track.url}))).toEqual(expected);
     expect(hook.data.tracks.every((track:any)=>track.status==='captured')).toBe(true);
     await writeFile(info.outputPath('native-info.json'),JSON.stringify(native,null,2));
-    const zip=unzipSync(await readFile(info.outputPath(site.name+'.wacz'))),manifest=JSON.parse(new TextDecoder().decode(zip['datapackage.json']));
-    const indexFile=manifest.archivebox.files.find((file:any)=>file.path==='search_contents/index.json');
+    const zip=unzipSync(await readFile(info.outputPath(site.name+'.wacz'))),manifest=(await readWaczPackage(zip));
+    const indexFile=manifest.metadata.files.find((file:any)=>file.path==='search_contents/index.json');
     expect(indexFile,'Final capture search index').toBeDefined();
     expect(capture.hooks.find((hook:any)=>hook.plugin==='search_contents').status).toBe('succeeded');
     const saved=JSON.parse(new TextDecoder().decode(zip[indexFile.path])),index=MiniSearch.loadJS(saved.index,searchOptions);

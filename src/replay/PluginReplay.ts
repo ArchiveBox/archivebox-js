@@ -1,6 +1,6 @@
 import { SWReplay, ArchiveDB, SingleRecordWARCLoader, getTSMillis, type RemoteResourceEntry } from '@webrecorder/wabac/swlib';
 import { warcRanges } from '../archive/warc-ranges';
-import type {PluginFile} from '../capture/wacz-metadata';
+import {readCaptureMetadata,type PluginFile} from '../archive/metadata';
 import {imageSize} from 'image-size';
 
 // Public operations on the MultiWACZ store supplied by SWCollections. No second
@@ -27,7 +27,10 @@ export class PluginReplay extends SWReplay {
       for(const wacz of Object.keys(store.waczfiles)){
         const {reader}=await store.loadFileFromNamedWACZ(wacz,'datapackage.json',{});
         const data=JSON.parse(new TextDecoder().decode(await reader.readFully()));
-        for(const file of data.archivebox?.files||[]){
+        const metadata=await readCaptureMetadata(data,async path=>{
+          const {reader}=await store.loadFileFromNamedWACZ(wacz,path,{});return reader.readFully();
+        });
+        for(const file of metadata?.files||[]){
           if(!String(file.url).startsWith('urn:'))throw Error('Generated file index must retain its original evidence URN');
           if(file.path&&(file.path.startsWith('/')||file.path.split('/').some((part:string)=>!part||part==='.'||part==='..')))throw Error('Invalid plugin file path');
           if(!file.path&&!file.record)throw Error('Plugin file is missing its stored body reference');

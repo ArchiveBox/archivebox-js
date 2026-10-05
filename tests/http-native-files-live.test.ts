@@ -1,3 +1,4 @@
+import {readWaczPackage} from './wacz-evidence';
 import {test,expect,chromium} from '@playwright/test';
 import {writeFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
@@ -9,7 +10,7 @@ test('HTTP native evidence renders screenshot and complete accessibility beside 
   const source=process.env.ABX_HTTP_WACZ||'http://127.0.0.1:8737/hacker-news-49944227-all-plugins-20261004.wacz';
   const player=process.env.ABX_PLAYER_URL||'http://127.0.0.1:8736/';
   const response=await fetch(source);expect(response.ok).toBe(true);const zip=unzipSync(new Uint8Array(await response.arrayBuffer()));
-  const manifest=JSON.parse(new TextDecoder().decode(zip['datapackage.json'])),files=manifest.archivebox.files;
+  const manifest=(await readWaczPackage(zip)),files=manifest.metadata.files;
   const shots=files.filter((file:any)=>file.metadata.plugin==='screenshot'),axFile=files.find((file:any)=>file.metadata.plugin==='accessibility');
   expect(shots.length).toBeGreaterThan(0);expect(axFile.path).toBeTruthy();const ax=JSON.parse(new TextDecoder().decode(zip[axFile.path]));const nodes=new Set(ax.nodes.map((node:any)=>node.nodeId)).size;expect(nodes).toBeGreaterThan(0);
   const browser=await chromium.launch({channel:'chromium',headless:true}),context=await browser.newContext({viewport:{width:1440,height:1100}}),page=await context.newPage(),errors:string[]=[],external:string[]=[];
@@ -27,7 +28,7 @@ test('HTTP native evidence renders screenshot and complete accessibility beside 
     }
     await page.screenshot({path:info.outputPath('http-screenshot.png'),fullPage:true});
     await page.evaluate(()=>location.hash='view=accessibility');const accessibility=page.frameLocator('#main-frame-wrapper iframe[title="Accessibility"]');await expect(accessibility.locator('.badges').first()).toContainText(`◇ ${nodes} AX nodes`);
-    await expect(accessibility.getByRole('heading',{name:'Accessibility tree',exact:true})).toBeVisible();await expect(accessibility.locator('.ax')).toContainText(manifest.archivebox.title);await page.screenshot({path:info.outputPath('http-accessibility.png'),fullPage:true});
+    await expect(accessibility.getByRole('heading',{name:'Accessibility tree',exact:true})).toBeVisible();await expect(accessibility.locator('.ax')).toContainText(manifest.metadata.title);await page.screenshot({path:info.outputPath('http-accessibility.png'),fullPage:true});
     await expect(page.getByRole('alert')).toHaveCount(0);expect(errors).toEqual([]);expect(external).toEqual([]);await writeFile(info.outputPath('report.json'),JSON.stringify({source,shots:shots.length,nodes,errors,external},null,2));
   }finally{await browser.close()}
 });
