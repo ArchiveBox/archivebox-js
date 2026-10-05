@@ -9,8 +9,8 @@ function date(record: Record<string, unknown>) {
   const date = new Date(timestamp);
   return Number.isFinite(date.getTime()) ? date.toISOString() : original || '';
 }
-export default async function({ archive, url }: ViewContext): Promise<ViewResult> {
-  const sources = sourceEntries(archive, url, (mime, source) => /(?:json|ndjson|jsonl)|^text\/plain/i.test(mime) || /\.(?:jsonl|ndjson)(?:[?#]|$)/i.test(source));
+export default async function({ archive, url, preview }: ViewContext): Promise<ViewResult> {
+  const sources = sourceEntries(archive, url, (mime, source) => /(?:json|ndjson|jsonl)|^text\/plain/i.test(mime) || /\.(?:jsonl|ndjson)(?:[?#]|$)/i.test(source), preview?3:undefined);
   const rows: (string | number | boolean)[][] = []; const errors: (string | number)[][] = []; const tags = new Set<string>(); let documents = 0;
   for (const entry of sources) {
     const source = await archive.text(entry);

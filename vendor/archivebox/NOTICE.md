@@ -39,3 +39,9 @@ The directory template retains the upstream CSS and static markup; Django row
 rendering and the original inline script are removed because the shared UI now
 handles those duties. The upstream template SHA-256 before adapting it is
 `350362c8138a39254d5bf8ee5ae0fcc8468224e17987d10f68db073fb4da9601`.
+
+Metadata cards use the same compiled canonical renderers as their full viewers,
+through `src/archive/cards.ts`. Preview mode limits data and visible rows while
+retaining the original card.html scaling and full.html structure. Accessibility
+cards show the source document outline without launching native AX rendering;
+hashes cards use the package manifest without reading response bodies.

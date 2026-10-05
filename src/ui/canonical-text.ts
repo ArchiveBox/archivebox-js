@@ -3,7 +3,7 @@
 // Only filesystem fetches/actions are supplied by the shared WACZ presenter.
 import type {CanonicalPresentation} from '../archive/views';
 const templates=import.meta.glob(['../../vendor/archivebox/plugins/title/full.html','../../vendor/archivebox/plugins/htmltotext/full.html','../../vendor/archivebox/plugins/parse_*/full.html'],{eager:true,query:'?raw',import:'default'}) as Record<string,string>;
-export function initializeURLs(document:Document,text:string) {
+export function initializeURLs(document:Document,text:string,options?:{preview?:boolean}) {
   const el = (tag, text, cls) => { const node = document.createElement(tag); if (text != null) node.textContent = String(text); if (cls) node.className = cls; return node; };
   const safeLink = (value, label) => {
     const a = el('a', label || value, 'url');
@@ -35,7 +35,7 @@ export function initializeURLs(document:Document,text:string) {
       const needle = filter.value.trim().toLowerCase();
       list.replaceChildren();
       let shown = 0;
-      rows.forEach((row, index) => {
+      (options?.preview?rows.slice(0,12):rows).forEach((row, index) => {
         const searchable = JSON.stringify(row).toLowerCase();
         if (needle && !searchable.includes(needle)) return;
         const article = el('article', null, 'row');

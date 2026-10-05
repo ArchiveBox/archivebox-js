@@ -11,13 +11,13 @@ export function feedPresentation(data:ArchivedFeed[]):CanonicalPresentation {
     if(!data.length){content.append(el('div','No feeds archived','panel empty'));return}
     const search=document.createElement('input');search.type='search';search.className='filter';search.placeholder='Filter entries…';search.setAttribute('aria-label','Filter feed entries');content.append(search);
     const entries:{node:HTMLElement;search:string}[]=[];
-    for(const item of data){
+    for(const item of options.preview?data.slice(0,2):data){
       const panel=el('section',undefined,'panel'),heading=el('h2',item.feed?.title||item.url);heading.style.cssText='font-size:18px;margin:0 0 8px';panel.append(heading);
       const original=el('a',item.url,'url') as HTMLAnchorElement;const originalURL=options.resourceURL(item.url);if(originalURL){original.href=originalURL;original.target='_blank';original.rel='noopener'}panel.append(original);
       if(item.error)panel.append(el('p',item.error,'muted'));
       if(item.feed?.description)panel.append(el('p',item.feed.description.replace(/<[^>]*>/g,''),'muted'));
       const rows=el('div',undefined,'rows');panel.append(rows);content.append(panel);
-      item.feed?.items.forEach((entry,index)=>{
+      (options.preview?item.feed?.items.slice(0,6):item.feed?.items)?.forEach((entry,index)=>{
         const row=el('article',undefined,'row'),body=el('div'),title=el('a',entry.title||entry.url,'url') as HTMLAnchorElement;
         const archivedURL=options.resourceURL(entry.url);if(archivedURL){title.href=archivedURL.replace(/(\d{14})id_\//,'$1mp_/');title.target='_blank';title.rel='noopener'}
         body.append(title);const meta=el('div',undefined,'meta');for(const value of [entry.author,entry.date,...entry.tags])if(value)meta.append(el('span',value,'badge'));body.append(meta);

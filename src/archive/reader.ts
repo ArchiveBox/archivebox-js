@@ -182,7 +182,7 @@ export class ArchiveReader {
     const {renderedDOM}=await import('./rendered-dom');
     return renderedDOM(this);
   }
-  integrityTree(){return integrityTree(this)}
+  integrityTree(options?:{includeRecords?:boolean}){return integrityTree(this,options)}
   async verifyPackage(): Promise<IntegrityResult[]> {
     const checks: IntegrityResult[] = [];
     const digest = JSON.parse(decoder.decode(await this.member('datapackage-digest.json')));

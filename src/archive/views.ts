@@ -13,10 +13,10 @@ export type ViewSection =
   | { type: 'article'; title: string; html: string; plugin: 'readability' | 'defuddle' | 'mercury' }
   | { type: 'stream'; title:string; entry:ArchiveEntry; kind:'hls'|'dash' }
   | { type: 'resource'; title: string; entry: ArchiveEntry };
-export type CanonicalOptions={downloadURL:string;rawURL:string;openFiles:()=>void;resourceURL:(value:string|null|undefined,base?:string)=>string|undefined};
+export type CanonicalOptions={preview?:boolean;downloadURL:string;rawURL:string;openFiles:()=>void;resourceURL:(value:string|null|undefined,base?:string)=>string|undefined};
 export type CanonicalPresentation={type:'canonical';plugin:string;title:string;template:string;data:any;initialize:(document:Document,data:any,options:CanonicalOptions)=>void|(()=>void)|Promise<void|(()=>void)>;format?:'json'|'jsonl'|'text';filename?:string;nativePDF?:boolean};
 export type ViewResult = { title: string; summary: string; sections: ViewSection[];presentation?:GitPresentation|CanonicalPresentation|GalleryPresentation|ForumPresentation|YtdlpPresentation|{type:'paper';entry?:ArchiveEntry}|{type:'lazy-pdf';landscape:boolean}|{type:'documents';documents:DocumentSource[]}|{type:'responses'} };
-export type ViewContext = { archive: ArchiveReader; url: string; capture?: Capture; signal?:AbortSignal };
+export type ViewContext = { archive: ArchiveReader; url: string; capture?: Capture; signal?:AbortSignal; preview?:boolean };
 export type ViewModule = { default: (ctx: ViewContext) => Promise<ViewResult> };
 const modules = import.meta.glob('../../abx-plugins/abx_plugins/plugins/*/browser/view.ts');
 export const views = Object.fromEntries(Object.entries(modules).map(([path, load]) => [path.split('/').at(-3)!, async (context: ViewContext) => (await load() as ViewModule).default(context)]));

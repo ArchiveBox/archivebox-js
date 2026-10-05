@@ -1,13 +1,21 @@
 import MiniSearch from 'minisearch';
+import {cardDocument,cardHTML} from '../archive/cards';
 import type {CanonicalPresentation} from '../archive/views';
 import fullTemplate from '../../vendor/archivebox/plugins/parse_rss_urls/full.html?raw';
 import {searchOptions,type SearchIndex,type SearchDocument} from '../../abx-plugins/abx_plugins/plugins/search_contents/browser/index';
+function searchLayout(document:Document,total:number){
+  const el=(tag:string,text?:unknown,cls?:string)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=String(text);if(cls)node.className=cls;return node};
+  const content=document.getElementById('content')!,stats=el('section',undefined,'panel stats'),count=el('span',undefined,'badge');count.textContent=`${total} documents`;stats.append(count);content.append(stats);
+  const panel=el('section',undefined,'panel'),search=document.createElement('input'),rows=el('div',undefined,'rows'),more=document.createElement('button');search.type='search';search.className='filter';search.placeholder='Search archived text…';search.setAttribute('aria-label','Search archived text');more.textContent='Show more';panel.append(search,rows);content.append(panel);
+  return {el,panel,search,rows,more,count};
+}
+export function searchCard(total:number){
+ const doc=cardDocument(fullTemplate);searchLayout(doc,total);return cardHTML(doc);
+}
 export function searchPresentation(data:SearchIndex,read:(document:SearchDocument)=>Promise<string>):CanonicalPresentation {
  return {type:'canonical',plugin:'search_contents',title:'Search',template:fullTemplate.replaceAll('Discovered URLs','Search'),data,filename:'index.json',async initialize(document,data:SearchIndex,options){
   const index=await MiniSearch.loadJSAsync(data.index,searchOptions);
-  const el=(tag:string,text?:unknown,cls?:string)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=String(text);if(cls)node.className=cls;return node};
-  const content=document.getElementById('content')!,stats=el('section',undefined,'panel stats'),count=el('span',undefined,'badge');stats.append(count);content.append(stats);
-  const panel=el('section',undefined,'panel'),search=document.createElement('input'),rows=el('div',undefined,'rows'),more=document.createElement('button');search.type='search';search.className='filter';search.placeholder='Search archived text…';search.setAttribute('aria-label','Search archived text');more.textContent='Show more';panel.append(search,rows,more);content.append(panel);
+  const {el,panel,search,rows,more,count}=searchLayout(document,data.documents.length);
   const previews=new WeakMap<Element,()=>Promise<void>>(),observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){observer.unobserve(entry.target);void previews.get(entry.target)?.()}},{root:document.documentElement,rootMargin:'200px'});
   let matches:SearchDocument[]=[],position=0,generation=0;
   function append(){

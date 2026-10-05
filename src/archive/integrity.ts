@@ -4,14 +4,14 @@ const sha256=async(value:string)=>[...new Uint8Array(await crypto.subtle.digest(
 
 /** Storage-backed hash hierarchy. Plugins consume this model without inspecting
  * WARC paths, ZIP positions, ranges or transfer sizes. */
-export async function integrityTree(archive:ArchiveReader){
+export async function integrityTree(archive:ArchiveReader,{includeRecords=true}:{includeRecords?:boolean}={}){
   // WACZ package members are the actual files in this archive. Their manifest
   // hashes refer to these exact bytes, not invented exported plugin paths.
   const files=archive.manifest.resources.map((resource:any)=>({path:resource.path,hash:String(resource.hash).replace(/^sha-?256:/,''),size:resource.bytes})).sort((a:any,b:any)=>a.path.localeCompare(b.path));
   // CDX payload digests expose every original response/evidence body without
   // decompressing whole WARC members merely to draw a thumbnail.
   const warc_records:Record<string,{files:unknown[];root_hash:string;tree_levels:string[][]}>={};
-  for(const file of files){
+  for(const file of includeRecords?files:[]){
     const records=archive.entries.filter(entry=>!entry.native&&(entry.filename.startsWith('archive/')?entry.filename:`archive/${entry.filename}`)===file.path).map(entry=>{
       const url=new URL(entry.url),parts=url.protocol==='urn:'?[entry.url.split(':')[1]!,entry.url]:[url.host,...url.pathname.split('/').filter(Boolean),url.search||''];
       return {path:parts.filter(Boolean).map(part=>encodeURIComponent(part)).join('/')+`/${entry.timestamp}-${entry.offset}`,url:entry.url,timestamp:entry.timestamp,offset:entry.offset,stored_bytes:entry.length,hash:entry.digest.replace(/^sha-?256:/,''),algorithm:entry.digest.split(':')[0],size:null};

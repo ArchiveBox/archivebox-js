@@ -1,9 +1,12 @@
 import type {ViewContext,ViewResult} from '@/src/archive/views';
 import template from '../../../../../vendor/archivebox/plugins/dns/full.html?raw';
 import {initializeDNS} from '@/src/ui/dns-template';
-export default async function({archive,signal}:ViewContext):Promise<ViewResult>{
+export default async function({archive,signal,preview}:ViewContext):Promise<ViewResult>{
   const records:Record<string,any>[]=[],seen=new Set<string>();
-  for(const entry of archive.entries.filter(entry=>/^https?:/.test(entry.url)).sort((a,b)=>a.ts-b.ts)){
+  const entries=archive.entries.filter(entry=>/^https?:/.test(entry.url)).sort((a,b)=>a.ts-b.ts);
+  const hosts=new Set<string>();
+  const selected=preview?entries.filter(entry=>{const host=new URL(entry.url).hostname;if(hosts.has(host))return false;hosts.add(host);return true}).slice(0,6):entries;
+  for(const entry of selected){
     signal?.throwIfAborted();const record=await archive.headers(entry),metadata=JSON.parse(record.warcHeaders['WARC-JSON-Metadata']||'{}'),network=metadata.network;
     if(!network?.remoteIPAddress)continue;
     const hostname=new URL(entry.url).hostname,ip=network.remoteIPAddress,key=hostname+':'+ip;

@@ -1,8 +1,9 @@
 import type { ViewContext, ViewResult } from '@/src/archive/views';
+import {cardDOM} from '@/src/archive/cards';
 import {textPresentation} from '@/src/ui/canonical-text';
 
-export default async function({ archive, url }: ViewContext): Promise<ViewResult> {
-  const doc = await archive.dom();
+export default async function({ archive, url, preview }: ViewContext): Promise<ViewResult> {
+  const doc = await (preview?cardDOM(archive):archive.dom());
   let base = url;
   try { base = new URL(doc.querySelector('base[href]')?.getAttribute('href') || url, url).href; } catch { /* use capture URL */ }
   const found = new Map<string, { kind: string; url: string; label: string; count: number }>();
