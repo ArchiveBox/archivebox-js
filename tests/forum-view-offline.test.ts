@@ -14,7 +14,11 @@ for(const item of cases)test(`canonical forum ${item.name} from original WACZ`,a
   const live:string[]=[];context.on('request',request=>{if(/^https?:/.test(request.url()))live.push(request.url())});
   const chooser=page.waitForEvent('filechooser');await page.getByRole('button',{name:'Import WACZ',exact:true}).click();await(await chooser).setFiles(item.file);await expect(page.locator('.stack-shelf')).toBeVisible();
   const started=Date.now();await page.goto(page.url().split('#')[0]+'#view=forumdl');const forum=page.locator('#main-frame-wrapper .plugin-view').frameLocator('iframe[title="Forum thread"]');
-  if(item.name==='noresults'){await expect(forum.locator('#content')).toHaveText('No captured replies');expect(Date.now()-started).toBeLessThan(5000);}
+  if(item.name==='noresults'){
+   await expect(page).not.toHaveURL(/#view=forumdl/);
+   await expect(page.locator('[data-plugin-name="forumdl"],a[data-plugin-view="forumdl"],.plugin-view[data-plugin="forumdl"]')).toHaveCount(0);
+   expect(Date.now()-started).toBeLessThan(5000);
+  }
   else{
    const native=JSON.parse(await readFile('/tmp/abx-forum-canonical-build9-20261004/forum-upstream-live-comple-335c9-comparison-and-offline-WACZ/native.json','utf8'));
    await expect(forum.locator('.thread-title')).toHaveText(native.threads[0].title,{timeout:60_000});

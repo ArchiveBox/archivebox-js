@@ -51,16 +51,18 @@ export function PluginOutput({archive,capture,name,active=true}:{archive:Archive
 /** Markup, presentation metadata and stack controller come from ArchiveBox's snapshot templates. */
 export function SnapshotDetail({archive,capture,...headerProps}:Omit<SnapshotHeaderProps,'expanded'|'onToggleOutputs'>) {
   const [expanded,setExpanded]=React.useState(true);
-  const available=React.useMemo(()=>[...new Set([...Object.keys(views),...capture.hooks.filter(hook=>plugins[hook.plugin]&&hook.records?.length).map(hook=>hook.plugin)])].filter(name=>(!capture.plugins.length||capture.plugins.includes(name))&&(!['dom','singlefile'].includes(name)||Boolean(archive.documentEntry()))),[archive,capture]);
-  const checks=React.useMemo(()=>new Map(available.map(name=>[name,hasOutput(name,{archive,capture,url:capture.finalUrl||capture.url})])),[available,archive,capture]);
+  const candidates=React.useMemo(()=>[...new Set([...Object.keys(views),...capture.hooks.filter(hook=>plugins[hook.plugin]&&hook.records?.length).map(hook=>hook.plugin)])].filter(name=>(!capture.plugins.length||capture.plugins.includes(name))&&(!['dom','singlefile'].includes(name)||Boolean(archive.documentEntry()))),[archive,capture]);
+  const checks=React.useMemo(()=>new Map(candidates.map(name=>[name,hasOutput(name,{archive,capture,url:capture.finalUrl||capture.url})])),[candidates,archive,capture]);
   const [resolved,setResolved]=React.useState<{checks:typeof checks;values:Map<string,boolean>}>();
   React.useEffect(()=>{let active=true;const pending=[...checks].filter(([,value])=>typeof value!=='boolean');
     if(pending.length)void Promise.all(pending.map(async([name,value])=>[name,await Promise.resolve(value).catch(()=>true)] as const)).then(values=>{if(active)setResolved({checks,values:new Map(values)})});
     return()=>{active=false};
   },[checks]);
-  const names=React.useMemo(()=>orderedPlugins(available.filter(name=>Boolean(views[name])&&(checks.get(name)===true||(resolved?.checks===checks&&resolved.values.get(name)===true)))),[available,checks,resolved]);
+  const availability=React.useMemo(()=>new Map([...checks].map(([name,value])=>[name,typeof value==='boolean'?value:resolved?.checks===checks?resolved.values.get(name):undefined])),[checks,resolved]);
+  const available=React.useMemo(()=>candidates.filter(name=>availability.get(name)===true),[candidates,availability]);
+  const names=React.useMemo(()=>orderedPlugins(available.filter(name=>Boolean(views[name]))),[available]);
   const defaultView=names.find(name=>presentation(name).snapshot_primary_preview&&(name==='screenshot'?archive.artifact('screenshot')||archive.artifact('fullPage'):archive.artifact(name))) || names[0] || 'responses';
-  const initial=()=>{const requested=new URLSearchParams(location.hash.slice(1)).get('view');return requested&&(views[requested]||available.includes(requested))?requested:defaultView};
+  const initial=()=>{const requested=new URLSearchParams(location.hash.slice(1)).get('view');return requested&&candidates.includes(requested)&&availability.get(requested)!==false?requested:defaultView};
   const [panel,setPanel]=React.useState(initial);
   // Keep recent documents mounted, in stable DOM order. Reordering iframe
   // nodes reloads them. Bound the cache so large reports cannot accumulate.
@@ -75,7 +77,7 @@ export function SnapshotDetail({archive,capture,...headerProps}:Omit<SnapshotHea
   const cardsHost=React.useRef<HTMLDivElement>(null);
   React.useLayoutEffect(()=>{const header=root.current!.querySelector('header')!;const resize=()=>root.current?.style.setProperty('--snapshot-navbar-height',`${header.getBoundingClientRect().height}px`);const observer=new ResizeObserver(resize);observer.observe(header);resize();return()=>observer.disconnect()},[]);
   React.useLayoutEffect(()=>{if(!expanded)root.current?.scrollIntoView({block:'start'})},[expanded]);
-  React.useEffect(()=>{const changed=()=>{const selected=initial();select(selected);const requested=new URLSearchParams(location.hash.slice(1)).get('view');if(requested&&requested!==selected)location.hash=`view=${encodeURIComponent(selected)}`};changed();addEventListener('hashchange',changed);return()=>removeEventListener('hashchange',changed)},[archive,available,defaultView,select]);
+  React.useEffect(()=>{const changed=()=>{const selected=initial();select(selected);const requested=new URLSearchParams(location.hash.slice(1)).get('view');if(requested&&requested!==selected)location.hash=`view=${encodeURIComponent(selected)}`};changed();addEventListener('hashchange',changed);return()=>removeEventListener('hashchange',changed)},[archive,candidates,availability,defaultView,select]);
   const choose=React.useCallback((name:string)=>{select(name);location.hash=`view=${encodeURIComponent(name)}`},[select]);
   React.useEffect(()=>{
     const host=cardsHost.current!,container=root.current!;
