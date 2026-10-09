@@ -109,8 +109,6 @@ For individual engines, see **[Plugin ports and browser runtime](docs/plugin-por
 
 ![Measured snapshot size with default plugins on two real sites](docs/assets/capture-size.svg)
 
-The [default-capture comparison](docs/benchmarks.md) covers both `sweeting.me` and `docs.sweeting.me/s/blog`, with elapsed time, CPU, RAM, disk activity, network observations, and output coverage. The blog WACZ occupies about **82% less disk space**; its capture takes longer because the browser suite also performs OCR on 77 images. The media-heavy `sweeting.me` capture saves about **11%**. Measurements use two fresh runs per engine and preserve each tool's defaults.
-
 ## 🚀 Get started
 
 **Requirements:** Node.js 22.12+, pnpm 10, and a desktop Chromium browser such as Chrome or Brave.
