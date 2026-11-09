@@ -91,7 +91,7 @@
     "@wxt-dev/module-react": "^1.1.5",
     "replaywebpage": "2.5.3",
     "typescript": "^5.9.3",
-    "vite": "8.0.12",
+    "vite": "8.1.6",
     "wxt": "^0.20.26",
     "esbuild": "0.28.2"
   },
