@@ -60,6 +60,7 @@ capture.wacz
 ├── datapackage.json          File inventory, hashes, and metadata references
 ├── datapackage-digest.json   Package manifest digest
 ├── index.jsonl               ArchiveBox Snapshot and ArchiveResult records
+├── dom/                      Observed rendered HTML and image dimensions
 ├── screenshot/               Generated screenshots
 ├── consolelog/               Captured browser observations
 ├── liteparse/                Extracted text and OCR layout

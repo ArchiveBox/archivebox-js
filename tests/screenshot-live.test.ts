@@ -73,9 +73,18 @@ test('all-plugin HN preserves a capped JPEG and full-resolution PNG pages, with 
     expect(commentWord).not.toBe('');
     const pageLimit=Math.max(1,capture.pluginConfig.infiniscroll.INFINISCROLL_SCROLL_LIMIT);
     expect(manifest.metadata.files.filter((file:any)=>file.url.startsWith('urn:fullPage:')).length,'PNG count respects the configured scroll page limit').toBeLessThanOrEqual(pageLimit);
-    expect(Object.keys(zip).filter(name=>/^(dom|accessibility|chrome_screencast)\//.test(name))).toEqual([]);
-    expect(manifest.metadata.files.filter((file:any)=>/^urn:(dom|accessibility|screencast):/.test(file.url))).toEqual([]);
-    expect(capture.hooks.filter((hook:any)=>['dom','accessibility','chrome_screencast'].includes(hook.plugin))).toEqual([]);
+    expect(Object.keys(zip).filter(name=>/^(accessibility|chrome_screencast)\//.test(name))).toEqual([]);
+    expect(manifest.metadata.files.filter((file:any)=>/^urn:(accessibility|screencast):/.test(file.url))).toEqual([]);
+    expect(capture.hooks.filter((hook:any)=>['accessibility','chrome_screencast'].includes(hook.plugin))).toEqual([]);
+    if(!retained||capture.hooks.some((hook:any)=>hook.plugin==='dom')){
+      const dom=manifest.metadata.files.filter((file:any)=>file.url.startsWith('urn:dom:'));
+      expect(dom).toHaveLength(1);expect(dom[0].path).toBe('dom/dom.html');expect(dom[0].mime).toBe('text/html');
+      expect(new TextDecoder().decode(zip[dom[0].path])).toContain('I quit OpenAI');
+      expect(capture.hooks.find((hook:any)=>hook.plugin==='dom')?.status).toBe('succeeded');
+    }else{
+      expect(Object.keys(zip).filter(name=>name.startsWith('dom/'))).toEqual([]);
+      expect(manifest.metadata.files.filter((file:any)=>file.url.startsWith('urn:dom:'))).toEqual([]);
+    }
     const preview=manifest.metadata.files.find((file:any)=>file.url.startsWith('urn:screenshot:'));
     expect(preview.path).toBe('screenshot/screenshot.jpg');expect(preview.mime).toBe('image/jpeg');
     const jpeg=imageSize(zip[preview.path]!);expect(jpeg.type).toBe('jpg');

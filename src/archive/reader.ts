@@ -179,7 +179,7 @@ export class ArchiveReader {
     return document;
   }
   async dom(): Promise<Document> {
-    const {renderedDOM}=await import('./rendered-dom');
+    const {renderedDOM}=await import('../../abx-plugins/abx_plugins/plugins/dom/browser/document');
     return renderedDOM(this);
   }
   integrityTree(options?:{includeRecords?:boolean}){return integrityTree(this,options)}

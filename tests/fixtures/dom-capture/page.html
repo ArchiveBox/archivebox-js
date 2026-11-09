@@ -1,0 +1,23 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>DOM observation contract</title>
+<base href="assets/">
+<style>.small-image{width:96px;height:48px}#vector{width:36px;height:18px}</style>
+</head><body>
+<h1>DOM observation contract</h1>
+<img id="original" class="small-image" src="probe.svg?from=dom#original" alt="Original image">
+<svg id="vector" viewBox="0 0 200 100"><rect width="200" height="100" fill="purple"/></svg>
+<input id="text" value="Serialized form attribute">
+<input id="password" type="password" value="test-password-attribute">
+<input id="file" type="file" value="test-file-attribute">
+<textarea>Serialized textarea</textarea>
+<script>
+window.constructions=0;
+customElements.define('capture-probe',class extends HTMLElement{
+  constructor(){super();window.constructions++;}
+});
+const probe=document.createElement('capture-probe');
+probe.innerHTML='<p>Only present after the page runs</p><img id="dynamic" class="small-image" src="probe.svg?from=dom#dynamic" alt="Dynamic image">';
+document.body.append(probe);
+addEventListener('load',()=>{window.observedHTML=document.documentElement.outerHTML;});
+</script>
+</body></html>

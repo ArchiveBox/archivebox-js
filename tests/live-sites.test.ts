@@ -60,7 +60,7 @@ for (const site of sites) test(`live ${site.name}: capture, export, delete, offl
     const main = entries.filter(entry => entry.url === capture.finalUrl?.split('#')[0] || entry.url === site.url.split('#')[0]);
     report.documentEntries = main;
     report.recordCount = entries.length;
-    let finalDOM = '';
+    let finalDOM = zip['dom/dom.html'] ? strFromU8(zip['dom/dom.html']) : '';
     const observedConnections: {url:string;network:Record<string,unknown>}[] = [];
     const types: Record<string, number> = {};
     for await (const record of new WARCParser([zip['archive/data.warc.gz']!])) {

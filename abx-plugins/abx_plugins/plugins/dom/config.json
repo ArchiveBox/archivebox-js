@@ -1,6 +1,10 @@
 {
   "title": "Rendered DOM",
-  "description": "Derive the rendered DOM from the archived page through ReplayWeb.page.",
-  "category": "view",
-  "default_enabled": true
+  "description": "Preserve the rendered page DOM and observed image dimensions after browser interactions.",
+  "category": "capture",
+  "default_enabled": true,
+  "required_plugins": [
+    "chrome"
+  ],
+  "timeout": 30
 }

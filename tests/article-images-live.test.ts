@@ -9,7 +9,17 @@ import {parse,type DefaultTreeAdapterTypes} from 'parse5';
 async function retainedBlog(){const root=process.env.ABX_LIVE_CAPTURE_DIR||'/tmp/abx-wacz-live-final';const files=await readdir(root,{recursive:true});const file=files.find(file=>path.basename(file)==='sweeting-blog.wacz');if(!file)throw Error(`Real Sweeting blog WACZ missing from ${root}`);return path.join(root,file);}
 test('canonical article templates preserve real saved Sweeting image sizes offline',async({},testInfo)=>{
   test.setTimeout(180_000);const file=await retainedBlog();let source='';
-  for(const bytes of Object.values(unzipSync(await readFile(file),{filter:entry=>entry.name.startsWith('archive/')})))for await(const record of new WARCParser([bytes])){const body=await record.readFully();if(record.warcType==='resource'&&record.warcTargetURI?.startsWith('urn:dom:'))source=new TextDecoder().decode(body);}
+  const zip=unzipSync(await readFile(file));
+  // Generated DOM uses the existing ArchiveResult member storage contract.
+  // Legacy captures may still contain the same evidence as a WARC resource.
+  if(zip['dom/dom.html']){
+    source=new TextDecoder().decode(zip['dom/dom.html']);
+    const records=new TextDecoder().decode(zip['index.jsonl']).trim().split('\n').map(line=>JSON.parse(line));
+    const dom=records.find(record=>record.type==='ArchiveResult'&&record.plugin==='dom');
+    expect(dom.status).toBe('succeeded');
+    expect(dom.output_files).toContainEqual(expect.objectContaining({url:expect.stringMatching(/^urn:dom:/),storage:{type:'wacz-member',path:'dom/dom.html'}}));
+  }
+  for(const bytes of Object.entries(zip).filter(([name])=>name.startsWith('archive/')).map(([,bytes])=>bytes))for await(const record of new WARCParser([bytes])){const body=await record.readFully();if(record.warcType==='resource'&&record.warcTargetURI?.startsWith('urn:dom:'))source=new TextDecoder().decode(body);}
   expect(source.length).toBeGreaterThan(10000);
   const originals:{src:string;height?:number;width?:number}[]=[];
   function visit(node:DefaultTreeAdapterTypes.Node){
@@ -29,6 +39,10 @@ test('canonical article templates preserve real saved Sweeting image sizes offli
     const choosing=studio.waitForEvent('filechooser');await studio.getByRole('button',{name:'Import WACZ',exact:true}).click();await(await choosing).setFiles(file);
     await expect(studio.getByRole('button',{name:'Download WACZ',exact:true})).toBeVisible({timeout:60_000});
     const capture=await studio.evaluate(async()=>((await chrome.storage.local.get('wacz-captures'))['wacz-captures']as any[])[0]);
+    await studio.goto(studio.url().split('#')[0]+'#view=dom');
+    const dom=studio.frameLocator('#main-frame-wrapper .plugin-view:visible iframe[title="Offline document"]');
+    await expect(dom.locator('body')).toContainText('Sweeting');
+    await expect.poll(()=>dom.locator('img').evaluateAll(images=>images.filter(image=>(image as HTMLImageElement).naturalWidth>0).length)).toBeGreaterThan(5);
     const report:any[]=[];
     for(const plugin of ['readability','defuddle','mercury']){
       const name=plugin[0]!.toUpperCase()+plugin.slice(1);
@@ -38,6 +52,7 @@ test('canonical article templates preserve real saved Sweeting image sizes offli
       // The canonical template applies sizing/styles in the reader iframe load event.
       await expect.poll(()=>reader.locator('body').evaluate(node=>getComputedStyle(node).fontFamily),{timeout:45_000}).toContain('Georgia');
       await expect.poll(()=>reader.locator('img').evaluateAll(images=>images.filter(image=>(image as HTMLImageElement).naturalWidth>0).length)).toBeGreaterThan(5);
+      await expect.poll(()=>reader.locator('img').evaluateAll(images=>images.every(image=>(image as HTMLImageElement).complete))).toBe(true);
       const images=await reader.locator('img').evaluateAll(nodes=>nodes.map(node=>{const image=node as HTMLImageElement;const rect=image.getBoundingClientRect();return{src:image.currentSrc,naturalWidth:image.naturalWidth,naturalHeight:image.naturalHeight,width:rect.width,height:rect.height,style:image.getAttribute('style'),parentWidth:image.parentElement!.getBoundingClientRect().width};}));
       const matches=small.flatMap(original=>images.filter(image=>image.src.endsWith(original.src)&&image.naturalHeight>0).map(image=>({original,image})));
       await writeFile(testInfo.outputPath(plugin+'-dimension-probe.json'),JSON.stringify({small,images,matches},null,2));

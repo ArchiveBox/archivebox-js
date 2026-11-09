@@ -1,10 +1,23 @@
-import type {ArchiveReader} from './reader';
-import {createReplay} from './replay-frame';
-import {playerURL} from '../replay/client';
+import type {ArchiveReader} from '@/src/archive/reader';
+import {createReplay} from '@/src/archive/replay-frame';
+import {playerURL} from '@/src/replay/client';
+
+/** Generated DOM evidence is resolved through the same resource API as HTTP. */
+export async function capturedDOM(archive:ArchiveReader):Promise<Document|undefined>{
+ const entry=archive.artifact('dom');if(!entry)return undefined;
+ const record=await archive.read(entry);
+ const document=new DOMParser().parseFromString(new TextDecoder().decode(record.body),'text/html');
+ const metadata=JSON.parse(record.warcHeaders['WARC-JSON-Metadata']||record.warcHeaders['warc-json-metadata']||'{}');
+ const source=metadata.sourceUrl||archive.documentEntry()?.url||archive.metadata?.url;
+ const base=document.querySelector('base')||document.createElement('base');
+ base.setAttribute('href',new URL(metadata.baseURI||base.getAttribute('href')||source,source).href);document.head.prepend(base);
+ return document;
+}
 
 const rendered=new WeakMap<ArchiveReader,Promise<string>>();
-/** A disposable view-time DOM, never a second captured HTML file. */
+/** Use observed page state; archives without it keep their existing replay path. */
 export async function renderedDOM(archive:ArchiveReader):Promise<Document>{
+ const captured=await capturedDOM(archive);if(captured)return captured;
  let pending=rendered.get(archive);
  if(!pending){pending=render(archive);rendered.set(archive,pending);pending.catch(()=>rendered.delete(archive))}
  return new DOMParser().parseFromString(await pending,'text/html');

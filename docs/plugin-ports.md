@@ -24,7 +24,7 @@ flowchart LR
 - **Transport:** plugins call `archive.fetch`, `archive.read`, and `archive.addResource`. The shared layer owns request matching, response recording, deduplication, WARC/CDX locations, and range reads. Methods, bodies, credential-sensitive headers, ranges, and `Vary` affect reuse.
 - **Python networking:** [Pyodide 0.29.3](https://pyodide.org/) and [JSPI](https://blog.pyodide.org/posts/jspi/) suspend synchronous Python while JavaScript awaits recorder I/O. Requests uses its public adapter interface; yt-dlp uses its request-handler interface. Site parsers remain upstream code.
 - **Replay:** transport resolves recorded requests only. Opening a reader never fetches missing responses from the original server. Expensive extractors run in isolated workers; cards use indexes and lightweight summaries.
-- **Storage:** verbatim server bytes stay in WARC, including PDFs, fragments, subtitles, cloud downloads, and Office exports. Generated observations, screenshots, OCR results, and search indexes belong in plugin folders. DOM, SingleFile, articles, forum/gallery metadata, accessibility reports, and printed PDFs are derived when opened.
+- **Storage:** verbatim server bytes stay in WARC, including PDFs, fragments, subtitles, cloud downloads, and Office exports. Generated observations, rendered DOM, screenshots, OCR results, and search indexes belong in plugin folders. The DOM hook preserves the live page after browser interactions, including observed image dimensions; original HTTP responses are unchanged. SingleFile, articles, forum/gallery metadata, accessibility reports, and printed PDFs are derived when opened. Older captures without saved DOM retain their existing replay-based derivation.
 
 ## Pyodide and WASM engines
 
