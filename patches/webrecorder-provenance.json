@@ -1,0 +1,39 @@
+{
+  "wabac": {
+    "version": "2.27.4",
+    "gitHead": "f62b924492339cf2ee069f51319ab6603f63500d",
+    "npmIntegrity": "sha512-UQwVQGq+SKeCG3FPY9p2qyeTwBSSG7K4uXySuYwOX1QElLSIPpezbm4QtM3j9mu1LrMbmcDSoDKKUs3bSjo9wA==",
+    "buildFiles": {
+      "webpack.config.cjs": "d118f9761bdf8b2f700e298136bd37375208de5229442f23be8d21c29d20287b",
+      "tsconfig.json": "00d5780d73d35bbfc23ea0a581544e4ccfdc7437935071b3ff70c2fc4713ec5c",
+      "yarn.lock": "5b537bef073a9b52bd4d2bc75d7e6bcc83d3f521a335def08f1c338bf0384b01"
+    },
+    "runtimeFiles": {
+      "dist/index.js": "90da199c8dbe237861a7a2faec413489c877a5d9f54257060d84876a28989dac",
+      "dist/sw.js": "bce6e2af6aca922ade8c115088c07a914e3769231eeb1c9c6f4d7f88c9aaf252",
+      "dist/swlib.js": "2c0dda9f545ba5240a4a31126fd7ded4a93a4f6f6378dd038773ad44977faaf7"
+    },
+    "upstreamYarnLockSha256": "5b537bef073a9b52bd4d2bc75d7e6bcc83d3f521a335def08f1c338bf0384b01",
+    "patchedYarnLockSha256": "6d6ddb0ecc40cc3f2e08ad5ed17928ff6d921d8401783c4b599bdd2d24724cac",
+    "buildLockChange": "Yarn 4.17.1 dedupe ansi-regex: ^5.0.0 and ^5.0.1 both resolve to existing 5.0.1; no override; emitted bytes unchanged."
+  },
+  "wombat": {
+    "version": "3.11.0",
+    "gitHead": "ad69888a2c57f8fdc408f054eaefce9c25011926",
+    "npmIntegrity": "sha512-Yd1nWNyxASZ5WYMUE9MHYF+XBaQpZjp2l6UzUihssM+Ws3uPRiwShIEG+iL6pLDly8ZgUs2YCqK6PpKTOrEM4Q==",
+    "buildFiles": {
+      "rollup.config.prod.js": "6a78a1ef04045c3c2534cc8b370578cc4e0029169deb332dfb3871458411ecd0",
+      "yarn.lock": "e8aa82778b6f0a74b5dd14c48379f29a4fe0e03baf8390830f5c114f413ca5e5"
+    },
+    "runtimeFiles": {
+      "dist/autoFetchWorker.js": "3318e75130776c49cb202466160fc7b54d146f55028aaf86b8016db935eee309",
+      "dist/wombat.js": "7d2e1e6449b1d41f9cdfdf9ab496d898a981df288a85bd0bc99df8f8416151b8",
+      "dist/wombatProxyMode.js": "9049734c10181a365ac864469d626636cc08ae1ec3f23333ac5bba8d8779b6f6",
+      "dist/wombatWorkers.js": "d753572657a048c02132151cea6d7ca20c5238af32beda83f8d5fc1c532e9eff"
+    }
+  },
+  "buildNodeVersions": [
+    "26.5.0",
+    "24.22.2"
+  ]
+}

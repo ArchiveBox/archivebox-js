@@ -34,7 +34,7 @@
     "@mozilla/readability": "^0.6.0",
     "@paddleocr/paddleocr-js": "0.4.2",
     "@peculiar/x509": "1.14.3",
-    "@webrecorder/wabac": "2.27.3",
+    "@webrecorder/wabac": "2.27.4",
     "@zip.js/zip.js": "2.23.0",
     "browsertrix-behaviors": "0.15.0",
     "buffer": "^6.0.3",

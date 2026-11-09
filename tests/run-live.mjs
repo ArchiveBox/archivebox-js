@@ -15,5 +15,5 @@ const run=(files,output)=>new Promise((resolve,reject)=>{
 const acquisition=await run(['tests/live-sites.test.ts','tests/dom-capture-live.test.ts','tests/screenshot-live.test.ts','tests/forum-source-live.test.ts','tests/forum-upstream-live.test.ts','tests/gallery-upstream-live.test.ts','tests/papers-upstream-live.test.ts','tests/pdf-live.test.ts','tests/ocr-live.test.ts','tests/scanned-pdf-live.test.ts','tests/lifecycle-live.test.ts'],captures);
 // Failed site assertions still retain real WACZs. Independently test those files
 // in the upstream player, and retain both phases' failures without skipping.
-const replay=await run(['tests/replaywebpage-live.test.ts','tests/derivations-live.test.ts','tests/article-images-live.test.ts','tests/mercury-rebuild-live.test.ts','tests/ocr-player-live.test.ts'],path.join(root,'replay'));
+const replay=await run(['tests/webrecorder-patches.test.ts','tests/replaywebpage-live.test.ts','tests/derivations-live.test.ts','tests/article-images-live.test.ts','tests/mercury-rebuild-live.test.ts','tests/ocr-player-live.test.ts'],path.join(root,'replay'));
 process.exitCode=acquisition || replay;
