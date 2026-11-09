@@ -44,7 +44,7 @@ test('original Google Sheets app replays its worker, grid and both sheets withou
 });
 
 for(const kind of ['document','presentation','drawings'])test(`original Google ${kind} app renders offline without bootstrap errors`,async({},info)=>{
- const appSource=`http://127.0.0.1:8737/google-${kind}-all-plugins-derived-20261004.wacz`;
+ const appSource=process.env[`ABX_GOOGLE_${kind.toUpperCase()}_SOURCE`]||`http://127.0.0.1:8737/google-${kind}-all-plugins-derived-20261004.wacz`;
  const browser=await chromium.launch({channel:'chromium',headless:true}),context=await browser.newContext({viewport:{width:1440,height:1000}}),page=await context.newPage();
  const external:string[]=[],errors:string[]=[];
  context.on('request',request=>{const url=new URL(request.url());if(/^https?:$/.test(url.protocol)&&![new URL(player).origin,new URL(appSource).origin].includes(url.origin))external.push(url.href)});
