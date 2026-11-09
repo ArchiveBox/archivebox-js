@@ -5,3 +5,8 @@ node_modules
 .env
 .env.*
 test-results/
+vendor/mercury/mercury.browser.js
+vendor/mercury/build-metafile.json
+vendor/mercury/components.json
+vendor/mercury/bom.cdx.json
+public/mercury/THIRD_PARTY_NOTICES.txt

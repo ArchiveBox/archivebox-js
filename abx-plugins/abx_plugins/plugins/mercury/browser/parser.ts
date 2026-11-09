@@ -1,9 +1,9 @@
-import browserScript from '@postlight/parser/dist/mercury.web.js?url';
+import browserScript from '@/vendor/mercury/mercury.browser.js?url';
 type Result = { content?: string; title?: string; word_count?: number; error?: boolean; failed?: boolean; message?: string; [key: string]: unknown };
 type Parser = { parse(url: string, options: { html: string; contentType: 'html'; fetchAllPages: false }): Promise<Result> };
 declare global { interface Window { Mercury?: Parser } }
 let loading: Promise<Parser> | undefined;
-/** Load the unchanged official browser bundle as a packaged extension script. */
+/** Load the reproducible browser build of the unchanged official parser module. */
 export function mercury() {
   return loading ||= new Promise<Parser>((resolve, reject) => {
     const script = document.createElement('script'); script.src = browserScript;

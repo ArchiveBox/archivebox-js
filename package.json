@@ -1,23 +1,30 @@
 {
   "name": "archivebox-js",
   "description": "Browser-based web archiving with plugin hooks, portable WACZ captures, and offline replay",
-  "repository": {"type":"git","url":"https://github.com/ArchiveBox/archivebox-js.git"},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ArchiveBox/archivebox-js.git"
+  },
   "homepage": "https://github.com/ArchiveBox/archivebox-js#readme",
   "packageManager": "pnpm@10.33.2",
-  "engines": {"node": ">=22.12.0"},
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "private": true,
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "wxt",
-    "build": "wxt build",
+    "dev": "pnpm build:mercury && wxt",
+    "build": "pnpm build:mercury && wxt build",
     "compile": "tsc --noEmit",
     "test": "pnpm test:live",
     "test:live": "pnpm build && pnpm build:player && node tests/run-live.mjs",
     "test:replay": "playwright test tests/replaywebpage-live.test.ts tests/derivations-live.test.ts",
     "postinstall": "wxt prepare",
-    "zip": "wxt zip",
-    "build:player": "vite build --config vite.player.config.ts"
+    "zip": "pnpm build:mercury && wxt zip",
+    "build:player": "pnpm build:mercury && vite build --config vite.player.config.ts",
+    "build:mercury": "node scripts/build-mercury.mjs",
+    "audit:mercury": "pnpm build:mercury && node scripts/audit-mercury.mjs"
   },
   "dependencies": {
     "@ffmpeg/core": "0.12.10",
@@ -26,7 +33,6 @@
     "@mozilla/readability": "^0.6.0",
     "@paddleocr/paddleocr-js": "0.4.2",
     "@peculiar/x509": "1.14.3",
-    "@postlight/parser": "2.2.3",
     "@webrecorder/wabac": "2.27.3",
     "@zip.js/zip.js": "2.23.0",
     "browsertrix-behaviors": "0.15.0",
@@ -61,7 +67,20 @@
     "single-file-core": "1.6.24",
     "url": "^0.11.4",
     "uuid": "^14.0.2",
-    "warcio": "2.4.12"
+    "warcio": "2.4.12",
+    "@babel/runtime-corejs2": "7.29.7",
+    "jquery": "3.6.0",
+    "turndown": "7.2.4",
+    "http-headers": "3.0.2",
+    "string-direction": "0.1.2",
+    "valid-url": "1.0.9",
+    "moment": "2.31.0",
+    "moment-timezone": "0.5.37",
+    "moment-parseformat": "3.0.0",
+    "wuzzy": "0.1.8",
+    "difflib": "https://codeload.github.com/postlight/difflib.js/tar.gz/32e8e38c7fcd935241b9baab71bb432fd9b166ed",
+    "ellipsize": "0.1.0",
+    "qs": "6.16.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",
@@ -73,7 +92,8 @@
     "replaywebpage": "2.5.3",
     "typescript": "^5.9.3",
     "vite": "8.0.12",
-    "wxt": "^0.20.26"
+    "wxt": "^0.20.26",
+    "esbuild": "0.28.2"
   },
   "license": "AGPL-3.0-or-later"
 }

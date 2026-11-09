@@ -1,0 +1,29 @@
+{
+  "name": "@postlight/parser",
+  "version": "2.2.3",
+  "repository": "https://github.com/postlight/parser.git",
+  "gitHead": "ad8d4aa268fd5ebf29ac7964d62c99d3bb9c8f4a",
+  "archive": "https://registry.npmjs.org/@postlight/parser/-/parser-2.2.3.tgz",
+  "integrity": "sha512-4/syRvqJARgLN4yH8qtl634WO0+KINjkijU/SmhCJqqh8/aOfv5uQf+SquFpA+JwsAsbGzYQkIxSum29riOreg==",
+  "license": "MIT",
+  "author": "Postlight <mercury@postlight.com>",
+  "files": {
+    "mercury.cjs": "15ab0ed3720685d23e89e356d8e2f7c1016cfefa79a42bc9b9982b5e18fb2410",
+    "shims/cheerio-query.js": "9dab6fed996ee5d59ac70cf4a6ad669fe41945bf1e9d8917a7929494983a444c",
+    "shims/iconv-lite.js": "f666027a088467d48d9bc5e3285b29a599001bb4de1e8502ded94e4739889e9e",
+    "browser-request/index.cjs": "28897cf0edde98a82668161ea2e599f49ef9f0cfa238078cb94b834d45608e45",
+    "browser-request/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "LICENSE-MIT": "8705eb58b8e45db9d776acf3cd0b98eb8c4037ec77fcbbe3e0f6230583543d79",
+    "LICENSE-APACHE": "785e8370383aa4e870f8cf93fc097f938c4760126406fbe4aa1360eddb503633"
+  },
+  "licenseSources": [
+    {
+      "file": "LICENSE-MIT",
+      "url": "https://raw.githubusercontent.com/postlight/parser/ad8d4aa268fd5ebf29ac7964d62c99d3bb9c8f4a/LICENSE-MIT"
+    },
+    {
+      "file": "LICENSE-APACHE",
+      "url": "https://raw.githubusercontent.com/postlight/parser/ad8d4aa268fd5ebf29ac7964d62c99d3bb9c8f4a/LICENSE-APACHE"
+    }
+  ]
+}
