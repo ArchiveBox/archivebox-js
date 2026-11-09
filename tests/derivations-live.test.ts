@@ -14,12 +14,18 @@ async function capturedArchive(name: string) {
   const file = path.join(root, relative); await access(file); return file;
 }
 
-async function canonicalURLs(studio:Page,id:string) {
-  await studio.goto(studio.url().split('#')[0]+'#view='+id);
-  const frame=studio.frameLocator('#main-frame-wrapper iframe[title="Discovered URLs"]');
+async function canonicalURLs(studio:Page,id:string,captureId?:string) {
+  const target=new URL(studio.url());target.hash='view='+id;
+  if(captureId){target.search='';target.searchParams.set('capture',captureId);target.searchParams.set('embed','1');}
+  await studio.goto(target.href);
+  // Snapshot navigation caches hidden viewers with the same iframe title.
+  // A standalone output uses the same component without the snapshot wrapper.
+  const output=studio.locator('.plugin-view:visible');
+  await expect(output).toHaveAttribute('data-plugin',id);
+  const frame=output.frameLocator('iframe[title="Discovered URLs"]');
   await expect(frame.locator('header h1')).toContainText('Discovered URLs');
-  const download=studio.waitForEvent('download',{timeout:15000});await frame.getByRole('link',{name:'Download',exact:true}).click();
-  const text=await readFile((await(await download).path())!,'utf8');
+  const [download]=await Promise.all([studio.waitForEvent('download',{timeout:15000}),frame.getByRole('link',{name:'Download',exact:true}).click()]);
+  const text=await readFile((await download.path())!,'utf8');
   const rows=text.trim()?text.trim().split('\n').map(line=>JSON.parse(line)):[];
   await expect(frame.locator('.rows .row')).toHaveCount(rows.length);
   expect(await frame.locator('.rows .row a.url').allTextContents()).toEqual(rows.map(row=>row.url));
@@ -90,12 +96,18 @@ test('real saved Sweeting blog derives Mercury, plaintext and URL format views o
     }
     await textURLs.frame.getByRole('searchbox',{name:'Filter discovered URLs'}).fill('https://docs.sweeting.me/s/blog');
     expect(await textURLs.frame.locator('.row').count()).toBe(textURLs.rows.filter(row=>JSON.stringify(row).toLowerCase().includes('https://docs.sweeting.me/s/blog')).length);
-    for(const id of ['parse_jsonl_urls','parse_netscape_urls']){
-      const parsed=await canonicalURLs(studio,id);expect(parsed.rows).toEqual([]);
-      await expect(parsed.frame.locator('.stats')).toHaveText('🔗 0 URLs');
-      await expect(parsed.frame.locator('.empty')).toHaveText('No matching URLs');
-    }
-    const feedURLs=await canonicalURLs(studio,'parse_rss_urls');
+    const jsonl=await canonicalURLs(studio,'parse_jsonl_urls');expect(jsonl.rows).toEqual([]);
+    await expect(jsonl.frame.locator('.stats')).toHaveText('🔗 0 URLs');
+    await expect(jsonl.frame.locator('.empty')).toHaveText('No matching URLs');
+    // Known-empty formats are intentionally absent from the snapshot cards.
+    // Their standalone views must still initialize and export an empty file.
+    await expect(studio.locator('#snapshot-output-browser')).toHaveAttribute('aria-busy','false');
+    await expect(studio.locator('.thumb-card[data-plugin-name="parse_netscape_urls"]')).toHaveCount(0);
+    const captureId=await studio.evaluate(async()=>((await chrome.storage.local.get('wacz-captures'))['wacz-captures'] as {id:string}[])[0]!.id);
+    const bookmarks=await canonicalURLs(studio,'parse_netscape_urls',captureId);expect(bookmarks.rows).toEqual([]);
+    await expect(bookmarks.frame.locator('.stats')).toHaveText('🔗 0 URLs');
+    await expect(bookmarks.frame.locator('.empty')).toHaveText('No matching URLs');
+    const feedURLs=await canonicalURLs(studio,'parse_rss_urls',captureId);
     for(const row of feedURLs.rows){expect(originals.has(row.source_url)).toBe(true);expect(originals.get(row.source_url)).toContain(row.url.replaceAll('&','&amp;'));}
     if(!feedURLs.rows.length)await expect(feedURLs.frame.locator('.empty')).toHaveText('No matching URLs');
     expect(liveRequests, 'Derived viewers must only read the imported WACZ').toEqual([]);
