@@ -112,7 +112,7 @@ For individual engines, see **[Plugin ports and browser runtime](docs/plugin-por
 
 ## 🚀 Get started
 
-**Requirements:** Node.js 22.12+, pnpm 10, and a desktop Chromium browser such as Chrome or Brave.
+**Requirements:** Node.js 22.13+ on the 22.x line or Node.js 24.x, pnpm 10, and a desktop Chromium browser such as Chrome or Brave.
 
 ```sh
 git clone https://github.com/ArchiveBox/archivebox-js.git
@@ -144,6 +144,7 @@ Open `http://localhost:8736` and select a WACZ, or pass its URL as the `source` 
 ```sh
 pnpm dev             # WXT development build
 pnpm compile         # TypeScript checks
+pnpm test:dev-runner # Real browser launch, reload, restart, and cleanup checks
 pnpm test:live       # Build and run browser capture/replay tests
 ```
 

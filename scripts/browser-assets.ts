@@ -25,7 +25,7 @@ export function browserAssets(){
   };
   const root=path.dirname(require.resolve('pyodide/package.json'));
   add(root,'pyodide',name=>['pyodide.asm.js','pyodide.asm.wasm','python_stdlib.zip','pyodide-lock.json'].includes(name));
-  const paddleRequire=createRequire(path.resolve('node_modules/@paddleocr/paddleocr-js/package.json'));
+  const paddleRequire=createRequire(import.meta.resolve('@paddleocr/paddleocr-js'));
   add(path.dirname(paddleRequire.resolve('onnxruntime-web')),'ocr/ort',name=>/^ort-wasm-simd-threaded\.jsep\.(mjs|wasm)$/.test(name));
   // Package the real FFmpeg worker/core; replay never loads executable code from a CDN.
   add(path.dirname(require.resolve('@ffmpeg/ffmpeg/worker')),'ytdlp/ffmpeg/worker',name=>name.endsWith('.js'));

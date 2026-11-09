@@ -141,7 +141,7 @@ export class CaptureRecorder extends Recorder {
       await this.send('Fetch.failRequest',{requestId:params.requestId,errorReason:'Aborted'},sessions).catch(error=>{batch.error=error});
     }
   }
-  fullCommit(reqresp: any, sessions: string[]) {
+  override fullCommit(reqresp: any, sessions: string[]) {
     const commit = super.fullCommit(reqresp, sessions).catch(error => { this.errors.push(`Response commit failed: ${error}`); })
       .finally(() => this.commits.delete(commit));
     this.commits.add(commit); return commit;
